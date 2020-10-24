@@ -1,6 +1,14 @@
 {
+  "homepage": "./",
+  "main": "public/electron.js",
   "name": "kisko",
   "version": "0.1.0",
+  "build": {
+    "appId": "react.electron",
+    "win": {
+      "icon": "build/icon.png"
+    }
+  },
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.5",
@@ -14,10 +22,14 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start-react": "react-scripts start",
+    "build-react": "react-scripts build",
+    "test-react": "react-scripts test --env=jsdom",
+    "eject-react": "react-scripts eject",
+    "build-electron": "electron-builder",
+    "build": "npm run build-react && npm run build-electron",
+    "start": "concurrently \"cross-env BROWSER=none npm run start-react\" \"wait-on http://localhost:3000 && electron .\""
+   
   },
   "eslintConfig": {
     "extends": [

@@ -1,1 +1,1 @@
-export const kisko_endpoint = "https://hotel-sandbox.aavgo.com/backend/users/v3/"
+export const kisko_endpoint = "https://hotel-sandbox.aavgo.com/backend/staff/v3"
