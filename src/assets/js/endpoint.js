@@ -1,0 +1,1 @@
+export const kisko_endpoint = "https://hotel-sandbox.aavgo.com/backend/users/v3/"
