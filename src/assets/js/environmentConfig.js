@@ -20,7 +20,13 @@ class EnvironmentClass {
   getEnvironmentVariables = () => ({
     key: this.key,
     iv: this.iv,
-    isEncrypt:this.isEncrypt
+    isEncrypt:this.isEncrypt,
+    bookingType:{
+      Booking : 1,
+      CC      : 2,
+      QR      : 3,
+      Detail  : 4
+    }
   });
 }
 

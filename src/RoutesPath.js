@@ -5,5 +5,4 @@ export const to = {
     creditCard  :   "/credit-card",
     checkIn     :   "/check-in",
     scanQr      :   "/scan-qr"
-
   };

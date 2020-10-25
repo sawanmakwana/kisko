@@ -7,7 +7,7 @@ import {to} from "../../RoutesPath";
 import { GlobalConfig } from "../../assets/js/globleConfig";
 
 const HotelSetup = (props) => {
-  const [uuid, setUuid] = useState(window.localStorage.getItem("hotelUuid") || "8881214933");
+  const [uuid, setUuid] = useState("8881214933");
  
 
   useEffect(() => {
@@ -17,7 +17,6 @@ const HotelSetup = (props) => {
   const findHotelByUuid = () => {
 
       Services.FindHotelByUuid({uuid}).then(data => {
-        console.log(data)
         if(data.success){
           window.localStorage.setItem('token', data.hotel.token);
           window.localStorage.setItem('hotel', data.hotel);

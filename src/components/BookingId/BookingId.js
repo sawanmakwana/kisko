@@ -3,40 +3,38 @@ import { GlobalConfig } from "../../assets/js/globleConfig";
 import { to } from "../../RoutesPath";
 import Footer from "../Widgets/Footer";
 import SearchButton from "../Widgets/SearchButton";
-import * as Services from './Services';
+import * as Services from "./Services";
+import AppServiceClass from "../../assets/js/environmentConfig";
+const { bookingType } = new AppServiceClass().getEnvironmentVariables();
 
 const BookingId = (props) => {
   const hotel = GlobalConfig.Hotel;
   const lang = GlobalConfig.Language;
-  if(!hotel){
+  if (!hotel) {
     props.history.push(to.hotelSetup);
   }
 
   const [pin, setPin] = useState("33770");
   const [lastName, setLastName] = useState("shah");
-  
 
-  useEffect(() => {
-
-  }, [pin]);
+  useEffect(() => {}, [pin]);
 
   const findReservationKiosk = () => {
-      let DATA = {
-        "booking_id": pin,
-        "last_name": lastName,
-        "hotel_id": hotel.id,
-        "search_type": 1,
-        "browser": true,
-        "is_guest_user": true
+    let DATA = {
+      booking_id    : pin,
+      last_name     : lastName,
+      hotel_id      : hotel.id,
+      search_type   : bookingType.Booking,
+      browser       : true,
+      is_guest_user : true,
+    };
+    Services.FindReservationKiosk(DATA).then((data) => {
+      console.log(data);
+      if (data.success) {
       }
-      Services.FindReservationKiosk(DATA).then(data => {
-        console.log(data)
-        if(data.success){
-          
-        }
-      });
+    });
   };
-  
+
   return (
     <div className="limiter">
       <div className="container-login100">
@@ -88,7 +86,7 @@ const BookingId = (props) => {
               </div>
             </div>
             <div className="col-md-12 text-center mtop">
-              <SearchButton onClick={findReservationKiosk}/>
+              <SearchButton onClick={findReservationKiosk} />
             </div>
           </form>
           <Footer />
