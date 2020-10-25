@@ -18,8 +18,6 @@ const HotelSetup = (props) => {
 
       Services.FindHotelByUuid({uuid}).then(data => {
         if(data.success){
-          window.localStorage.setItem('token', data.hotel.token);
-          window.localStorage.setItem('hotel', data.hotel);
           GlobalConfig.Hotel = data.hotel;
           props.history.push(to.home);
         }
