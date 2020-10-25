@@ -1,9 +1,13 @@
 import React from "react";
 import searchImg from "../../assets/images/search.png"
 
-const SearchButton = () => {
+const SearchButton = ({ onClick }) => {
   return (
-    <button className="mainbutton">
+    <button className="mainbutton"
+    onClick={(e) => {
+      onClick();
+      e.preventDefault()
+    }}>
       Search <img src={searchImg} alt="img" />
     </button>
   );

@@ -2,8 +2,18 @@ import React from "react";
 import Footer from "./Widgets/Footer";
 import KeyImg from "../assets/images/keys.png";
 import CheckInImg from "../assets/images/checkin.png";
+import { GlobalConfig } from "../assets/js/globleConfig";
+import { to } from "../RoutesPath";
+import { LANG } from "../assets/js/language";
 
 const Home = (props) => {
+
+  const hotel = GlobalConfig.Hotel;
+  const lang = GlobalConfig.Language;
+  if(!hotel){
+    props.history.push(to.hotelSetup);
+  }
+  
   return (
     <div className="limiter">
       <div className="container-login100">
@@ -11,10 +21,10 @@ const Home = (props) => {
         <div className="container transparent">
           <div className="hotelname">
             <h2>
-              Welcome To, <br /> <span>Boutique Hotel</span>
+              {LANG[lang].Welcome_To}, <br /> <span>{hotel.name}</span>
             </h2>
           </div>
-          <h2 className="maintitle">What would you like to do ?</h2>
+          <h2 className="maintitle">{LANG[lang].What_would_you_like_to_do}</h2>
           <div className="row mt-5">
             <div className=" col-md-1"></div>
             <div className="col-md-5">

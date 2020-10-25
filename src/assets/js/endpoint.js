@@ -2,6 +2,9 @@ export const kisko_staff_endpoint = "https://hotel-sandbox.aavgo.com/backend/sta
 export const kisko_user_endpoint = "https://hotel-sandbox.aavgo.com/backend/users/v3";
 export const USER_CONTROLLER = "users/v3";
 export const STAFF_CONTROLLER = "users/v3";
+export const BASE = 'https://hotel-sandbox.aavgo.com/backend/'; // DEV
+
 export const API = {
-    findHotelByUuid:'findHotelByUuid'
+    findHotelByUuid         :   'findHotelByUuid',
+    findReservationKiosk    :   'findReservationKiosk',
 }

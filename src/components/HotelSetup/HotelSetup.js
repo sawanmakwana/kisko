@@ -3,24 +3,27 @@ import Footer from "../Widgets/Footer";
 import ContinueButton from "../Widgets/ContinueButton";
 
 import * as Services from './Services';
+import {to} from "../../RoutesPath";
+import { GlobalConfig } from "../../assets/js/globleConfig";
 
 const HotelSetup = (props) => {
   const [uuid, setUuid] = useState(window.localStorage.getItem("hotelUuid") || "8881214933");
  
 
   useEffect(() => {
-    // if (uuid) {
-    //   props.history.push(`/home`);
-    // }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uuid]);
 
   const findHotelByUuid = () => {
 
       Services.FindHotelByUuid({uuid}).then(data => {
-
-        console.log({ data });
+        console.log(data)
+        if(data.success){
+          window.localStorage.setItem('token', data.hotel.token);
+          window.localStorage.setItem('hotel', data.hotel);
+          GlobalConfig.Hotel = data.hotel;
+          props.history.push(to.home);
+        }
       });
   };
 
