@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import HotelSetup from "./components/HotelSetup";
+import HotelSetup from "./components/HotelSetup/HotelSetup";
 import Home from "./components/Home";
 import CheckIn from "./components/CheckIn";
 import CreditCard from "./components/CreditCard";

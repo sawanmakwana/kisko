@@ -1,36 +1,26 @@
 import React, { useState, useEffect } from "react";
-import Footer from "./Widgets/Footer";
-import ContinueButton from "./Widgets/ContinueButton";
-import { kisko_endpoint } from "../assets/js/endpoint";
-import Axios from "axios";
+import Footer from "../Widgets/Footer";
+import ContinueButton from "../Widgets/ContinueButton";
+
+import * as Services from './Services';
 
 const HotelSetup = (props) => {
-  const [uuid, setUuid] = useState(window.localStorage.getItem("hotelUuid"));
-  const [hotelId, setHotelId] = useState(
-    window.localStorage.getItem("hotelUuid")
-  );
+  const [uuid, setUuid] = useState(window.localStorage.getItem("hotelUuid") || "8881214933");
+ 
 
   useEffect(() => {
-    if (uuid) {
-      props.history.push(`/home`);
-    }
+    // if (uuid) {
+    //   props.history.push(`/home`);
+    // }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uuid]);
 
-  const generateUUID = () => {
-    console.log("clicked");
-    return Axios.request({
-      url: kisko_endpoint + "/generateHotelUuid",
-      method: "POST",
-      headers: { "x-aavgo-crypto-disable": true },
-      data: { hotel_id: hotelId },
-    })
-      .then(({ data }) => {
+  const findHotelByUuid = () => {
+
+      Services.FindHotelByUuid({uuid}).then(data => {
+
         console.log({ data });
-      })
-      .catch((err) => {
-        console.log(err);
       });
   };
 
@@ -55,14 +45,15 @@ const HotelSetup = (props) => {
                     type="text"
                     name="username"
                     placeholder="Type here.."
-                    onChange={(e) => setHotelId(e.target.value)}
+                    value={uuid}
+                    onChange={(e) => setUuid(e.target.value)}
                   />
                   <span className="focus-input100"></span>
                 </div>
               </div>
 
               <div className="col-md-12 text-center mtop">
-                <ContinueButton onClick={generateUUID} />
+                <ContinueButton onClick={findHotelByUuid} />
               </div>
             </form>
           </div>

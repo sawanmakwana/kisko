@@ -1,11 +1,11 @@
 {
-  "homepage": "./",
-  "main": "public/electron.js",
-  "name": "kisko",
-  "description": "Kisko",
-  "author": "Kisko",
-  "version": "0.1.0",
-  "build": {
+	"homepage": "./",
+	"main": "public/electron.js",
+	"name": "kisko",
+	"description": "Kisko",
+	"author": "Kisko",
+	"version": "0.1.0",
+	"build": {
 		"appId": "react.kisko",
 		"compression": "normal",
 		"productName": "Example",
@@ -57,44 +57,46 @@
 			}
 		}
 	},
-  "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.11.5",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "axios": "^0.21.0",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.0",
-    "web-vitals": "^0.2.4"
-  },
-  "scripts": {
-    "start-react": "react-scripts start",
-    "build-react": "react-scripts build",
-    "test-react": "react-scripts test --env=jsdom",
-    "eject-react": "react-scripts eject",
-    "build-electron": "electron-builder",
-    "build": "npm run build-react && npm run build-electron",
-    "start": "concurrently \"cross-env BROWSER=none npm run start-react\" \"wait-on http://localhost:3000 && electron .\""
-   
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+	"private": true,
+	"dependencies": {
+		"@testing-library/jest-dom": "^5.11.5",
+		"@testing-library/react": "^11.1.0",
+		"@testing-library/user-event": "^12.1.10",
+		"axios": "^0.21.0",
+		"react": "^17.0.1",
+		"react-dom": "^17.0.1",
+		"react-router-dom": "^5.2.0",
+		"react-scripts": "4.0.0",
+		"web-vitals": "^0.2.4"
+	},
+	"scripts": {
+		"start-react": "react-scripts start",
+		"build-react": "react-scripts build",
+		"test-react": "react-scripts test --env=jsdom",
+		"eject-react": "react-scripts eject",
+		"build-electron": "electron-builder",
+		"build": "npm run build-react && npm run build-electron",
+		"start": "concurrently \"cross-env BROWSER=none npm run start-react\" \"wait-on http://localhost:3000 && electron .\""
+	},
+	"eslintConfig": {
+		"extends": [
+			"react-app",
+			"react-app/jest"
+		]
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	},
+	"devDependencies": {
+		"electron": "^10.1.5"
+	}
 }
