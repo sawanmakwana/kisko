@@ -5,9 +5,17 @@ import "./assets/css/main.css";
 import "./assets/vendor/bootstrap/css/bootstrap.min.css";
 
 import Routes from "./Routes";
+import Clock from "./components/Widgets/Clock";
 
 function App() {
-  return <Routes />;
+  return (
+    <div className="limiter">
+      <div className="container-login100">
+        <Clock />
+        <Routes />
+      </div>
+    </div>
+  );
 }
 
 export default App;
