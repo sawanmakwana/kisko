@@ -8,6 +8,7 @@ import { LANG } from "../assets/js/language";
 
 const Home = (props) => {
   const hotel = GlobalConfig.Hotel;
+  
   const lang = GlobalConfig.Language;
   if (!hotel) {
     props.history.push(to.hotelSetup);
