@@ -9,7 +9,6 @@ import { GlobalConfig } from "../../assets/js/globleConfig";
 const HotelSetup = (props) => {
   const [uuid, setUuid] = useState("8881214933");
 
-  useEffect(() => {}, [uuid]);
 
   const findHotelByUuid = () => {
 

@@ -1,8 +1,10 @@
 import React from "react";
 import Footer from "./Widgets/Footer";
 import SearchButton from "./Widgets/SearchButton";
+import CancelButton from "./Widgets/CancelButton";
+import { to } from "../RoutesPath";
 
-const CreditCard = () => {
+const CreditCard = (props) => {
   return (
     <div className="container">
       <div className="commontitle">
@@ -47,6 +49,7 @@ const CreditCard = () => {
           </div>
         </div>
         <div className="col-md-12 text-center mtop">
+          <CancelButton onClick={() => props.history.push(to.checkIn)} />{" "}
           <SearchButton />
         </div>
       </form>

@@ -32,14 +32,13 @@ const Home = (props) => {
             </a>
           </div>
           <div className="col-md-5">
-            <a
-              href=""
+            <div
               className="bluebutton"
-              onClick={() => props.history.push(`check-in`)}
+              onClick={() => props.history.push(to.checkIn)}
             >
               <img src={CheckInImg} alt="img" /> <span>Check In</span>
               <div className="noverlay"></div>
-            </a>
+            </div>
           </div>
         </div>
       </div>

@@ -5,6 +5,7 @@ import CreditCard from "../assets/images/creditcard.png";
 import QrCode from "../assets/images/qrcode.png";
 import BookingDetail from "../assets/images/bookingdetail.png";
 import CancelButton from "./Widgets/CancelButton";
+import { to } from "../RoutesPath";
 
 const CheckIn = (props) => {
   return (
@@ -19,7 +20,7 @@ const CheckIn = (props) => {
               <a
                 href=""
                 className="bluebutton"
-                onClick={() => props.history.push(`booking-id`)}
+                onClick={() => props.history.push(to.bookingId)}
               >
                 <img src={BookingId} alt="img" /> <span>Booking ID</span>
                 <div className="noverlay"></div>
@@ -29,7 +30,7 @@ const CheckIn = (props) => {
               <a
                 href=""
                 className="bluebutton"
-                onClick={() => props.history.push(`credit-card`)}
+                onClick={() => props.history.push(to.creditCard)}
               >
                 <img src={CreditCard} alt="img" /> <span>Credit Card</span>
                 <div className="noverlay"></div>
@@ -42,7 +43,7 @@ const CheckIn = (props) => {
               <a
                 href=""
                 className="bluebutton"
-                onClick={() => props.history.push(`scan-qr`)}
+                onClick={() => props.history.push(to.scanQr)}
               >
                 <img src={QrCode} alt="img" /> <span>QR Code</span>
                 <div className="noverlay"></div>
@@ -56,7 +57,7 @@ const CheckIn = (props) => {
               </a>
             </div>
             <div className="col-md-12 text-center mtop">
-              <CancelButton />
+              <CancelButton onClick={() => props.history.push(to.home)} />
             </div>
           </div>
         </div>

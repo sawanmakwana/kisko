@@ -5,14 +5,15 @@ import Footer from "../Widgets/Footer";
 import SearchButton from "../Widgets/SearchButton";
 import * as Services from "./Services";
 import AppServiceClass from "../../assets/js/environmentConfig";
+import CancelButton from "../Widgets/CancelButton";
 const { bookingType } = new AppServiceClass().getEnvironmentVariables();
 
 const BookingId = (props) => {
   const hotel = GlobalConfig.Hotel;
   const lang = GlobalConfig.Language;
-  if (!hotel) {
-    props.history.push(to.hotelSetup);
-  }
+  // if (!hotel) {
+  //   props.history.push(to.hotelSetup);
+  // }
 
   const [pin, setPin] = useState("33770");
   const [lastName, setLastName] = useState("shah");
@@ -29,8 +30,9 @@ const BookingId = (props) => {
       is_guest_user: true,
     };
     Services.FindReservationKiosk(DATA).then((data) => {
-      console.log(data);
       if (data.success) {
+        // GlobalConfig.Booking = data.bookings;
+        props.history.push(to.bookingInfo);
       }
     });
   };
@@ -83,6 +85,7 @@ const BookingId = (props) => {
           </div>
         </div>
         <div className="col-md-12 text-center mtop">
+          <CancelButton onClick={() => props.history.push(to.checkIn)} />
           <SearchButton onClick={findReservationKiosk} />
         </div>
       </form>

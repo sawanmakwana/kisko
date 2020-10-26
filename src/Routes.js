@@ -8,28 +8,52 @@ import BookingId from "./components/BookingId/BookingId";
 import ScanQr from "./components/ScanQr";
 import { to } from "./RoutesPath";
 import ProtectedRoutes from "./ProtectedRoutes";
+import BookingDetail from "./components/BookingDetail/BookingDetail";
+import BookingInfo from "./components/BookingInfo/BookingInfo";
+import ThankYou from "./components/ThankYou";
+import SelectKeys from "./components/SelectKeys";
 
 const Routes = () => {
   return (
     <Router>
-      <Route
+      <ProtectedRoutes
         exact
         path={to.hotelSetup}
         render={(props) => <HotelSetup {...props} />}
       />
-      <ProtectedRoutes>
-        <Route
-          path={to.bookingId}
-          render={(props) => <BookingId {...props} />}
-        />
-        <Route
-          path={to.creditCard}
-          render={(props) => <CreditCard {...props} />}
-        />
-        <Route path={to.checkIn} render={(props) => <CheckIn {...props} />} />
-        <Route path={to.home} render={(props) => <Home {...props} />} />
-        <Route path={to.scanQr} render={(props) => <ScanQr {...props} />} />
-      </ProtectedRoutes>
+      <ProtectedRoutes
+        path={to.bookingId}
+        render={(props) => <BookingId {...props} />}
+      />
+      <ProtectedRoutes
+        path={to.bookingDetail}
+        render={(props) => <BookingDetail {...props} />}
+      />
+      <ProtectedRoutes
+        path={to.bookingInfo}
+        render={(props) => <BookingInfo {...props} />}
+      />
+      <ProtectedRoutes
+        path={to.creditCard}
+        render={(props) => <CreditCard {...props} />}
+      />
+      <ProtectedRoutes
+        path={to.checkIn}
+        render={(props) => <CheckIn {...props} />}
+      />
+      <ProtectedRoutes path={to.home} render={(props) => <Home {...props} />} />
+      <ProtectedRoutes
+        path={to.scanQr}
+        render={(props) => <ScanQr {...props} />}
+      />
+       <ProtectedRoutes
+        path={to.thankYou}
+        render={(props) => <ThankYou {...props} />}
+      />
+       <ProtectedRoutes
+        path={to.selectKeys}
+        render={(props) => <SelectKeys {...props} />}
+      />
     </Router>
   );
 };

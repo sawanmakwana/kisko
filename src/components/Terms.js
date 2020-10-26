@@ -1,0 +1,56 @@
+import React from "react";
+import Footer from "../Widgets/Footer";
+import ContinueButton from "./Widgets/ContinueButton";
+import CancelButton from "./Widgets/CancelButton";
+
+const Terms = () => {
+  return (
+    <div class="container">
+      <div class="commontitle">
+        <h2>Terms & Conditions</h2>
+        <p>Lorem ipsum is a dummy text.</p>
+      </div>
+      <form class="login100-form validate-form flex-sb flex-w mtop">
+        <div class="formarea terms">
+          <p>
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry's standard dummy text
+            ever since the 1500s, when an unknown printer took a galley of type
+            and scrambled it to make a type specimen book. It has survived not
+            only five centuries, but also the leap into electronic typesetting,
+            remaining essentially unchanged.
+            <br />
+            It was popularised in the 1960s with the release of Letraset sheets
+            containing Lorem Ipsum passages, and more recently with desktop
+            publishing software like Aldus PageMaker including versions of Lorem
+            Ipsum.
+          </p>
+          <p>
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry's standard dummy text
+            ever since the 1500s, when an unknown printer took a galley of type
+            and scrambled it to make a type specimen book. It has survived not
+            only five centuries, but also the leap into electronic typesetting,
+            remaining essentially unchanged.
+            <br />
+            It was popularised in the 1960s with the release of Letraset sheets
+            containing Lorem Ipsum passages, and more recently with desktop
+            publishing software like Aldus PageMaker including versions of Lorem
+            Ipsum.
+          </p>
+        </div>
+        <div class="formarea signature">
+          <div class="mainarea">
+            <span>Sign Here</span>
+          </div>
+        </div>
+        <div class="col-md-12 text-center mtop">
+          <CancelButton />
+          <ContinueButton />
+        </div>
+      </form>
+      <Footer />
+    </div>
+  );
+};
+export default Terms;

@@ -3,8 +3,9 @@ import Footer from "./Widgets/Footer";
 import SearchButton from "./Widgets/SearchButton";
 import ScanQrImg from "../assets/images/scanqr.gif";
 import CancelButton from "./Widgets/CancelButton";
+import { to } from "../RoutesPath";
 
-const ScanQr = () => {
+const ScanQr = (props) => {
   return (
     <div className="container">
       <div className="commontitle">
@@ -16,7 +17,7 @@ const ScanQr = () => {
           <img src={ScanQrImg} alt="img" />
         </div>
         <div className="col-md-12 text-center mtop">
-          <CancelButton />
+          <CancelButton onClick={() => props.history.push(to.checkIn)} />{" "}
           <SearchButton />
         </div>
       </form>
