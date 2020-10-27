@@ -5,13 +5,14 @@ import Footer from "../Widgets/Footer";
 import ContinueButton from "../Widgets/ContinueButton";
 import { to } from "../../RoutesPath";
 import { GlobalConfig } from "../../assets/js/globleConfig";
+import { get } from "../../AppUtills";
+import moment from "moment";
 
-const BookingInfo = () => {
+const BookingInfo = (props) => {
   const renderDetailView = () => {
-    let booking = GlobalConfig.Booking;
-    console.log({booking});
+    let booking = GlobalConfig.Booking || [];
 
-    return [1].map((item) => (
+    return booking.map((item) => (
       <form class="login100-form validate-form flex-sb flex-w mtop">
         <div class="maindetail">
           <div class="row">
@@ -19,7 +20,10 @@ const BookingInfo = () => {
               <span class="leftsection">Guest Name</span>
             </div>
             <div class="col-md-8">
-              <span class="rightsection">John Smith</span>
+              <span class="rightsection">
+                {get(["guest_fname"], item, "") +
+                  get(["guest_lname"], item, "")}
+              </span>
             </div>
           </div>
         </div>
@@ -29,7 +33,7 @@ const BookingInfo = () => {
               <span class="leftsection">PIN No.</span>
             </div>
             <div class="col-md-8">
-              <span class="rightsection">123456</span>
+              <span class="rightsection">{get(["id"], item, "-")}</span>
             </div>
           </div>
         </div>
@@ -40,8 +44,10 @@ const BookingInfo = () => {
             </div>
             <div class="col-md-8">
               <span class="rightsection">
-                <img src={CalendarImg} class="detailcalendar" /> 20 Oct, 2020
-                10:00 AM
+                <img src={CalendarImg} class="detailcalendar" />{" "}
+                {moment(get(["checkin_time"], item, "-")).format(
+                  "DD-MM-YYYY, HH:MM"
+                )}
               </span>
             </div>
           </div>
@@ -53,8 +59,10 @@ const BookingInfo = () => {
             </div>
             <div class="col-md-8">
               <span class="rightsection">
-                <img src={CalendarImg} class="detailcalendar" /> 21 Oct, 2020
-                10:00 AM
+                <img src={CalendarImg} class="detailcalendar" />{" "}
+                {moment(get(["checkout_time"], item, "-")).format(
+                  "DD-MM-YYYY, HH:MM"
+                )}
               </span>
             </div>
           </div>
@@ -66,7 +74,8 @@ const BookingInfo = () => {
             </div>
             <div class="col-md-8">
               <span class="rightsection">
-                <strong>$89.99/</strong> <small>Per Night</small>
+                <strong>{get(["avg_night_rate"], item, "-")}</strong>{" "}
+                <small>Per Night</small>
               </span>
             </div>
           </div>
@@ -77,16 +86,16 @@ const BookingInfo = () => {
               <span class="leftsection">Room Type</span>
             </div>
             <div class="col-md-8">
-              <span class="rightsection">Deluxe</span>
+              <span class="rightsection">
+                {get(["room_type_name"], item, "-")}
+              </span>
             </div>
           </div>
         </div>
 
         <div class="col-md-12 text-center mtop">
-          <CancelButton
-            onClick={() => PaymentResponse.history.push(to.bookingId)}
-          />
-          <ContinueButton />
+          <CancelButton onClick={() => props.history.push(to.bookingId)} />
+          <ContinueButton onClick={() => props.history.push(to.scanId)} />
         </div>
       </form>
     ));

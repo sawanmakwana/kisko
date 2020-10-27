@@ -12,6 +12,9 @@ import BookingDetail from "./components/BookingDetail/BookingDetail";
 import BookingInfo from "./components/BookingInfo/BookingInfo";
 import ThankYou from "./components/ThankYou";
 import SelectKeys from "./components/SelectKeys";
+import ScanId from "./components/ScanId"
+import ScanbarCode from "./components/ScanbarCode";
+import ConfirmDetails from "./components/ConfirmDetails";
 
 const Routes = () => {
   return (
@@ -53,6 +56,18 @@ const Routes = () => {
        <ProtectedRoutes
         path={to.selectKeys}
         render={(props) => <SelectKeys {...props} />}
+      />
+       <ProtectedRoutes
+        path={to.scanId}
+        render={(props) => <ScanId {...props} />}
+      />
+       <ProtectedRoutes
+        path={to.scanbarCode}
+        render={(props) => <ScanbarCode {...props} />}
+      />
+       <ProtectedRoutes
+        path={to.confirmDetails}
+        render={(props) => <ConfirmDetails {...props} />}
       />
     </Router>
   );

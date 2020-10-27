@@ -24,7 +24,7 @@ export class GlobalConfig {
     _hotel = window.localStorage.getItem("hotel");
   }
   static get Booking() {
-    _booking = window.localStorage.getItem("hotel");
+    _booking = window.localStorage.getItem("booking");
     if(_booking){
         _booking = JSON.parse(_booking)
     }else{

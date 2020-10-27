@@ -1,9 +1,11 @@
 import React from "react";
-import Footer from "../Widgets/Footer";
 import CancelButton from "./Widgets/CancelButton";
 import ScanqrImg from "../assets/images/scanqr.gif"
+import ContinueButton from "./Widgets/ContinueButton";
+import { to } from "../RoutesPath";
+import Footer from "./Widgets/Footer";
 
-const ScanbarCode = () => {
+const ScanbarCode = (props) => {
   return (
     <div class="container">
       <h2 class="maintitle">Place your Barcode ID in scanning area</h2>
@@ -12,7 +14,8 @@ const ScanbarCode = () => {
           <img src={ScanqrImg} alt="img" />
         </div>
         <div class="col-md-12 text-center mtop">
-          <CancelButton />
+          <CancelButton onClick={()=> props.history.push(to.scanbarCode)} />
+          <ContinueButton onClick={()=> props.history.push(to.confirmDetails)} />
         </div>
         <div class="col-md-12 text-center timer">
           <p>

@@ -1,13 +1,15 @@
 export const to = {
-    hotelSetup  :   "/",
-    home        :   "/home",
-    bookingId   :   "/booking-id",
-    bookingDetail   :   "/booking-detail",
-    bookingInfo   :   "/booking-info",
-    creditCard  :   "/credit-card",
-    checkIn     :   "/check-in",
-    scanQr      :   "/scan-qr",
-    thankYou      :   "/thank-you",
-    selectKeys      :   "/select-keys"
-
-  };
+  hotelSetup: "/",
+  home: "/home",
+  bookingId: "/booking-id",
+  bookingDetail: "/booking-detail",
+  bookingInfo: "/booking-info",
+  creditCard: "/credit-card",
+  checkIn: "/check-in",
+  scanQr: "/scan-qr",
+  scanId: "/scan-id",
+  thankYou: "/thank-you",
+  selectKeys: "/select-keys",
+  scanbarCode: "/scan-bar-code",
+  confirmDetails: "/confirm-details",
+};

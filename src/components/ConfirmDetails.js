@@ -2,6 +2,7 @@ import React from "react";
 import Footer from "./Widgets/Footer";
 import CancelButton from "./Widgets/CancelButton";
 import ContinueButton from "./Widgets/ContinueButton";
+import { to } from "../RoutesPath";
 
 const ConfirmDetails = (props) => {
   return (
@@ -46,8 +47,8 @@ const ConfirmDetails = (props) => {
         </div>
 
         <div class="col-md-12 text-center mtop">
-          <CancelButton />
-          <ContinueButton />
+          <CancelButton onClick={() => props.history.push(to.checkIn)} />
+          <ContinueButton onClick={() => props.history.push(to.scanId)}   />
         </div>
       </form>
       <Footer />

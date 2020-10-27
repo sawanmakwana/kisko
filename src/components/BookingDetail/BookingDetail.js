@@ -2,8 +2,9 @@ import React from "react";
 import CancelButton from "../Widgets/CancelButton";
 import SearchButton from "../Widgets/SearchButton";
 import CalendarImg from "../../assets/images/calendar.png";
+import { to } from "../../RoutesPath";
 
-const BookingDetail = () => {
+const BookingDetail = (props) => {
   return (
     <div class="container">
       <div class="commontitle">
@@ -66,8 +67,8 @@ const BookingDetail = () => {
           </div>
         </div>
         <div class="col-md-12 text-center mtop">
-          <CancelButton />
-          <SearchButton />
+          <CancelButton onClick={() => props.history.push(to.home)}  />
+          <SearchButton onClick={() => props.history.push(to.bookingInfo)} />
         </div>
       </form>
       <div class="footer">
