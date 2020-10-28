@@ -12,4 +12,7 @@ export const to = {
   selectKeys: "/select-keys",
   scanbarCode: "/scan-bar-code",
   confirmDetails: "/confirm-details",
+  multiBooking: "/multi-booking",
+  terms: "/terms",
+  swipeCard: "/swipe-card",
 };

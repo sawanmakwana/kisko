@@ -6,6 +6,7 @@ import SearchButton from "../Widgets/SearchButton";
 import * as Services from "./Services";
 import AppServiceClass from "../../assets/js/environmentConfig";
 import CancelButton from "../Widgets/CancelButton";
+import { get } from "../../AppUtills";
 const { bookingType } = new AppServiceClass().getEnvironmentVariables();
 
 const BookingId = (props) => {
@@ -31,8 +32,12 @@ const BookingId = (props) => {
     };
     Services.FindReservationKiosk(DATA).then((data) => {
       if (data.success) {
-        // GlobalConfig.Booking = data.bookings;
-        props.history.push(to.bookingInfo);
+        if (get(["bookings"], data, []).length > 1) {
+          props.history.push(to.multiBooking);
+        } else if (get(["bookings"], data, []).length === 1) {
+          props.history.push(to.bookingInfo);
+        }
+        GlobalConfig.Booking = data.bookings;
       }
     });
   };

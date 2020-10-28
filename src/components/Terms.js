@@ -1,9 +1,10 @@
 import React from "react";
-import Footer from "../Widgets/Footer";
 import ContinueButton from "./Widgets/ContinueButton";
 import CancelButton from "./Widgets/CancelButton";
+import Footer from "./Widgets/Footer";
+import { to } from "../RoutesPath";
 
-const Terms = () => {
+const Terms = (props) => {
   return (
     <div class="container">
       <div class="commontitle">
@@ -45,8 +46,8 @@ const Terms = () => {
           </div>
         </div>
         <div class="col-md-12 text-center mtop">
-          <CancelButton />
-          <ContinueButton />
+          <CancelButton onClick={()=>props.history.push(to.terms)} />
+          <ContinueButton onClick={()=>props.history.push(to.selectKeys)}/>
         </div>
       </form>
       <Footer />

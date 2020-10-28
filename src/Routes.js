@@ -15,6 +15,9 @@ import SelectKeys from "./components/SelectKeys";
 import ScanId from "./components/ScanId"
 import ScanbarCode from "./components/ScanbarCode";
 import ConfirmDetails from "./components/ConfirmDetails";
+import Multibooking from "./components/MultiBooking";
+import Terms from "./components/Terms";
+import SwipeCreditCard from "./components/SwipeCreditCard";
 
 const Routes = () => {
   return (
@@ -35,6 +38,10 @@ const Routes = () => {
       <ProtectedRoutes
         path={to.bookingInfo}
         render={(props) => <BookingInfo {...props} />}
+      />
+       <ProtectedRoutes
+        path={to.multiBooking}
+        render={(props) => <Multibooking {...props} />}
       />
       <ProtectedRoutes
         path={to.creditCard}
@@ -69,6 +76,15 @@ const Routes = () => {
         path={to.confirmDetails}
         render={(props) => <ConfirmDetails {...props} />}
       />
+       <ProtectedRoutes
+        path={to.terms}
+        render={(props) => <Terms {...props} />}
+      />
+       <ProtectedRoutes
+        path={to.swipeCard}
+        render={(props) => <SwipeCreditCard {...props} />}
+      />
+
     </Router>
   );
 };
