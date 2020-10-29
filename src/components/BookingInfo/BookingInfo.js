@@ -12,39 +12,39 @@ const BookingInfo = (props) => {
   const renderDetailView = () => {
     let booking = GlobalConfig.Booking || [];
 
-    return booking.map((item) => (
-      <form class="login100-form validate-form flex-sb flex-w mtop">
-        <div class="maindetail">
-          <div class="row">
-            <div class="col-md-4">
-              <span class="leftsection">Guest Name</span>
+    return booking.map((item,i) => (
+      <form key={i} className="login100-form validate-form flex-sb flex-w mtop">
+        <div className="maindetail">
+          <div className="row">
+            <div className="col-md-4">
+              <span className="leftsection">Guest Name</span>
             </div>
-            <div class="col-md-8">
-              <span class="rightsection">
+            <div className="col-md-8">
+              <span className="rightsection">
                 {get(["guest_fname"], item, "") +
                   get(["guest_lname"], item, "")}
               </span>
             </div>
           </div>
         </div>
-        <div class="maindetail mtop">
-          <div class="row">
-            <div class="col-md-4">
-              <span class="leftsection">PIN No.</span>
+        <div className="maindetail mtop">
+          <div className="row">
+            <div className="col-md-4">
+              <span className="leftsection">PIN No.</span>
             </div>
-            <div class="col-md-8">
-              <span class="rightsection">{get(["id"], item, "-")}</span>
+            <div className="col-md-8">
+              <span className="rightsection">{get(["id"], item, "-")}</span>
             </div>
           </div>
         </div>
-        <div class="maindetail mtop">
-          <div class="row">
-            <div class="col-md-4">
-              <span class="leftsection">Check-In</span>
+        <div className="maindetail mtop">
+          <div className="row">
+            <div className="col-md-4">
+              <span className="leftsection">Check-In</span>
             </div>
-            <div class="col-md-8">
-              <span class="rightsection">
-                <img src={CalendarImg} class="detailcalendar" />{" "}
+            <div className="col-md-8">
+              <span className="rightsection">
+                <img src={CalendarImg} className="detailcalendar" />{" "}
                 {moment(get(["checkin_time"], item, "-")).format(
                   "DD-MM-YYYY, HH:MM"
                 )}
@@ -52,14 +52,14 @@ const BookingInfo = (props) => {
             </div>
           </div>
         </div>
-        <div class="maindetail mtop">
-          <div class="row">
-            <div class="col-md-4">
-              <span class="leftsection">Check-Out</span>
+        <div className="maindetail mtop">
+          <div className="row">
+            <div className="col-md-4">
+              <span className="leftsection">Check-Out</span>
             </div>
-            <div class="col-md-8">
-              <span class="rightsection">
-                <img src={CalendarImg} class="detailcalendar" />{" "}
+            <div className="col-md-8">
+              <span className="rightsection">
+                <img src={CalendarImg} className="detailcalendar" />{" "}
                 {moment(get(["checkout_time"], item, "-")).format(
                   "DD-MM-YYYY, HH:MM"
                 )}
@@ -67,33 +67,37 @@ const BookingInfo = (props) => {
             </div>
           </div>
         </div>
-        <div class="maindetail mtop">
-          <div class="row">
-            <div class="col-md-4">
-              <span class="leftsection">Avg. Rate</span>
-            </div>
-            <div class="col-md-8">
-              <span class="rightsection">
-                <strong>{get(["avg_night_rate"], item, "-")}</strong>{" "}
-                <small>Per Night</small>
-              </span>
-            </div>
-          </div>
-        </div>
-        <div class="maindetail mtop">
-          <div class="row">
-            <div class="col-md-4">
-              <span class="leftsection">Room Type</span>
-            </div>
-            <div class="col-md-8">
-              <span class="rightsection">
-                {get(["room_type_name"], item, "-")}
-              </span>
+        {get(["avg_night_rate"]) &&
+          <div className="maindetail mtop">
+            <div className="row">
+              <div className="col-md-4">
+                <span className="leftsection">Avg. Rate</span>
+              </div>
+              <div className="col-md-8">
+                <span className="rightsection">
+                  <strong>{get(["avg_night_rate"], item, "-")}</strong>{" "}
+                  <small>Per Night</small>
+                </span>
+              </div>
             </div>
           </div>
-        </div>
+        }
+        {get(["room_type_name"]) &&
+          <div className="maindetail mtop">
+            <div className="row">
+              <div className="col-md-4">
+                <span className="leftsection">Room Type</span>
+              </div>
+              <div className="col-md-8">
+                <span className="rightsection">
+                  {get(["room_type_name"], item, "-")}
+                </span>
+              </div>
+            </div>
+          </div>
+        }
 
-        <div class="col-md-12 text-center mtop">
+        <div className="col-md-12 text-center mtop">
           <CancelButton onClick={() => props.history.push(to.bookingId)} />
           <ContinueButton onClick={() => props.history.push(to.scanId)} />
         </div>
@@ -102,8 +106,8 @@ const BookingInfo = (props) => {
   };
 
   return (
-    <div class="container">
-      <div class="commontitle">
+    <div className="container">
+      <div className="commontitle">
         <h2>Booking Information</h2>
         <p>Lorem ipsum is a dummy text.</p>
       </div>

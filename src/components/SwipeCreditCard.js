@@ -4,20 +4,20 @@ import { to } from "../RoutesPath";
 
 const SwipeCreditCard = (props) => {
   return (
-    <div class="container">
-      <h2 class="maintitle">
+    <div className="container">
+      <h2 className="maintitle">
         Swipe your <span>Credit Card</span> to do payment
       </h2>
-      <form class="login100-form validate-form flex-sb flex-w mtop">
+      <form className="login100-form validate-form flex-sb flex-w mtop">
         <div
-          class="formarea fixarea"
+          className="formarea fixarea"
           onClick={() => props.history.push(to.selectKeys)}
         >
           <img src="images/capture-photo.gif" />
         </div>
-        <div class="col-md-12 text-center mtop">
+        <div className="col-md-12 text-center mtop">
           <button
-            class="cancelbutton"
+            className="cancelbutton"
             onClick={() => props.history.push(to.creditCard)}
           >
             Cancel{" "}

@@ -6,13 +6,13 @@ import { to } from "../RoutesPath";
 
 const Terms = (props) => {
   return (
-    <div class="container">
-      <div class="commontitle">
+    <div className="container">
+      <div className="commontitle">
         <h2>Terms & Conditions</h2>
         <p>Lorem ipsum is a dummy text.</p>
       </div>
-      <form class="login100-form validate-form flex-sb flex-w mtop">
-        <div class="formarea terms">
+      <form className="login100-form validate-form flex-sb flex-w mtop">
+        <div className="formarea terms">
           <p>
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry. Lorem Ipsum has been the industry's standard dummy text
@@ -40,12 +40,12 @@ const Terms = (props) => {
             Ipsum.
           </p>
         </div>
-        <div class="formarea signature">
-          <div class="mainarea">
+        <div className="formarea signature">
+          <div className="mainarea">
             <span>Sign Here</span>
           </div>
         </div>
-        <div class="col-md-12 text-center mtop">
+        <div className="col-md-12 text-center mtop">
           <CancelButton onClick={()=>props.history.push(to.terms)} />
           <ContinueButton onClick={()=>props.history.push(to.selectKeys)}/>
         </div>

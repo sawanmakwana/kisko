@@ -32,12 +32,13 @@ const BookingId = (props) => {
     };
     Services.FindReservationKiosk(DATA).then((data) => {
       if (data.success) {
+        GlobalConfig.Booking = data.bookings;
         if (get(["bookings"], data, []).length > 1) {
           props.history.push(to.multiBooking);
         } else if (get(["bookings"], data, []).length === 1) {
           props.history.push(to.bookingInfo);
         }
-        GlobalConfig.Booking = data.bookings;
+        
       }
     });
   };

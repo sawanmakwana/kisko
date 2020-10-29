@@ -5,21 +5,21 @@ import languageImg from "../../assets/images/en-lang.png";
 const Footer = () => {
   return (
     <div className="footer">
-      <div class="language">
-        <div class="menu-toggle">
+      <div className="language">
+        <div className="menu-toggle">
           <span>EN</span>
           <img src={languageImg} alt="img" />
         </div>
-        <div class="menu-line" style={{ display: "none" }}>
-          <div class="btn-app">
+        <div className="menu-line" style={{ display: "none" }}>
+          <div className="btn-app">
             <span>EN</span>
             <img src={languageImg} alt="img" />
           </div>
-          <div class="btn-app">
+          <div className="btn-app">
             <span>EN</span>
             <img src={languageImg} alt="img" />
           </div>
-          <div class="btn-app">
+          <div className="btn-app">
             <span>EN</span>
             <img src={languageImg} alt="img" />
           </div>

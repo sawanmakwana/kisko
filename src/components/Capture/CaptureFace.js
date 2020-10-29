@@ -5,16 +5,16 @@ import Capture from "../../assets/images/capture.png";
 
 const CaptureFace = () => {
   return (
-    <div class="container">
-      <h2 class="maintitle">
+    <div className="container">
+      <h2 className="maintitle">
         Keep your <span>Face</span> infront of camera and press capture button
       </h2>
-      <form class="login100-form validate-form flex-sb flex-w mtop">
-        <div class="formarea fixarea">
+      <form className="login100-form validate-form flex-sb flex-w mtop">
+        <div className="formarea fixarea">
           <img src={CaptureImg} />
         </div>
-        <div class="col-md-12 text-center mtop">
-          <button class="mainbutton">
+        <div className="col-md-12 text-center mtop">
+          <button className="mainbutton">
             Capture <img src={Capture} />
           </button>
         </div>

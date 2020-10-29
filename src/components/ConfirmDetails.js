@@ -6,39 +6,39 @@ import { to } from "../RoutesPath";
 
 const ConfirmDetails = (props) => {
   return (
-    <div class="container">
-      <div class="commontitle">
+    <div className="container">
+      <div className="commontitle">
         <h2>Confirmation Details</h2>
         <p>Lorem ipsum is a dummy text.</p>
       </div>
-      <form class="login100-form validate-form flex-sb flex-w mtop">
-        <div class="maindetail">
-          <div class="row">
-            <div class="col-md-3">
-              <span class="leftsection">Mobile No.</span>
+      <form className="login100-form validate-form flex-sb flex-w mtop">
+        <div className="maindetail">
+          <div className="row">
+            <div className="col-md-3">
+              <span className="leftsection">Mobile No.</span>
             </div>
-            <div class="col-md-9">
-              <span class="rightsection">9876543210</span>
-            </div>
-          </div>
-        </div>
-        <div class="maindetail mtop">
-          <div class="row">
-            <div class="col-md-3">
-              <span class="leftsection">Email ID</span>
-            </div>
-            <div class="col-md-9">
-              <span class="rightsection">john.smith@gmail.com</span>
+            <div className="col-md-9">
+              <span className="rightsection">9876543210</span>
             </div>
           </div>
         </div>
-        <div class="maindetail mtop mb-5">
-          <div class="row">
-            <div class="col-md-3">
-              <span class="leftsection">Address</span>
+        <div className="maindetail mtop">
+          <div className="row">
+            <div className="col-md-3">
+              <span className="leftsection">Email ID</span>
             </div>
-            <div class="col-md-9">
-              <span class="rightsection">
+            <div className="col-md-9">
+              <span className="rightsection">john.smith@gmail.com</span>
+            </div>
+          </div>
+        </div>
+        <div className="maindetail mtop mb-5">
+          <div className="row">
+            <div className="col-md-3">
+              <span className="leftsection">Address</span>
+            </div>
+            <div className="col-md-9">
+              <span className="rightsection">
                 Lorem Ipsum is simply dummy text of the printing and typesetting
                 industry.
               </span>
@@ -46,7 +46,7 @@ const ConfirmDetails = (props) => {
           </div>
         </div>
 
-        <div class="col-md-12 text-center mtop">
+        <div className="col-md-12 text-center mtop">
           <CancelButton onClick={() => props.history.push(to.checkIn)} />
           <ContinueButton onClick={() => props.history.push(to.terms)}   />
         </div>

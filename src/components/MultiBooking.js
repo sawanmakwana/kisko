@@ -4,60 +4,60 @@ import ContinueButton from "./Widgets/ContinueButton";
 
 const Multibooking = (props) => {
   return (
-    <div class="container">
-      <div class="commontitle">
+    <div className="container">
+      <div className="commontitle">
         <h2>RESERVATION Information</h2>
         <p>Lorem ipsum is a dummy text.</p>
       </div>
-      <form class="login100-form validate-form flex-sb flex-w mtop">
-        <article class="card card-product-list maindetail">
-          <div class="row no-gutters">
-            <div class="reservtick">
-              <div class="radio">
+      <form className="login100-form validate-form flex-sb flex-w mtop">
+        <article className="card card-product-list maindetail">
+          <div className="row no-gutters">
+            <div className="reservtick">
+              <div className="radio">
                 <input id="radio-1" name="radio" type="radio" />
               </div>
             </div>
-            <aside class="col-md-3">
-              <div class="img-wrap">
+            <aside className="col-md-3">
+              <div className="img-wrap">
                 <img src="images/room.jpg" />
               </div>
             </aside>
-            <div class="col-md-9">
-              <div class="info-main">
-                <p class="reservtitle">
+            <div className="col-md-9">
+              <div className="info-main">
+                <p className="reservtitle">
                   John Smith <span>Standard Room</span>
                 </p>
-                <div class="checkinarea row">
-                  <div class="col-md-6">
+                <div className="checkinarea row">
+                  <div className="col-md-6">
                     <h6>Check In</h6>
-                    <span class="rightsection">
-                      <img src="images/calendar1.png" class="reservcalendar" />{" "}
+                    <span className="rightsection">
+                      <img src="images/calendar1.png" className="reservcalendar" />{" "}
                       20 Oct, 2020
                     </span>
                   </div>
-                  <div class="col-md-6">
+                  <div className="col-md-6">
                     <h6>Check Out</h6>
-                    <span class="rightsection">
-                      <img src="images/calendar1.png" class="reservcalendar" />{" "}
+                    <span className="rightsection">
+                      <img src="images/calendar1.png" className="reservcalendar" />{" "}
                       21 Oct, 2020
                     </span>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-md-12">
-              <div class="price-wrap col-md-4">
+            <div className="col-md-12">
+              <div className="price-wrap col-md-4">
                 <span>
                   <h6>Price</h6>
                   <strong>$89.99</strong>
                 </span>
               </div>
-              <div class="people col-md-4">
+              <div className="people col-md-4">
                 <h6>No. of Night(s)</h6>
                 <img src="images/bed.png" />
                 <span>1 </span>
               </div>
-              <div class="people col-md-4">
+              <div className="people col-md-4">
                 <h6>Adult(s)</h6>
                 <img src="images/adult.png" />
                 <span>2 </span>
@@ -66,13 +66,13 @@ const Multibooking = (props) => {
           </div>
         </article>
 
-        <div class="col-md-12 text-center mtop">
+        <div className="col-md-12 text-center mtop">
           <CancelButton />
           <ContinueButton />
         </div>
       </form>
-      <div class="footer">
-        <div class="helpcenter">
+      <div className="footer">
+        <div className="helpcenter">
           <a href="">
             <span>Help</span>
             <img src="images/help.png" />
