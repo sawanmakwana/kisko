@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Footer from "./Widgets/Footer";
 import SearchButton from "./Widgets/SearchButton";
 import ScanQrImg from "../assets/images/scanqr.gif";
 import CancelButton from "./Widgets/CancelButton";
 import { to } from "../RoutesPath";
 
+
 const ScanQr = (props) => {
+  
   return (
     <div className="container">
       <div className="commontitle">

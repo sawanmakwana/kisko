@@ -46,7 +46,7 @@ const BookingId = (props) => {
   return (
     <div className="container">
       <div className="commontitle">
-        <h2>Hotel Setup</h2>
+        <h2>Pin Number</h2>
         <p>Lorem ipsum is a dummy text.</p>
       </div>
       <form className="login100-form validate-form flex-sb flex-w">

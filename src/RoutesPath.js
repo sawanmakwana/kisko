@@ -15,4 +15,6 @@ export const to = {
   multiBooking: "/multi-booking",
   terms: "/terms",
   swipeCard: "/swipe-card",
+  captureFront:"/capture-front",
+  captureFace:"/capture-face",
 };
