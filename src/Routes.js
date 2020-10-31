@@ -18,6 +18,8 @@ import ConfirmDetails from "./components/ConfirmDetails";
 import Multibooking from "./components/MultiBooking";
 import Terms from "./components/Terms";
 import SwipeCreditCard from "./components/SwipeCreditCard";
+import CaptureFrontImage from "./components/CaptureFrontImage";
+import CaptureFace from "./components/CaptureFace";
 
 const Routes = () => {
   return (
@@ -83,6 +85,14 @@ const Routes = () => {
        <ProtectedRoutes
         path={to.swipeCard}
         render={(props) => <SwipeCreditCard {...props} />}
+      />
+      <ProtectedRoutes
+        path={to.captureFront}
+        render={(props) => <CaptureFrontImage {...props} />}
+      />
+      <ProtectedRoutes
+        path={to.captureFace}
+        render={(props) => <CaptureFace {...props} />}
       />
 
     </Router>

@@ -1,4 +1,4 @@
-let _token,_hotel,_language,_booking;
+let _token,_hotel,_language,_booking,_connected = 0;
 
 export class GlobalConfig {
   static get Token() {
@@ -44,5 +44,11 @@ export class GlobalConfig {
   static set Language(value) {
     window.localStorage.setItem("language", value);
     _language = window.localStorage.getItem("language");
+  }
+  static get Connected() {
+    return _connected;
+  }
+  static set Connected(value) {
+    return _connected = value;
   }
 }

@@ -20,9 +20,9 @@ const CheckIn = (props) => {
               <a
                 href=""
                 className="bluebutton"
-                onClick={() => props.history.push(to.bookingId)}
+                onClick={(e) => {e.preventDefault();props.history.push(to.bookingId)}}
               >
-                <img src={BookingId} alt="img" /> <span>Booking ID</span>
+                <img src={BookingId} alt="img" /> <span>Pin Number</span>
                 <div className="noverlay"></div>
               </a>
             </div>

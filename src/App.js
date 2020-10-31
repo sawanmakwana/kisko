@@ -12,7 +12,7 @@ function App() {
     <div className="limiter">
       <div className="container-login100">
         <Clock />
-        <Routes />
+        <Routes  />
       </div>
     </div>
   );

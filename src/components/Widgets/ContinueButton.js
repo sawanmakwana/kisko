@@ -1,16 +1,18 @@
 import React from "react";
 import rightArrow from "../../assets/images/arrow-right.png";
 
-const ContinueButton = ({ onClick }) => {
+const ContinueButton = ({text, onClick, disable,imgIcon }) => {
   return (
     <button
+      disabled={disable || false}
       className="mainbutton"
+      style={disable?{opacity:.5}:{}}
       onClick={(e) => {
         onClick();
         e.preventDefault()
       }}
     >
-      Continue <img src={rightArrow} alt="img" />
+      {text || "Continue"} <img src={imgIcon || rightArrow} alt="img" />
     </button>
   );
 };

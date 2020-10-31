@@ -48,7 +48,7 @@ const ConfirmDetails = (props) => {
 
         <div className="col-md-12 text-center mtop">
           <CancelButton onClick={() => props.history.push(to.checkIn)} />
-          <ContinueButton onClick={() => props.history.push(to.terms)}   />
+          <ContinueButton onClick={() => props.history.push(to.captureFace)}   />
         </div>
       </form>
       <Footer />
