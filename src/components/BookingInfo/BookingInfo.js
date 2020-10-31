@@ -21,7 +21,8 @@ const BookingInfo = (props) => {
             </div>
             <div className="col-md-8">
               <span className="rightsection">
-                {get(["guest_fname"], item, "") +
+                {get(["guest_fname"], item, "")  
+                +" "+
                   get(["guest_lname"], item, "")}
               </span>
             </div>

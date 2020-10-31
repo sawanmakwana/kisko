@@ -14,14 +14,27 @@ connection
     console.log("Could not connect");
   });
 class HubConnection {
-  static ACTION = async (METHOD, DEVICE, MODE) => {
+  static ACTION = async (METHOD, DEVICE, MODE,TIMEOUT) => {
     return new Promise((resolve) => {
       if (GlobalConfig.Connected === 0)
         return { success: false, result: "Waiting for connection" };
       if (GlobalConfig.Connected === 2)
         return { success: false, result: "Connection Faild" };
       try {
-        if (MODE !== undefined) {
+        if (TIMEOUT !== undefined) {
+            proxy
+              .invoke(METHOD, DEVICE, MODE, TIMEOUT)
+              .done((result) => {
+                console.log(`${METHOD}  execution done  `);
+                console.log(result);
+                resolve({ success: true, result });
+              })
+              .fail((err) => {
+                console.log(`${METHOD}  execution failed  `, err);
+                resolve({ success: false, result: err });
+              });
+          }
+        else if (MODE !== undefined) {
           proxy
             .invoke(METHOD, DEVICE, MODE)
             .done((result) => {
