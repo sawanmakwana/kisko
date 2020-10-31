@@ -6,13 +6,20 @@ import "./assets/vendor/bootstrap/css/bootstrap.min.css";
 
 import Routes from "./Routes";
 import Clock from "./components/Widgets/Clock";
+import { GlobalContext } from "./assets/js/context";
+import { useState } from "react";
+import { GlobalConfig } from "./assets/js/globleConfig";
 
 function App() {
+  const [lang, setLang] = useState(GlobalConfig.Language || "en");
+
   return (
     <div className="limiter">
       <div className="container-login100">
         <Clock />
-        <Routes />
+        <GlobalContext.Provider value={{ setLang, lang }}>
+          <Routes />
+        </GlobalContext.Provider>
       </div>
     </div>
   );

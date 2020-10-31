@@ -199,7 +199,8 @@ iframe {
   justify-content: center;
   align-items: center;
   padding: 15px;
-
+  background-image:linear-gradient(rgba(255, 255, 255, 0.9),
+   rgba(255, 255, 255, 0.9)),  url('../images/bg-01.jpg');
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -1008,12 +1009,12 @@ img.thankyouimg {
   display: block !important;
   transition: all 0.5s;
 }
-.menu-toggle::before {
+/* .menu-toggle::before {
   font-family: "Glyphicons Halflings";
   content: "\f062";
   float: right;
   transition: all 0.5s;
-}
+} */
 .menu-toggle.open:before {
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
@@ -1062,28 +1063,28 @@ img.thankyouimg {
   -webkit-transition-delay: 0.5s;
   transition-delay: 0.5s;
 }
-.menu-line.open .btn-app:nth-of-type(1) {
+.menu-line .btn-app:nth-of-type(1) {
   bottom: 4.25em;
 }
-.menu-line.open .btn-app:nth-of-type(1) {
+.menu-line .btn-app:nth-of-type(1) {
   bottom: 7.25em;
 }
-.menu-line.open .btn-app:nth-of-type(2) {
+.menu-line .btn-app:nth-of-type(2) {
   bottom: 14.25em;
 }
-.menu-line.open .btn-app:nth-of-type(3) {
+.menu-line .btn-app:nth-of-type(3) {
   bottom: 21.25em;
 }
-.menu-line.open .btn-app:nth-of-type(4) {
+.menu-line .btn-app:nth-of-type(4) {
   bottom: 16.25em;
 }
-.menu-line.open .btn-app:nth-of-type(5) {
+.menu-line .btn-app:nth-of-type(5) {
   bottom: 19.25em;
 }
-.menu-line.open .btn-app:nth-of-type(6) {
+.menu-line .btn-app:nth-of-type(6) {
   bottom: 22.25em;
 }
-.menu-line.open .btn-app:nth-of-type(7) {
+.menu-line .btn-app:nth-of-type(7) {
   bottom: 25.25em;
 }
 

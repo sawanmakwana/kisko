@@ -21,7 +21,7 @@ const BookingDetail = (props) => {
               className="wrap-input100 validate-input"
               data-validate="Username is required"
             >
-              <img src={CalendarImg} className="inputcalendar" />
+              <img src={CalendarImg} className="inputcalendar" alt="img"/>
               <input
                 className="input100 pl-100"
                 type="text"

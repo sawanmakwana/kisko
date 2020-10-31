@@ -1,18 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import Footer from "./Widgets/Footer";
 import KeyImg from "../assets/images/keys.png";
 import CheckInImg from "../assets/images/checkin.png";
 import { GlobalConfig } from "../assets/js/globleConfig";
 import { to } from "../RoutesPath";
 import { LANG } from "../assets/js/language";
+import { GlobalContext } from "../assets/js/context";
 
 const Home = (props) => {
   const hotel = GlobalConfig.Hotel;
-  
-  const lang = GlobalConfig.Language;
-  if (!hotel) {
-    props.history.push(to.hotelSetup);
-  }
+
+  const { lang } = useContext(GlobalContext);
+
+  console.log({ lang });
 
   return (
     <>
