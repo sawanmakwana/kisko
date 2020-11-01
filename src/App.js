@@ -19,6 +19,7 @@ function App() {
         <Clock />
         <GlobalContext.Provider value={{ setLang, lang }}>
           <Routes />
+          
         </GlobalContext.Provider>
       </div>
     </div>
