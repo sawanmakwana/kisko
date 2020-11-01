@@ -1,4 +1,4 @@
-let _token,_hotel,_language,_booking,_connected = 0;
+let _token,_hotel,_language,_booking,_connected = 0, _userDetail;
 
 export class GlobalConfig {
   static get Token() {
@@ -19,10 +19,28 @@ export class GlobalConfig {
     }
     return _hotel;
   }
+
   static set Hotel(value) {
     window.localStorage.setItem("hotel", JSON.stringify(value));
     _hotel = window.localStorage.getItem("hotel");
   }
+
+  static set UserScanDetail(value) {
+    window.localStorage.setItem("UserScanDetail", JSON.stringify(value));
+    _userDetail = window.localStorage.getItem("UserScanDetail");
+  }
+
+  static get UserScanDetail() {
+    _userDetail = window.localStorage.getItem("UserScanDetail");
+    if(_userDetail){
+      _userDetail = JSON.parse(_userDetail)
+    }else{
+      _userDetail = null;
+    }
+    return _userDetail;
+  }
+  
+  
   static get Booking() {
     _booking = window.localStorage.getItem("booking");
     if(_booking){

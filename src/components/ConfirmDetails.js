@@ -3,6 +3,7 @@ import Footer from "./Widgets/Footer";
 import CancelButton from "./Widgets/CancelButton";
 import ContinueButton from "./Widgets/ContinueButton";
 import { to } from "../RoutesPath";
+import { GlobalConfig } from "../assets/js/globleConfig";
 
 const ConfirmDetails = (props) => {
   return (
@@ -48,7 +49,14 @@ const ConfirmDetails = (props) => {
 
         <div className="col-md-12 text-center mtop">
           <CancelButton onClick={() => props.history.push(to.checkIn)} />
-          <ContinueButton onClick={() => props.history.push(to.captureFace)}   />
+          <ContinueButton onClick={() => {
+            if(GlobalConfig.Hotel.allowed_selfie){
+              props.history.push(to.captureFace);
+            }else {
+              props.history.push(to.swipeCard);
+            }
+            } 
+            }  />
         </div>
       </form>
       <Footer />
