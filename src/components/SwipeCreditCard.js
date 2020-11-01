@@ -8,18 +8,24 @@ import { GlobalConfig } from "../assets/js/globleConfig";
 const SwipeCreditCard = (props) => {
   let interval = null;
   useEffect(() => {
+    HubConnection.ACTION("CancelCardRead", "IUC285");
+      HubConnection.ACTION("DisableNfc", "IUC285");
+      HubConnection.ACTION("DisableSmartCard", "IUC285");
     scanCreditCard();
 
-    // return () => {
-    //   interval && clearInterval(interval);
-    //   HubConnection.ACTION(
-    //     "CancelCardRead",
-    //     "IUC285"
-    //   ).then((data) => {});
-    //   HubConnection.proxy.off("barcodeScanned", function (result) {
-    //     console.log("Scan OFF successful!: " + result);
-    //   });
-    // };
+    return () => {
+      // interval && clearInterval(interval);
+      // HubConnection.ACTION(
+      //   "CancelCardRead",
+      //   "IUC285"
+      // ).then((data) => {});
+      // HubConnection.proxy.off("DisableNfc", function (result) {
+      //   console.log("DisableNfc: " + result);
+      // });
+      HubConnection.ACTION("CancelCardRead", "IUC285");
+      HubConnection.ACTION("DisableNfc", "IUC285");
+      HubConnection.ACTION("DisableSmartCard", "IUC285");
+    };
   }, []);
 
   const scanCreditCard = async () => {
@@ -45,13 +51,56 @@ const SwipeCreditCard = (props) => {
     //   console.log("id not valid");
     // }
     // },2000)
-    
+
+    /*===== TESTED OK START ====*/
+    // HubConnection.ACTION("ReadSwipe", "IUC285", -1).then((data) => {
+    //   console.log("ReadSwipe : START =======");
+    //   console.log("ReadSwipe : ", data);
+    //   console.log("ReadSwipe : ", new Date());
+    //   console.log("ReadSwipe : END =======");
+    // });
+    /*===== TESTED OK END ====*/
+
     /*===== TEMP : END ====*/
     console.log(new Date());
-    HubConnection.ACTION("ReadSwipe", "IUC285", -1).then(
+
+    // HubConnection.ACTION("EnableNfc", "IUC285").then((data) => {
+    //   console.log("EnableNfc : START =======");
+    //   console.log("EnableNfc : ", data);
+    //   console.log("EnableNfc : ", new Date());
+    //   console.log("EnableNfc : END =======");
+    //   HubConnection.ACTION("ReadNfc", "IUC285", 1.5, -1).then((data) => {
+        
+    //     console.log("ReadNfc : START =======");
+    //     console.log("ReadNfc : ", data);
+    //     console.log("ReadNfc : ", new Date());
+    //     console.log("ReadNfc : END =======");
+    //     HubConnection.ACTION("DisableNfc", "IUC285");
+    //   });
+    // });
+
+    HubConnection.ACTION("EnableSmartCard", "IUC285").then(
       (data) => {
-        console.log(new Date());
-        console.log(data);
+        console.log("EnableSmartCard : START =======");
+        console.log("EnableSmartCard : ",data);
+        console.log("EnablEnableSmartCardeNfc : ",new Date());
+        console.log("EnableSmartCard : END =======");
+
+        HubConnection.ACTION("ReadSmartCard", "IUC285", 1,-1).then(
+          (data) => {
+            console.log("ReadSmartCard : START =======");
+            console.log("ReadSmartCard : ",data);
+            console.log("ReadSmartCard : ",new Date());
+            console.log("ReadSmartCard : END =======");
+            HubConnection.ACTION("DisableSmartCard", "IUC285")
+          }
+        );
+        HubConnection.ACTION("ReadSwipe", "IUC285", -1).then((data) => {
+          console.log("ReadSwipe : START =======");
+          console.log("ReadSwipe : ", data);
+          console.log("ReadSwipe : ", new Date());
+          console.log("ReadSwipe : END =======");
+        });
       }
     );
 
@@ -63,7 +112,7 @@ const SwipeCreditCard = (props) => {
     //     //   console.log("Scan successful!: " + result);
 
     //     //   HubConnection.ACTION("CancelScanWait", "Honeywell3330G");
-          
+
     //     //   console.log(result);
     //     //   if (typeof result == "object" && result.name) {
     //     //     props.history.push(to.captureFront);
@@ -95,10 +144,11 @@ const SwipeCreditCard = (props) => {
         <div className="col-md-12 text-center mtop">
           <button
             className="cancelbutton"
-            onClick={() => props.history.push(to.checkIn)}
+            onClick={() => props.history.push(to.captureFace)}
           >
             Cancel{" "}
           </button>
+          <ContinueButton onClick={() => props.history.push(to.captureFace)} />
           {/* <ContinueButton onClick={() =>startNFC} /> */}
         </div>
       </form>

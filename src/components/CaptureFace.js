@@ -66,7 +66,7 @@ const CaptureFace = (props) => {
           :null}
         <div className="col-md-12 text-center mtop">
           <CancelButton onClick={() => props.history.push(to.scanId)} />{" "}
-          {retake?
+          {retake || true?
             <ContinueButton   onClick={() => props.history.push(to.swipeCard)} />:
             <ContinueButton  imgIcon={CameraIcon} text={"Capture"} onClick={() => captureClick()} />
           }
