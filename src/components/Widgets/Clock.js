@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import moment from "moment"
     // interval = setInterval(async ()=>{
       
     //   const Counter = Number(counter)-1000;
@@ -26,6 +27,6 @@ const Clock = () => {
   function tick() {
     setDate(new Date());
   }
-  return <div id="clock">{date.toLocaleTimeString()}</div>;
+  return <div id="clock">{moment(date).format("HH:MM")}</div>;
 };
 export default Clock;
