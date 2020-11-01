@@ -12,12 +12,11 @@ import moment from "moment";
 const ScanbarCode = (props) => {
   const [disableRescan, setDisableRescan] = useState(true);
   const [counter, setCounter] = useState(18000);
-  let interval = null;
   useEffect(() => {
-    setTimeout(()=>{
+    setTimeout(() => {
       startScan();
-    },5000)
-    
+    }, 5000);
+  });
 
   useEffect(() => {
     return () => {
@@ -47,10 +46,10 @@ const ScanbarCode = (props) => {
     let result =
       // 'u001eANSI 636015080001DL00410285ZC03260033DLDCACDCBNONEDCDNONEDBA01312022DCSHODARDACRATANDADGOVINDDBD08112017DBB01311978DBC1DAYBRNDAU069 INDAG388 BEALE ST APT 805DAISAN FRANCISCODAJCADAK941050000  DAQY8199490DCF08/11/2017503C8/DDFD/22DCGUSADDEUDDFUDDGUDAW164DAZBLKDCK17223Y81994900401DDB04162010DDD0ZCZCAZCBZCCBRNZCDBLKZCEZCF"';
       // '@ANSI 636014040002DL00410288ZC03290034DLDCACDCBNONEDCDNONEDBA11092020DCSDESAIDACMRUNALDADHEMANTKUMARDBD11242015DBB11091982DBC1DAYBLKDAU067 INDAG2167 EL CAPITAN AVEDAISANTA CLARADAJCADAK950500000  DAQD3634400DCF11/24/20156453A/AAFD/20DCGUSADDEUDDFUDDGUDAW180DAZBLKDCK15328D36344000401DDB04162010DDD0ZCZCAYZCBZCCBLKZCDBLKZCEZCF"';
-    'u001eANSI 636015080001DL00310274DLDCACDDAFDDB10102016DCBNONEDCDNONEDBA07132026DCSDESAIDDENDACCHINTAKDDFNDADNONEDDGNDBD09092019DBB07131987DBC1DAYBRODAZBLKDAU070 INDAW170DCLADAG5418 ANITA STDAIDALLASDAJTXDAK752060000  DCK45110063  20190911DAQ45110063DCF42111940195029205598DCGUSA"'
+      'u001eANSI 636015080001DL00310274DLDCACDDAFDDB10102016DCBNONEDCDNONEDBA07132026DCSDESAIDDENDACCHINTAKDDFNDADNONEDDGNDBD09092019DBB07131987DBC1DAYBRODAZBLKDAU070 INDAW170DCLADAG5418 ANITA STDAIDALLASDAJTXDAK752060000  DCK45110063  20190911DAQ45110063DCF42111940195029205598DCGUSA"';
     // data = "asdas"
     result = pdf417(result);
-    validateDetail(result)
+    validateDetail(result);
     // },2000)
 
     /*===== TEMP : END ====*/
@@ -60,12 +59,12 @@ const ScanbarCode = (props) => {
       if (result && result.Data) {
         result.Data = result.Data.replace("@ANSI ", "u001eANSI ");
         result = pdf417(result.Data);
-        validateDetail(result)
+        validateDetail(result);
       }
     });
   };
-  const validateDetail = (result)=>{
-    if (typeof result == "object" && result.name && result.name.first ) {
+  const validateDetail = (result) => {
+    if (typeof result == "object" && result.name && result.name.first) {
       GlobalConfig.UserScanDetail = {
         firstName: result.name.first,
         lastName: result.name.last,
@@ -74,33 +73,44 @@ const ScanbarCode = (props) => {
         city: result.city,
         birthday: result.birthday,
         postalCode: result.postal_code,
-        sex:result.sex,
-        dl:result.dl
+        sex: result.sex,
+        dl: result.dl,
       };
-      if(Math.floor(moment(new Date()).diff(moment(GlobalConfig.UserScanDetail.birthday,"YYYYMMDD"),'years',true)) < 18){
+      if (
+        Math.floor(
+          moment(new Date()).diff(
+            moment(GlobalConfig.UserScanDetail.birthday, "YYYYMMDD"),
+            "years",
+            true
+          )
+        ) < 18
+      ) {
         //ADD TOST : AGE UNDER 18
         props.history.push(to.home);
-
       }
-      
-      if(String(GlobalConfig.Booking[0].guest_fname).toLowerCase() != String(GlobalConfig.UserScanDetail.firstName).toLowerCase() ||
-        String(GlobalConfig.Booking[0].guest_lname).toLowerCase() != String(GlobalConfig.UserScanDetail.lastName).toLowerCase()){
-          //ADD TOST : LICENCE DETAIL NOT MATCH
-          props.history.push(to.scanId);
-        }
-        if(GlobalConfig.Hotel.allowed_doc_scan){
-          props.history.push(to.captureFront);
-        }else {
-          props.history.push(to.confirmDetails);
-        }
-       
-  }else{
-    // ADD TOST : INVALID
-  }
+
+      if (
+        String(GlobalConfig.Booking[0].guest_fname).toLowerCase() !=
+          String(GlobalConfig.UserScanDetail.firstName).toLowerCase() ||
+        String(GlobalConfig.Booking[0].guest_lname).toLowerCase() !=
+          String(GlobalConfig.UserScanDetail.lastName).toLowerCase()
+      ) {
+        //ADD TOST : LICENCE DETAIL NOT MATCH
+        props.history.push(to.scanId);
+      }
+      if (GlobalConfig.Hotel.allowed_doc_scan) {
+        props.history.push(to.captureFront);
+      } else {
+        props.history.push(to.confirmDetails);
+      }
+    } else {
+      // ADD TOST : INVALID
+    }
+  };
 
   useEffect(() => {
     let intervalId;
-                                                                                                                                                                                                                            
+
     if (counter === 0) {
       setDisableRescan(false);
       return;

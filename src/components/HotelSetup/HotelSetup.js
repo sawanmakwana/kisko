@@ -5,6 +5,7 @@ import ContinueButton from "../Widgets/ContinueButton";
 import * as Services from "./Services";
 import { GlobalConfig } from "../../assets/js/globleConfig";
 import { GlobalContext } from "../../assets/js/context";
+import { to } from "../../RoutesPath";
 
 const HotelSetup = (props) => {
   const [uuid, setUuid] = useState("8881214933");
@@ -18,8 +19,7 @@ const HotelSetup = (props) => {
         if (data.success) {
           GlobalConfig.Hotel = data.hotel;
           setLoading(false);
-
-          // props.history.push(to.home);
+          props.history.push(to.home);
         }
       })
       .catch((err) => {
