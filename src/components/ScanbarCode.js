@@ -26,15 +26,10 @@ import moment from "moment";
 
 const ScanbarCode = (props) => {
   const [disableRescan, setDisableRescan] = useState(true);
-  const [counter, setCounter] = useState(180000);
-  let interval = null;
-  useEffect(() => {
-    setTimeout(function () {
-      startScan();
-    }, 3000);
+  const [counter, setCounter] = useState(18000);
 
+  useEffect(() => {
     return () => {
-      // interval && clearInterval(interval);
       HubConnection.ACTION(
         "CancelScanWait",
         "Honeywell3330G"
@@ -46,6 +41,8 @@ const ScanbarCode = (props) => {
   }, []);
 
   const startScan = async () => {
+    setCounter(18000);
+    setDisableRescan(true);
     if (GlobalConfig.Connected === 0) {
       setTimeout(() => {
         startScan();
@@ -159,6 +156,24 @@ const ScanbarCode = (props) => {
     // });
   };
 
+  useEffect(() => {
+    let intervalId;
+                                                                                                                                                                                                                            
+    if (counter === 0) {
+      setDisableRescan(false);
+      return;
+    }
+
+    if (counter > 0) {
+      intervalId = setInterval(() => {
+        setCounter(counter - 1000);
+        console.log({ counter });
+      }, 1000);
+    }
+
+    return () => clearInterval(intervalId);
+  }, [counter]);
+
   return (
     <div className="container">
       <h2 className="maintitle">Place your Barcode ID in scanning area</h2>
@@ -171,18 +186,20 @@ const ScanbarCode = (props) => {
           <ContinueButton
             disable={disableRescan}
             text={"Rescan"}
-            onClick={() => startScan}
+            onClick={startScan}
           />
         </div>
         <div className="col-md-12 text-center mtop">
           <ContinueButton onClick={() => props.history.push(to.captureFront)} />
         </div>
-        <div className="col-md-12 text-center timer">
-          <p>
-            Scan will auto cancel in{" "}
-            <span>{moment.utc(counter).format("mm:ss")}</span>
-          </p>
-        </div>
+        {counter !== 0 && (
+          <div className="col-md-12 text-center timer">
+            <p>
+              Scan will auto cancel in{" "}
+              <span>{moment.utc(counter).format("mm:ss")}</span>
+            </p>
+          </div>
+        )}
       </form>
       <Footer />
     </div>

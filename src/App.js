@@ -9,21 +9,32 @@ import Clock from "./components/Widgets/Clock";
 import { GlobalContext } from "./assets/js/context";
 import { useState } from "react";
 import { GlobalConfig } from "./assets/js/globleConfig";
+import { withRouter } from "react-router-dom";
 
-function App() {
+function App(props) {
   const [lang, setLang] = useState(GlobalConfig.Language || "en");
+  const [loading, setLoading] = useState(false);
 
   return (
     <div className="limiter">
       <div className="container-login100">
         <Clock />
-        <GlobalContext.Provider value={{ setLang, lang }}>
+        {GlobalConfig.Hotel && (
+          <span
+            onClick={() => {
+              window.localStorage.clear();
+              props.history.push(`/`);
+            }}
+          >
+            Logout
+          </span>
+        )}
+        <GlobalContext.Provider value={{ setLang, lang, loading, setLoading }}>
           <Routes />
-          
         </GlobalContext.Provider>
       </div>
     </div>
   );
 }
 
-export default App;
+export default withRouter(App);

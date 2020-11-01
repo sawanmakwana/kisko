@@ -14,10 +14,10 @@ import moment from "moment"
     // },1000)
     // return;
 const Clock = () => {
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(moment());
 
   useEffect(() => {
-    var timerID = setInterval(() => tick(), 1000);
+    let timerID = setInterval(() => tick(), 1000);
 
     return function cleanup() {
       clearInterval(timerID);
@@ -25,8 +25,8 @@ const Clock = () => {
   });
 
   function tick() {
-    setDate(new Date());
+    setDate(moment());
   }
-  return <div id="clock">{moment(date).format("HH:MM")}</div>;
+  return <div id="clock">{date.format("hh:mm")}</div>;
 };
 export default Clock;

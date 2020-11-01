@@ -1,21 +1,22 @@
 import Settings from "./settings";
+import React from "react";
 import ErrorHandler from "./errorHandler";
 import axios from "axios";
 import { BASE, ENCRIPT } from "../assets/js/endpoint";
 import CryptoJS from "crypto-js";
 // import NotificationSystem from './notificationSystem';
 import AppServiceClass from "../assets/js/environmentConfig";
+import { GlobalContext } from "../assets/js/context";
 const { key, iv, isEncrypt } = new AppServiceClass().getEnvironmentVariables();
 
-class Connection {
+class Connection extends React.Component {
   static BASE = BASE;
-  
 
   static createHeaders = () => {
     const HEADERS = new Headers();
     HEADERS.append("Content-Type", "application/json");
     HEADERS.append("Authorization", `Bearer ${Settings.token}`);
-    !isEncrypt && HEADERS.append('x-aavgo-crypto-disable', `true`);
+    !isEncrypt && HEADERS.append("x-aavgo-crypto-disable", `true`);
     return HEADERS;
   };
 
@@ -25,6 +26,15 @@ class Connection {
   };
 
   static POST = async (controllerName, actionName, body) => {
+    console.log({ actionName });
+    <GlobalContext.Consumer>
+      {(value) => {
+        console.log({ value });
+        return value.setLoading([...(value.loading || []), actionName]);
+      }}
+    </GlobalContext.Consumer>;
+    // console.log({ load: this.context.loading ,actionName});
+
     const HEADERS = Connection.createHeaders();
     if (isEncrypt) {
       let data = body;
@@ -42,6 +52,15 @@ class Connection {
         HEADERS
       );
       const toBedecryptedResponse = await this.decryptedResponse(RESULTS.data);
+
+      <GlobalContext.Consumer>
+        {(context) =>
+          context.setLoading(
+            context.loading.filter((item) => item !== actionName)
+          )
+        }
+      </GlobalContext.Consumer>;
+
       return JSON.parse(toBedecryptedResponse);
     } else {
       const RESULTS = await fetch(
@@ -52,6 +71,13 @@ class Connection {
           body: JSON.stringify(body),
         }
       );
+      <GlobalContext.Consumer>
+        {(context) =>
+          context.setLoading(
+            context.loading.filter((item) => item !== actionName)
+          )
+        }
+      </GlobalContext.Consumer>;
       return Connection.responseRestructure(RESULTS);
     }
   };

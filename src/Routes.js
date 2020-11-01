@@ -23,7 +23,7 @@ import CaptureFace from "./components/CaptureFace";
 
 const Routes = () => {
   return (
-    <Router>
+    <>
       <ProtectedRoutes
         exact
         path={to.hotelSetup}
@@ -95,7 +95,7 @@ const Routes = () => {
         render={(props) => <CaptureFace {...props} />}
       />
 
-    </Router>
+    </>
   );
 };
 export default Routes;
