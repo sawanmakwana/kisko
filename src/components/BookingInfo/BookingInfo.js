@@ -99,7 +99,7 @@ const BookingInfo = (props) => {
         }
 
         <div className="col-md-12 text-center mtop">
-          <CancelButton onClick={() => props.history.push(to.bookingId)} />
+          <CancelButton onClick={() => props.history.push(to.checkIn)} />
           <ContinueButton onClick={() => props.history.push(to.scanId)} />
         </div>
       </form>

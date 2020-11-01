@@ -8,10 +8,15 @@ import { GlobalConfig } from "../assets/js/globleConfig";
 const SwipeCreditCard = (props) => {
   let interval = null;
   useEffect(() => {
-    HubConnection.ACTION("CancelCardRead", "IUC285");
+      HubConnection.ACTION("CancelCardRead", "IUC285");
       HubConnection.ACTION("DisableNfc", "IUC285");
       HubConnection.ACTION("DisableSmartCard", "IUC285");
+
     scanCreditCard();
+    
+    setTimeout(()=>{
+      processNextScreen();
+    },3000)
 
     return () => {
       // interval && clearInterval(interval);
@@ -62,7 +67,7 @@ const SwipeCreditCard = (props) => {
     /*===== TESTED OK END ====*/
 
     /*===== TEMP : END ====*/
-    console.log(new Date());
+    
 
     // HubConnection.ACTION("EnableNfc", "IUC285").then((data) => {
     //   console.log("EnableNfc : START =======");
@@ -83,24 +88,21 @@ const SwipeCreditCard = (props) => {
       (data) => {
         console.log("EnableSmartCard : START =======");
         console.log("EnableSmartCard : ",data);
-        console.log("EnablEnableSmartCardeNfc : ",new Date());
-        console.log("EnableSmartCard : END =======");
-
         HubConnection.ACTION("ReadSmartCard", "IUC285", 1,-1).then(
           (data) => {
+            processNextScreen();
             console.log("ReadSmartCard : START =======");
             console.log("ReadSmartCard : ",data);
-            console.log("ReadSmartCard : ",new Date());
-            console.log("ReadSmartCard : END =======");
             HubConnection.ACTION("DisableSmartCard", "IUC285")
           }
         );
-        HubConnection.ACTION("ReadSwipe", "IUC285", -1).then((data) => {
-          console.log("ReadSwipe : START =======");
-          console.log("ReadSwipe : ", data);
-          console.log("ReadSwipe : ", new Date());
-          console.log("ReadSwipe : END =======");
-        });
+        // HubConnection.ACTION("ReadSwipe", "IUC285", -1).then((data) => {
+        //   processNextScreen();
+        //   console.log("ReadSwipe : START =======");
+        //   console.log("ReadSwipe : ", data);
+        //   console.log("ReadSwipe : ", new Date());
+        //   console.log("ReadSwipe : END =======");
+        // });
       }
     );
 
@@ -129,6 +131,9 @@ const SwipeCreditCard = (props) => {
     // });
   };
 
+  const processNextScreen = () =>{
+    props.history.push(to.selectKeys)
+  }
   return (
     <div className="container">
       <h2 className="maintitle">

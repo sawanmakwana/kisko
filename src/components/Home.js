@@ -26,10 +26,13 @@ const Home = (props) => {
         <div className="row mt-5">
           <div className=" col-md-1"></div>
           <div className="col-md-5">
-            <a href="" className="bluebutton">
+          <div
+              className="bluebutton"
+              onClick={() => props.history.push(to.selectKeys)}
+            >
               <img src={KeyImg} alt="img" /> <span>Pick up Keys</span>
               <div className="noverlay"></div>
-            </a>
+              </div>
           </div>
           <div className="col-md-5">
             <div

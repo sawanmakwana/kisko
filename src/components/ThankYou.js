@@ -1,5 +1,5 @@
 import React from "react";
-import ThankYouImg from "../assets/images/capture-photo.gif";
+import ThankYouImg from "../assets/images/thankyou.png";
 import Footer from "./Widgets/Footer";
 
 const ThankYou = () => {

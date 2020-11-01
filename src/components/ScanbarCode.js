@@ -14,7 +14,10 @@ const ScanbarCode = (props) => {
   const [counter, setCounter] = useState(180000);
   let interval = null;
   useEffect(() => {
-    startScan();
+    setTimeout(()=>{
+      startScan();
+    },5000)
+    
 
     return () => {
       // interval && clearInterval(interval);
@@ -83,7 +86,12 @@ const ScanbarCode = (props) => {
           //ADD TOST : LICENCE DETAIL NOT MATCH
           props.history.push(to.scanId);
         }
-        props.history.push(to.captureFront);
+        if(GlobalConfig.Hotel.allowed_doc_scan){
+          props.history.push(to.captureFront);
+        }else {
+          props.history.push(to.confirmDetails);
+        }
+       
   }else{
     // ADD TOST : INVALID
   }

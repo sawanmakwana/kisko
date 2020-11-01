@@ -1,7 +1,8 @@
 import React from "react";
+import { to } from "../RoutesPath";
 import Footer from "./Widgets/Footer";
 
-const SelectKeys = () => {
+const SelectKeys = (props) => {
   return (
     <>
       <div className="container transparent">
@@ -9,18 +10,24 @@ const SelectKeys = () => {
         <div className="row mt-5">
           <div className=" col-md-1"></div>
           <div className="col-md-5">
-            <a href="" className="bluebutton customtext">
+          <div
+              className="bluebutton"
+              onClick={() => props.history.push(to.thankYou)}
+            >
               {" "}
               <span>1</span>
               <div className="noverlay"></div>
-            </a>
+            </div>
           </div>
           <div className="col-md-5">
-            <a href="" className="bluebutton customtext">
+          <div
+              className="bluebutton"
+              onClick={() => props.history.push(to.thankYou)}
+            >
               {" "}
               <span>2</span>
               <div className="noverlay"></div>
-            </a>
+            </div>
           </div>
         </div>
       </div>

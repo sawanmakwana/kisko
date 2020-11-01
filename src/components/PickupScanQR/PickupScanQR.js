@@ -12,7 +12,7 @@ import { get } from "../../AppUtills";
 const { bookingType } = new AppServiceClass().getEnvironmentVariables();
 
 
-const ScanQr = (props) => {
+const PickupScanQR = (props) => {
   const hotel = GlobalConfig.Hotel;
 
   useEffect(() => {
@@ -40,28 +40,7 @@ const ScanQr = (props) => {
     }
     HubConnection.ACTION("Scan", "Honeywell3330G").then((result) => {
       console.log(`Scan  execution done  `, result);
-    let DATA = {
-      booking_id: result.Data,
-      last_name: "desai",
-      hotel_id: hotel.id,
-      search_type: bookingType.QR,
-      browser: true,
-      is_guest_user: true,
-    };
-    Services.FindReservationKiosk(DATA).then((data) => {
-      if (data.success) {
-        GlobalConfig.Booking = data.bookings;
-        if (get(["bookings"], data, []).length > 1) {
-          props.history.push(to.multiBooking);
-        } else if (get(["bookings"], data, []).length === 1) {
-          props.history.push(to.bookingInfo);
-        }
-        
-      }else{
-        // TOST : Booking not found 
-        props.history.push(to.checkIn)
-      }
-    });
+    
       
     });
   }
@@ -86,4 +65,4 @@ const ScanQr = (props) => {
   );
 };
 
-export default ScanQr;
+export default PickupScanQR;
