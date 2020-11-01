@@ -69,7 +69,7 @@ const CaptureFrontImage = (props) => {
           :null}
         <div className="col-md-12 text-center mtop">
           <CancelButton onClick={() => props.history.push(to.scanId)} />{" "}
-          {retake || true?
+          {retake?
             <ContinueButton   onClick={() => props.history.push(to.confirmDetails)} />:
             <ContinueButton  imgIcon={CameraIcon} text={"Capture"} onClick={() => captureClick()} />
           }

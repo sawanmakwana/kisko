@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import SocialImg from "../assets/images/socialid.png";
 import LicenceImg from "../assets/images/license.png";
 import Footer from "./Widgets/Footer";
 import CancelButton from "./Widgets/CancelButton";
 import { to } from "../RoutesPath";
+import HubConnection from "../Connection/hubConnection";
+import { GlobalConfig } from "../assets/js/globleConfig";
 
 const ScanId = (props) => {
+  
   return (
     <>
       <div className="container transparent">

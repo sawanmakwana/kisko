@@ -5,7 +5,7 @@ import Home from "./components/Home";
 import CheckIn from "./components/CheckIn";
 import CreditCard from "./components/CreditCard";
 import BookingId from "./components/BookingId/BookingId";
-import ScanQr from "./components/ScanQr";
+import ScanQr from "./components/ScanQR/ScanQr";
 import { to } from "./RoutesPath";
 import ProtectedRoutes from "./ProtectedRoutes";
 import BookingDetail from "./components/BookingDetail/BookingDetail";

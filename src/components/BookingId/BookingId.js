@@ -16,8 +16,8 @@ const BookingId = (props) => {
   //   props.history.push(to.hotelSetup);
   // }
 
-  const [pin, setPin] = useState("33922");
-  const [lastName, setLastName] = useState("modi");
+  const [pin, setPin] = useState("33923");
+  const [lastName, setLastName] = useState("desai");
 
   useEffect(() => {}, [pin]);
 
@@ -38,6 +38,9 @@ const BookingId = (props) => {
         } else if (get(["bookings"], data, []).length === 1) {
           props.history.push(to.bookingInfo);
         }
+        
+      }else{
+        // TOST : Booking not found 
         
       }
     });
