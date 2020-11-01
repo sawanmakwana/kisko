@@ -16,8 +16,8 @@ const BookingId = (props) => {
   //   props.history.push(to.hotelSetup);
   // }
 
-  const [pin, setPin] = useState("33770");
-  const [lastName, setLastName] = useState("shah");
+  const [pin, setPin] = useState("33922");
+  const [lastName, setLastName] = useState("modi");
 
   useEffect(() => {}, [pin]);
 
