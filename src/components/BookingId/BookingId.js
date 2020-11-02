@@ -11,15 +11,11 @@ const { bookingType } = new AppServiceClass().getEnvironmentVariables();
 
 const BookingId = (props) => {
   const hotel = GlobalConfig.Hotel;
-  const lang = GlobalConfig.Language;
-  // if (!hotel) {
-  //   props.history.push(to.hotelSetup);
-  // }
+  
 
   const [pin, setPin] = useState("33923");
   const [lastName, setLastName] = useState("desai");
 
-  useEffect(() => {}, [pin]);
 
   const findReservationKiosk = () => {
     let DATA = {
@@ -32,12 +28,10 @@ const BookingId = (props) => {
     };
     Services.FindReservationKiosk(DATA).then((data) => {
       if (data.success) {
-        GlobalConfig.Booking = data.bookings;
-        if (get(["bookings"], data, []).length > 1) {
+        GlobalConfig.Bookings = data.bookings;
+      
           props.history.push(to.multiBooking);
-        } else if (get(["bookings"], data, []).length === 1) {
-          props.history.push(to.bookingInfo);
-        }
+       
         
       }else{
         // TOST : Booking not found 

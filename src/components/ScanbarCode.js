@@ -90,9 +90,9 @@ const ScanbarCode = (props) => {
       }
 
       if (
-        String(GlobalConfig.Booking[0].guest_fname).toLowerCase() !=
+        String(GlobalConfig.Bookings[0].guest_fname).toLowerCase() !=
           String(GlobalConfig.UserScanDetail.firstName).toLowerCase() ||
-        String(GlobalConfig.Booking[0].guest_lname).toLowerCase() !=
+        String(GlobalConfig.Bookings[0].guest_lname).toLowerCase() !=
           String(GlobalConfig.UserScanDetail.lastName).toLowerCase()
       ) {
         //ADD TOST : LICENCE DETAIL NOT MATCH
@@ -153,7 +153,7 @@ const ScanbarCode = (props) => {
           </div>
         )}
       </form>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

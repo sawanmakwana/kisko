@@ -9,27 +9,29 @@ import { GlobalConfig } from "../../assets/js/globleConfig";
 import * as Services from "./Services";
 import AppServiceClass from "../../assets/js/environmentConfig";
 import { get } from "../../AppUtills";
+import ContinueButton from "../Widgets/ContinueButton";
+import moment from "moment";
 const { bookingType } = new AppServiceClass().getEnvironmentVariables();
-
 
 const ScanQr = (props) => {
   const hotel = GlobalConfig.Hotel;
+  const [counter, setCounter] = useState(18000);
+  const [disableRescan, setDisableRescan] = useState(true);
 
   useEffect(() => {
     startScan();
-  return () => {
-    // interval && clearInterval(interval);
-    HubConnection.ACTION(
-      "CancelScanWait",
-      "Honeywell3330G"
-    ).then((data) => {});
-    HubConnection.proxy.off("barcodeScanned", function (result) {
-      console.log("Scan OFF successful!: " + result);
-    });
-  };
-}, []);
+    return () => {
+      // interval && clearInterval(interval);
+      HubConnection.ACTION(
+        "CancelScanWait",
+        "Honeywell3330G"
+      ).then((data) => {});
+      HubConnection.proxy.off("barcodeScanned", function (result) {
+        console.log("Scan OFF successful!: " + result);
+      });
+    };
+  }, []);
   const startScan = async () => {
-
     if (GlobalConfig.Connected === 0) {
       setTimeout(() => {
         startScan();
@@ -40,31 +42,45 @@ const ScanQr = (props) => {
     }
     HubConnection.ACTION("Scan", "Honeywell3330G").then((result) => {
       console.log(`Scan  execution done  `, result);
-    let DATA = {
-      booking_id: result.Data,
-      last_name: "desai",
-      hotel_id: hotel.id,
-      search_type: bookingType.QR,
-      browser: true,
-      is_guest_user: true,
-    };
-    Services.FindReservationKiosk(DATA).then((data) => {
-      if (data.success) {
-        GlobalConfig.Booking = data.bookings;
-        if (get(["bookings"], data, []).length > 1) {
-          props.history.push(to.multiBooking);
-        } else if (get(["bookings"], data, []).length === 1) {
-          props.history.push(to.bookingInfo);
-        }
+      let DATA = {
+        booking_id: result.Data,
+        last_name: "desai",
+        hotel_id: hotel.id,
+        search_type: bookingType.QR,
+        browser: true,
+        is_guest_user: true,
+      };
+      Services.FindReservationKiosk(DATA).then((data) => {
+        if (data.success) {
+          GlobalConfig.Bookings = data.bookings;
         
-      }else{
-        // TOST : Booking not found 
-        props.history.push(to.checkIn)
-      }
+            props.history.push(to.multiBooking);
+         
+        } else {
+          // TOST : Booking not found
+          props.history.push(to.checkIn);
+        }
+      });
     });
-      
-    });
-  }
+  };
+
+  useEffect(() => {
+    let intervalId;
+
+    if (counter === 0) {
+      setDisableRescan(false);
+      return;
+    }
+
+    if (counter > 0) {
+      intervalId = setInterval(() => {
+        setCounter(counter - 1000);
+        console.log({ counter });
+      }, 1000);
+    }
+
+    return () => clearInterval(intervalId);
+  }, [counter]);
 
   return (
     <div className="container">
@@ -77,9 +93,26 @@ const ScanQr = (props) => {
           <img src={ScanQrImg} alt="img" />
         </div>
         <div className="col-md-12 text-center mtop">
-          <CancelButton onClick={() => props.history.push(to.checkIn)} />{" "}
-          {/* <SearchButton onClick={() => startScan()} /> */}
+          <CancelButton onClick={() => props.history.push(to.checkIn)} />
+          <ContinueButton
+            disable={disableRescan}
+            text={"Rescan"}
+            onClick={startScan}
+          />
         </div>
+        <div className="col-md-12 text-center mtop">
+          <ContinueButton
+            onClick={() => props.history.push(to.confirmDetails)}
+          />
+        </div>
+        {counter !== 0 && (
+          <div className="col-md-12 text-center timer">
+            <p>
+              Scan will auto cancel in{" "}
+              <span>{moment.utc(counter).format("mm:ss")}</span>
+            </p>
+          </div>
+        )}
       </form>
       <Footer />
     </div>

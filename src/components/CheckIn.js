@@ -6,6 +6,7 @@ import QrCode from "../assets/images/qrcode.png";
 import BookingDetail from "../assets/images/bookingdetail.png";
 import CancelButton from "./Widgets/CancelButton";
 import { to } from "../RoutesPath";
+import { Link } from "react-router-dom";
 
 const CheckIn = (props) => {
   return (
@@ -17,44 +18,38 @@ const CheckIn = (props) => {
           <div className="row mt-5">
             <div className=" col-md-1"></div>
             <div className="col-md-5">
-              <a
-                href=""
-                className="bluebutton"
-                onClick={(e) => {e.preventDefault();props.history.push(to.bookingId)}}
-              >
+              <Link className="bluebutton" to={to.bookingId}>
                 <img src={BookingId} alt="img" /> <span>Pin Number</span>
                 <div className="noverlay"></div>
-              </a>
+              </Link>
             </div>
             <div className="col-md-5">
-              <a
-                href=""
+              <Link
                 className="bluebutton"
-                onClick={() => props.history.push(to.creditCard)}
+                to={to.creditCard}
               >
                 <img src={CreditCard} alt="img" /> <span>Credit Card</span>
                 <div className="noverlay"></div>
-              </a>
+              </Link>
             </div>
           </div>
           <div className="row mtop">
             <div className=" col-md-1"></div>
             <div className="col-md-5">
-              <a
-                href=""
+              <Link
                 className="bluebutton"
-                onClick={() => props.history.push(to.scanQr)}
+                to={to.scanQr}
               >
                 <img src={QrCode} alt="img" /> <span>QR Code</span>
                 <div className="noverlay"></div>
-              </a>
+              </Link>
             </div>
             <div className="col-md-5">
-              <a href="" className="bluebutton">
+              <Link className="bluebutton" to={to.bookingDetail}>
                 <img src={BookingDetail} alt="img" />{" "}
                 <span>Booking Detail</span>
                 <div className="noverlay"></div>
-              </a>
+              </Link>
             </div>
             <div className="col-md-12 text-center mtop">
               <CancelButton onClick={() => props.history.push(to.home)} />

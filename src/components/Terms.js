@@ -3,6 +3,7 @@ import ContinueButton from "./Widgets/ContinueButton";
 import CancelButton from "./Widgets/CancelButton";
 import Footer from "./Widgets/Footer";
 import { to } from "../RoutesPath";
+import SignatureCanvas from 'react-signature-canvas'
 
 const Terms = (props) => {
   return (
@@ -41,16 +42,17 @@ const Terms = (props) => {
           </p>
         </div>
         <div className="formarea signature">
-          <div className="mainarea">
-            <span>Sign Here</span>
-          </div>
+          <SignatureCanvas
+            penColor="green"
+            canvasProps={{ width: 1000, height: 200, className: "sigCanvas" }}
+          />
         </div>
         <div className="col-md-12 text-center mtop">
-          <CancelButton onClick={()=>props.history.push(to.terms)} />
-          <ContinueButton onClick={()=>props.history.push(to.selectKeys)}/>
+          <CancelButton onClick={() => props.history.push(to.terms)} />
+          <ContinueButton onClick={() => props.history.push(to.selectKeys)} />
         </div>
       </form>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

@@ -41,8 +41,8 @@ export class GlobalConfig {
   }
   
   
-  static get Booking() {
-    _booking = window.localStorage.getItem("booking");
+  static get Bookings() {
+    _booking = window.localStorage.getItem("bookings");
     if(_booking){
         _booking = JSON.parse(_booking)
     }else{
@@ -50,9 +50,24 @@ export class GlobalConfig {
     }
     return _booking;
   }
-  static set Booking(value) {
-    window.localStorage.setItem("booking", JSON.stringify(value));
-    _booking = window.localStorage.getItem("booking");
+  static set Bookings(value) {
+    window.localStorage.setItem("bookings", JSON.stringify(value));
+    _booking = window.localStorage.getItem("bookings");
+  }
+
+
+  static get SelectedBooking() {
+    _booking = window.localStorage.getItem("selectedBooking");
+    if(_booking){
+        _booking = JSON.parse(_booking)
+    }else{
+        _booking = null;
+    }
+    return _booking;
+  }
+  static set SelectedBooking(value) {
+    window.localStorage.setItem("selectedBooking", JSON.stringify(value));
+    _booking = window.localStorage.getItem("selectedBooking");
   }
   static get Language() {
     _language = window.localStorage.getItem("language");

@@ -1,10 +1,46 @@
-import React from "react";
-import Footer from "./Widgets/Footer";
-import SearchButton from "./Widgets/SearchButton";
-import CancelButton from "./Widgets/CancelButton";
-import { to } from "../RoutesPath";
+import React, { useState } from "react";
+import Footer from "../Widgets/Footer";
+import SearchButton from "../Widgets/SearchButton";
+import CancelButton from "../Widgets/CancelButton";
+import * as Services from "./Services";
+import AppServiceClass from "../../assets/js/environmentConfig";
+import { GlobalConfig } from "../../assets/js/globleConfig";
+import { get } from "../../AppUtills";
+import { to } from "../../RoutesPath";
+const { bookingType } = new AppServiceClass().getEnvironmentVariables();
 
 const CreditCard = (props) => {
+  const hotel = GlobalConfig.Hotel;
+
+  const [last5Digit, setLast5Digit] = useState("desai");
+  const [lastName, setLastName] = useState("desai");
+  const [loading, setLoading] = useState(false);
+
+  const findReservationKiosk = () => {
+    let DATA = {
+      last_name: lastName,
+      hotel_id: hotel.id,
+      search_type: bookingType.CC,
+      browser: true,
+      is_guest_user: true,
+      cc_number: last5Digit,
+    };
+    setLoading(true);
+    Services.FindReservationKiosk(DATA)
+      .then((data) => {
+        if (data.success) {
+          GlobalConfig.Bookings = data.bookings;
+        
+            props.history.push(to.multiBooking);
+         
+          setLoading(false);
+        } else {
+          // TOST : Booking not found
+        }
+      })
+      .catch((err) => setLoading(false));
+  };
+
   return (
     <div className="container">
       <div className="commontitle">
@@ -26,6 +62,7 @@ const CreditCard = (props) => {
                 type="text"
                 name="username"
                 placeholder="Type here.."
+                onChange={(e) => setLast5Digit(e.target.value)}
               />
               <span className="focus-input100"></span>
             </div>
@@ -43,6 +80,7 @@ const CreditCard = (props) => {
                 type="text"
                 name="username"
                 placeholder="Type here.."
+                onChange={(e) => setLastName(e.target.value)}
               />
               <span className="focus-input100"></span>
             </div>
@@ -50,10 +88,10 @@ const CreditCard = (props) => {
         </div>
         <div className="col-md-12 text-center mtop">
           <CancelButton onClick={() => props.history.push(to.checkIn)} />{" "}
-          <SearchButton />
+          <SearchButton onClick={findReservationKiosk} />
         </div>
       </form>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

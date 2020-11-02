@@ -10,7 +10,7 @@ import moment from "moment";
 
 const BookingInfo = (props) => {
   const renderDetailView = () => {
-    let booking = GlobalConfig.Booking || [];
+    let booking = GlobalConfig.Bookings || [];
 
     return booking.map((item,i) => (
       <form key={i} className="login100-form validate-form flex-sb flex-w mtop">
@@ -45,7 +45,7 @@ const BookingInfo = (props) => {
             </div>
             <div className="col-md-8">
               <span className="rightsection">
-                <img src={CalendarImg} className="detailcalendar" />{" "}
+                <img src={CalendarImg} className="detailcalendar" alt="img" />{" "}
                 {moment(get(["checkin_time"], item, "-")).format(
                   "DD-MM-YYYY, HH:MM"
                 )}
@@ -60,7 +60,7 @@ const BookingInfo = (props) => {
             </div>
             <div className="col-md-8">
               <span className="rightsection">
-                <img src={CalendarImg} className="detailcalendar" />{" "}
+                <img src={CalendarImg} className="detailcalendar" alt="img" />{" "}
                 {moment(get(["checkout_time"], item, "-")).format(
                   "DD-MM-YYYY, HH:MM"
                 )}

@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import HotelSetup from "./components/HotelSetup/HotelSetup";
 import Home from "./components/Home";
 import CheckIn from "./components/CheckIn";
-import CreditCard from "./components/CreditCard";
+import CreditCard from "./components/CreditCard/CreditCard";
 import BookingId from "./components/BookingId/BookingId";
 import ScanQr from "./components/ScanQR/ScanQr";
 import { to } from "./RoutesPath";

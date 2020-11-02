@@ -6,6 +6,7 @@ import * as Services from "./Services";
 import { GlobalConfig } from "../../assets/js/globleConfig";
 import { GlobalContext } from "../../assets/js/context";
 import { to } from "../../RoutesPath";
+import Loader from "../Widgets/Loader";
 
 const HotelSetup = (props) => {
   const [uuid, setUuid] = useState("8881214933");
@@ -48,7 +49,7 @@ const HotelSetup = (props) => {
               <span className="focus-input100"></span>
             </div>
           </div>
-          {loading && <div>Hello</div>}
+          {loading && <Loader />}
           <div className="col-md-12 text-center mtop">
             <ContinueButton onClick={findHotelByUuid} />
           </div>
