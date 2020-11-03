@@ -7,6 +7,7 @@ import { GlobalConfig } from "../../assets/js/globleConfig";
 import { GlobalContext } from "../../assets/js/context";
 import { to } from "../../RoutesPath";
 import Loader from "../Widgets/Loader";
+import AlertPopup from "../Widgets/AlertPopup";
 
 const HotelSetup = (props) => {
   const [uuid, setUuid] = useState("8881214933");
@@ -30,6 +31,8 @@ const HotelSetup = (props) => {
 
   return (
     <div className="container">
+      {loading && <Loader />}
+      <AlertPopup isVisible={false} />
       <div className="wrap-login100">
         <h2 className="allcaps">Hotel Setup</h2>
         <form className="login100-form validate-form flex-sb flex-w">
@@ -49,7 +52,7 @@ const HotelSetup = (props) => {
               <span className="focus-input100"></span>
             </div>
           </div>
-          {loading && <Loader />}
+
           <div className="col-md-12 text-center mtop">
             <ContinueButton onClick={findHotelByUuid} />
           </div>

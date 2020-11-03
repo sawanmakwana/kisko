@@ -12,9 +12,7 @@ const ConfirmDetails = (props) => {
   const [phone, setPhone] = useState(UserDetails.phone || "");
   const [email, setEmail] = useState(UserDetails.email || "");
 
-
-  const confirmDetails = () =>{ 
-
+  const confirmDetails = () => {
     // let data = {
     //   name:,
     //   checkin_time:,
@@ -25,23 +23,23 @@ const ConfirmDetails = (props) => {
     //   email:,
     //   address:,
     // }
-  }
+  };
 
   return (
-    <div class="container">
-      <div class="commontitle">
+    <div className="container">
+      <div className="commontitle">
         <h2>Confirmation Details</h2>
         <p>Lorem ipsum is a dummy text.</p>
       </div>
-      <form class="login100-form validate-form flex-sb flex-w mtop">
-        <div class="nscroll">
-          <div class="maindetail">
-            <div class="row">
-              <div class="col-md-4">
-                <span class="leftsection">Guest Name</span>
+      <form className="login100-form validate-form flex-sb flex-w mtop">
+        <div className="nscroll">
+          <div className="maindetail">
+            <div className="row">
+              <div className="col-md-4">
+                <span className="leftsection">Guest Name</span>
               </div>
-              <div class="col-md-8">
-                <span class="rightsection">
+              <div className="col-md-8">
+                <span className="rightsection">
                   {" "}
                   {get(["firstName"], UserDetails, "") +
                     " " +
@@ -51,14 +49,14 @@ const ConfirmDetails = (props) => {
             </div>
           </div>
 
-          <div class="maindetail mtop">
-            <div class="row">
-              <div class="col-md-4">
-                <span class="leftsection">Check-In</span>
+          <div className="maindetail mtop">
+            <div className="row">
+              <div className="col-md-4">
+                <span className="leftsection">Check-In</span>
               </div>
-              <div class="col-md-8">
-                <span class="rightsection">
-                  <img src={CalendarImg} class="detailcalendar" alt="img" />{" "}
+              <div className="col-md-8">
+                <span className="rightsection">
+                  <img src={CalendarImg} className="detailcalendar" alt="img" />{" "}
                   {moment(get(["checkin_time"], SelectedBooking)).format(
                     "DD MMM, YYYY HH:MM"
                   )}
@@ -66,14 +64,14 @@ const ConfirmDetails = (props) => {
               </div>
             </div>
           </div>
-          <div class="maindetail mtop">
-            <div class="row">
-              <div class="col-md-4">
-                <span class="leftsection">Check-Out</span>
+          <div className="maindetail mtop">
+            <div className="row">
+              <div className="col-md-4">
+                <span className="leftsection">Check-Out</span>
               </div>
-              <div class="col-md-8">
-                <span class="rightsection">
-                  <img src={CalendarImg} class="detailcalendar" alt="img" />{" "}
+              <div className="col-md-8">
+                <span className="rightsection">
+                  <img src={CalendarImg} className="detailcalendar" alt="img" />{" "}
                   {moment(get(["checkin_time"], SelectedBooking)).format(
                     "DD MMM, YYYY HH:MM"
                   )}
@@ -81,55 +79,67 @@ const ConfirmDetails = (props) => {
               </div>
             </div>
           </div>
-          <div class="maindetail mtop">
-            <div class="row">
-              <div class="col-md-4">
-                <span class="leftsection">Avg. Rate</span>
+          <div className="maindetail mtop">
+            <div className="row">
+              <div className="col-md-4">
+                <span className="leftsection">Avg. Rate</span>
               </div>
-              <div class="col-md-8">
-                <span class="rightsection">
+              <div className="col-md-8">
+                <span className="rightsection">
                   <strong>${get(["avg_night_rate"], SelectedBooking)}/</strong>{" "}
                   <small>Per Night</small>
                 </span>
               </div>
             </div>
           </div>
-          <div class="maindetail mtop">
-            <div class="row">
-              <div class="col-md-4">
-                <span class="leftsection">Room Type</span>
+          <div className="maindetail mtop">
+            <div className="row">
+              <div className="col-md-4">
+                <span className="leftsection">Room Type</span>
               </div>
-              <div class="col-md-8">
-                <span class="rightsection">
+              <div className="col-md-8">
+                <span className="rightsection">
                   {get(["room_type_name"], SelectedBooking)}
                 </span>
               </div>
             </div>
           </div>
-          <div class="maindetail mtop">
-            <div class="row">
-              <div class="col-md-3">
-                <span class="leftsection">Mobile No.</span>
+          <div className="maindetail mtop">
+            <div className="row">
+              <div className="col-md-3">
+                <span className="leftsection">Mobile No.</span>
               </div>
-              <div class="col-md-9">
-                <span class="rightsection">
+              <div className="col-md-9">
+                <div
+                  className="wrap-input100 validate-input"
+                  data-validate="Username is required"
+                >
                   <input
+                    className="input100"
+                    type="text"
+                    name="username"
+                    placeholder="Type here.."
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                   />
-                </span>
+                  <span className="focus-input100"></span>
+                </div>
               </div>
             </div>
           </div>
-          <div class="maindetail mtop">
-            <div class="row">
-              <div class="col-md-3">
-                <span class="leftsection">Email ID</span>
+          <div className="maindetail mtop">
+            <div className="row">
+              <div className="col-md-3">
+                <span className="leftsection">Email ID</span>
               </div>
-              <div class="col-md-9">
-                <span class="rightsection">
+              <div className="col-md-9">
+                <span className="rightsection">
                   {" "}
                   <input
+                    className="input100"
+                    type="text"
+                    name="username"
+                    placeholder="Type here.."
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
@@ -137,19 +147,19 @@ const ConfirmDetails = (props) => {
               </div>
             </div>
           </div>
-          <div class="maindetail mtop mb-5">
-            <div class="row">
-              <div class="col-md-3">
-                <span class="leftsection">Address</span>
+          <div className="maindetail mtop mb-5">
+            <div className="row">
+              <div className="col-md-3">
+                <span className="leftsection">Address</span>
               </div>
-              <div class="col-md-9">
-                <span class="rightsection">{UserDetails.address}</span>
+              <div className="col-md-9">
+                <span className="rightsection">{UserDetails.address}</span>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="col-md-12 text-center mtop">
+        <div className="col-md-12 text-center mtop">
           <CancelButton />
           <ContinueButton />
         </div>
