@@ -4,6 +4,7 @@ import ContinueButton from "./Widgets/ContinueButton";
 import { GlobalConfig } from "../assets/js/globleConfig";
 import CalendarImg from "../assets/images/calendar.png";
 import { get } from "../AppUtills";
+import { to } from "../RoutesPath";
 import moment from "moment";
 
 const ConfirmDetails = (props) => {
@@ -161,7 +162,7 @@ const ConfirmDetails = (props) => {
 
         <div className="col-md-12 text-center mtop">
           <CancelButton />
-          <ContinueButton />
+          <ContinueButton onClick={()=>props.history.push(to.captureFace)} />
         </div>
       </form>
       {/* <Footer /> */}

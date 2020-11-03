@@ -1,6 +1,7 @@
 import React from "react";
 import HubConnection from "../Connection/hubConnection";
 import { to } from "../RoutesPath";
+import ContinueButton from "./Widgets/ContinueButton";
 import Footer from "./Widgets/Footer";
 
 const SelectKeys = (props) => {
@@ -64,6 +65,11 @@ const SelectKeys = (props) => {
               <div className="noverlay"></div>
             </div>
           </div>
+          <div className="col-md-12 text-center mtop">
+          
+          <ContinueButton onClick={() => props.history.push(to.thankYou)} />
+          {/* <ContinueButton onClick={() =>startNFC} /> */}
+        </div>
         </div>
       </div>
 
