@@ -19,7 +19,7 @@ function App(props) {
     <div className="limiter">
       <div className="container-login100">
         <Clock />
-        {GlobalConfig.Hotel && (
+        {/* {GlobalConfig.Hotel && (
           <span
             onClick={() => {
               window.localStorage.clear();
@@ -28,7 +28,7 @@ function App(props) {
           >
             Logout
           </span>
-        )}
+        )} */}
         <GlobalContext.Provider value={{ setLang, lang, loading, setLoading }}>
           <Routes />
         </GlobalContext.Provider>

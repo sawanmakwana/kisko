@@ -66,14 +66,14 @@ const CaptureFace = (props) => {
           :null}
         <div className="col-md-12 text-center mtop">
           <CancelButton onClick={() => props.history.push(to.scanId)} />{" "}
-          {retake || true?
-            <ContinueButton   onClick={() => props.history.push(to.swipeCard)} />:
+          {retake ?
+            <ContinueButton   onClick={() => props.history.push(to.terms)} />:
             <ContinueButton  imgIcon={CameraIcon} text={"Capture"} onClick={() => captureClick()} />
           }
 
         </div>
       </form>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

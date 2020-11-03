@@ -14,9 +14,9 @@ const SwipeCreditCard = (props) => {
 
     scanCreditCard();
     
-    setTimeout(()=>{
-      processNextScreen();
-    },3000)
+    // setTimeout(()=>{
+    //   processNextScreen();
+    // },3000)
 
     return () => {
       // interval && clearInterval(interval);
@@ -153,7 +153,7 @@ const SwipeCreditCard = (props) => {
           >
             Cancel{" "}
           </button>
-          <ContinueButton onClick={() => props.history.push(to.captureFace)} />
+          <ContinueButton onClick={() => props.history.push(to.selectKeys)} />
           {/* <ContinueButton onClick={() =>startNFC} /> */}
         </div>
       </form>

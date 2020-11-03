@@ -76,7 +76,7 @@ const CaptureFrontImage = (props) => {
 
         </div>
       </form>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

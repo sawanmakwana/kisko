@@ -48,8 +48,8 @@ const Terms = (props) => {
           />
         </div>
         <div className="col-md-12 text-center mtop">
-          <CancelButton onClick={() => props.history.push(to.terms)} />
-          <ContinueButton onClick={() => props.history.push(to.selectKeys)} />
+          <CancelButton onClick={() => props.history.push(to.captureFace)} />
+          <ContinueButton onClick={() => props.history.push(to.swipeCard)} />
         </div>
       </form>
       {/* <Footer /> */}
