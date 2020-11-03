@@ -4,6 +4,7 @@ import languageImg from "../../assets/images/en-lang.png";
 import { LANG } from "../../assets/js/language";
 import { GlobalConfig } from "../../assets/js/globleConfig";
 import { GlobalContext } from "../../assets/js/context";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const [toggle, setToggle] = useState(false);
@@ -13,34 +14,51 @@ const Footer = () => {
   return (
     <div className="footer">
       <div className="language">
-        <div className="menu-toggle" onClick={() => setToggle((t) => !t)}>
-          <span>{lang}</span>
-          <img src={languageImg} alt="img" />
+        <div
+          id="lang_selector"
+          class={toggle ? `language-dropdown open` : `language-dropdown`}
+        >
+          {toggle && (
+            <ul class="lang-list">
+              {Object.keys(LANG).map((lang) => (
+                <li
+                  class={`lang lang-${lang} selected`}
+                  title={lang}
+                  onClick={() => {
+                    GlobalConfig.Language = lang;
+                    setLang(lang);
+                    setToggle(false);
+                  }}
+                >
+                  <span class="flag"></span>
+                  <p>{lang}</p>
+                </li>
+              ))}
+            </ul>
+          )}
+          {!toggle && (
+            <label
+              for="toggle"
+              className={`lang-flag lang-${lang}`}
+              title="Click to select the language"
+              onClick={() => setToggle((t) => !t)}
+            >
+              <span class="flag"></span>
+            </label>
+          )}
         </div>
-        {toggle && (
-          <div className="menu-line">
-            {Object.keys(LANG).map((lang) => (
-              <div
-                className="btn-app"
-                onClick={() => {
-                  GlobalConfig.Language = lang;
-                  setLang(lang);
-                  setToggle(false);
-                }}
-              >
-                <span>{lang}</span>
-                <img src={languageImg} alt="img" />
-              </div>
-            ))}
+        {!toggle && (
+          <div id="lang_selected">
+            <p>{lang}</p>
           </div>
         )}
       </div>
 
       <div className="helpcenter">
-        <a href="">
+        <Link>
           <span>Help</span>
           <img src={helpImg} alt="img" />
-        </a>
+        </Link>
       </div>
     </div>
   );

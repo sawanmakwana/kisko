@@ -1215,16 +1215,14 @@ img.thankyouimg {
   margin-left: -130px;
   margin-top: 20px;
 }
-.language-dropdown .lang-es {
-  border-left: 4px solid #da4d13;
-}
+
 .language-dropdown .lang-es .flag {
   background-image: url("http://www.imaginarium.pt/responsive/2015/images/iconsFicha/banderaES.png");
 }
 #lang_selected {
   position: absolute;
   left: -50px;
-  top: 110px;
+  bottom: 15px;
 }
 #lang_selected p {
   font-size: 30px;
@@ -1253,7 +1251,7 @@ img.thankyouimg {
   border-bottom-left-radius: 2px;
 }
 .language-dropdown ul.lang-list li.selected {
-  display: none;
+  display: block;
 }
 .language-dropdown label {
   position: relative;
