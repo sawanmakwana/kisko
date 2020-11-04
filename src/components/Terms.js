@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import ContinueButton from "./Widgets/ContinueButton";
 import CancelButton from "./Widgets/CancelButton";
 import Footer from "./Widgets/Footer";
 import { to } from "../RoutesPath";
-import SignatureCanvas from 'react-signature-canvas'
+import SignatureCanvas from "react-signature-canvas";
 
 const Terms = (props) => {
+  const [signatureEnd, setSignatureEnd] = useState(true);
+
   return (
     <div className="container">
       <div className="commontitle">
@@ -41,15 +43,24 @@ const Terms = (props) => {
             Ipsum.
           </p>
         </div>
+        <h3 className="mt-5">Sign here</h3>
         <div className="formarea signature">
           <SignatureCanvas
-            penColor="green"
             canvasProps={{ width: 1000, height: 200, className: "sigCanvas" }}
+            dotSize={6}
+            velocityFilterWeight={1}
+            onEnd={(e) => {
+              console.log({ e });
+              setSignatureEnd(false);
+            }}
           />
         </div>
         <div className="col-md-12 text-center mtop">
           <CancelButton onClick={() => props.history.push(to.captureFace)} />
-          <ContinueButton onClick={() => props.history.push(to.swipeCard)} />
+          <ContinueButton
+            onClick={() => props.history.push(to.swipeCard)}
+            disable={signatureEnd}
+          />
         </div>
       </form>
       {/* <Footer /> */}

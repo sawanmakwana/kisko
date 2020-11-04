@@ -21,7 +21,7 @@ const ScanId = (props) => {
               <div className="noverlay"></div>
             </a>
           </div> */}
-          <div className="col-md-5" onClick={() => props.history.push(to.scanbarCode)}>
+          <div className="col-md-5 ml-3" onClick={() => props.history.push(to.scanbarCode)}>
             <a href="" className="bluebutton" onClick={(e)=>e.preventDefault()}>
               <img src={LicenceImg} /> <span>Licence</span>
               <div className="noverlay"></div>

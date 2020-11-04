@@ -1,22 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import HubConnection from "../Connection/hubConnection";
 import { to } from "../RoutesPath";
 import ContinueButton from "./Widgets/ContinueButton";
 import Footer from "./Widgets/Footer";
 import AlertPopup from "./Widgets/AlertPopup";
+import { GlobalContext } from "../assets/js/context";
+import Loader from "./Widgets/Loader";
 
 const SelectKeys = (props) => {
   const [text, setText] = useState({ header: "", subHeader: "" });
   const [alert, setAlert] = useState(false);
+  const { loading, setLoading } = useContext(GlobalContext);
 
   const dispatchKeys = async (keyCount = 1) => {
+    setLoading(true);
     try {
       await processKey();
       if (keyCount === 2) await processKey();
+      setLoading(false);
       props.history.push(to.thankYou);
     } catch (err) {
       setAlert(true);
-      setText({header:"Error", subHeader: "Something went wrong"})
+      setText({ header: "Error", subHeader: "Something went wrong" });
+      setLoading(false);
+
       // TOST Error
       console.log("error");
     }
@@ -44,6 +51,8 @@ const SelectKeys = (props) => {
   };
   return (
     <>
+      {loading && <Loader />}
+
       <AlertPopup
         isVisible={alert}
         header={text.header}

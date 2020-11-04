@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import CancelButton from "./Widgets/CancelButton";
 import ScanqrImg from "../assets/images/scanqr.gif";
 import ContinueButton from "./Widgets/ContinueButton";
@@ -9,10 +9,14 @@ import { GlobalConfig } from "../assets/js/globleConfig";
 import { pdf417 } from "../assets/js/idDecoder";
 import moment from "moment";
 import AlertPopup from "./Widgets/AlertPopup";
+import { GlobalContext } from "../assets/js/context";
+import Loader from "./Widgets/Loader";
 
 const ScanbarCode = (props) => {
   const [disableRescan, setDisableRescan] = useState(true);
   const [counter, setCounter] = useState(180000);
+  const { loading, setLoading } = useContext(GlobalContext);
+
   const [text, setText] = useState({ header: "", subHeader: "" });
   const [alert, setAlert] = useState(false);
   useEffect(() => {
@@ -38,6 +42,8 @@ const ScanbarCode = (props) => {
   }, []);
 
   const startScan = async () => {
+    setLoading(true);
+
     // setCounter(18000);
     // setDisableRescan(true);
     if (GlobalConfig.Connected === 0) {
@@ -91,6 +97,7 @@ const ScanbarCode = (props) => {
         HubConnection.ACTION("Scan", "Honeywell3330G").then((result) => {
           console.log(`Scan  execution done  `, result.success);
           console.log(`Scan  execution done  `, result.result.Data);
+          setLoading(false);
 
           if (result.success && result.result.Data) {
             // result.Data = result.Data.replace("@ANSI ", "u001eANSI ");
@@ -150,16 +157,15 @@ const ScanbarCode = (props) => {
         //ADD TOST : LICENCE DETAIL NOT MATCH
         props.history.push(to.scanId);
       }
-      if(GlobalConfig.Bookings[0].pre_chekin_status){
+      if (GlobalConfig.Bookings[0].pre_chekin_status) {
         props.history.push(to.selectKeys);
-      }else{
+      } else {
         if (GlobalConfig.Hotel.allowed_doc_scan || true) {
           props.history.push(to.captureFront);
         } else {
           props.history.push(to.confirmDetails);
         }
       }
-      
     } else {
       setAlert(true);
       setText({
@@ -213,6 +219,8 @@ const ScanbarCode = (props) => {
           // startScan()
         }}
       />
+      {loading && <Loader />}
+
       <h2 className="maintitle">Place your Barcode ID in scanning area</h2>
       <form className="login100-form validate-form flex-sb flex-w mtop">
         <div className="formarea fixarea">

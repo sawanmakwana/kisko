@@ -396,7 +396,7 @@ h2.maintitle span {
   font-family: "Montserrat-SemiBold";
 }
 .signature {
-  margin-top: 30px;
+  margin-top: 10px;
   padding: 40px !important;
 }
 .signature .mainarea {
@@ -937,18 +937,20 @@ img.thankyouimg {
   right: 18px;
 }
 .fixarea {
-  height: 700px;
+  max-height: 700px;
   overflow: hidden;
 }
 .fixarea img {
   width: 800px;
-  margin-top: -100px;
+  /* margin-top: auto; */
+  max-width: fit-content;
 }
 .capface img {
   width: 650px;
   margin-top: -30px;
 }
 .formarea {
+  text-align: center; 
   width: 100%;
   background: #fff;
   border-radius: 10px;

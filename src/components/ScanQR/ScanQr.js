@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Footer from "../Widgets/Footer";
 import SearchButton from "../Widgets/SearchButton";
 import ScanQrImg from "../../assets/images/scanqr.gif";
@@ -12,6 +12,8 @@ import { get } from "../../AppUtills";
 import ContinueButton from "../Widgets/ContinueButton";
 import moment from "moment";
 import AlertPopup from "../Widgets/AlertPopup";
+import Loader from "../Widgets/Loader";
+import { GlobalContext } from "../../assets/js/context";
 const { bookingType } = new AppServiceClass().getEnvironmentVariables();
 
 const ScanQr = (props) => {
@@ -20,6 +22,7 @@ const ScanQr = (props) => {
   const [disableRescan, setDisableRescan] = useState(true);
   const [text, setText] = useState({ header: "", subHeader: "" });
   const [alert, setAlert] = useState(false);
+  const { loading, setLoading } = useContext(GlobalContext);
 
   useEffect(() => {
     startScan();
@@ -35,6 +38,7 @@ const ScanQr = (props) => {
     };
   }, []);
   const startScan = async () => {
+    setLoading(true);
     if (GlobalConfig.Connected === 0) {
       setTimeout(() => {
         startScan();
@@ -43,29 +47,40 @@ const ScanQr = (props) => {
     } else if (GlobalConfig.Connected === 2) {
       return;
     }
-    HubConnection.ACTION("Scan", "Honeywell3330G").then((result) => {
-      console.log(`Scan  execution done  `, result);
-      let DATA = {
-        booking_id: result.result.Data,
-        hotel_id: hotel.id,
-        search_type: bookingType.QR,
-        browser: true,
-        is_guest_user: true,
-      };
-      Services.FindReservationKiosk(DATA).then((data) => {
-        console.log("[data]",data)
-        if (data.success) {
-          GlobalConfig.Bookings = data.bookings;
+    HubConnection.ACTION("Scan", "Honeywell3330G")
+      .then((result) => {
+        console.log(`Scan  execution done  `, result);
+        let DATA = {
+          booking_id: result.result.Data,
+          hotel_id: hotel.id,
+          search_type: bookingType.QR,
+          browser: true,
+          is_guest_user: true,
+        };
+        Services.FindReservationKiosk(DATA).then((data) => {
+          console.log("[data]", data);
+          if (data.success) {
+            GlobalConfig.Bookings = data.bookings;
+            setLoading(setLoading);
 
-          props.history.push(to.multiBooking);
-        } else {
-          setAlert(true);
-          setText({ header: "Not Found", subHeader: "Your Booking not Found" });
-          // TOST : Booking not found
-          // props.history.push(to.checkIn);
-        }
+            props.history.push(to.multiBooking);
+          } else {
+            setLoading();
+            setAlert(true);
+            setText({
+              header: "Not Found",
+              subHeader: "Your Booking not Found",
+            });
+            // TOST : Booking not found
+            // props.history.push(to.checkIn);
+          }
+        });
+      })
+      .catch((err) => {
+        setLoading();
+        setAlert(true);
+        setText({ header: "Not Found", subHeader: "Your Booking not Found" });
       });
-    });
   };
 
   useEffect(() => {
@@ -88,6 +103,7 @@ const ScanQr = (props) => {
 
   return (
     <div className="container">
+      {loading && <Loader text={"Scanning..."} />}
       <AlertPopup
         isVisible={alert}
         header={text.header}
