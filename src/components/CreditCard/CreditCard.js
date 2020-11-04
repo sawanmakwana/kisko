@@ -1,11 +1,9 @@
 import React, { useState, useContext } from "react";
-import Footer from "../Widgets/Footer";
 import SearchButton from "../Widgets/SearchButton";
 import CancelButton from "../Widgets/CancelButton";
 import * as Services from "./Services";
 import AppServiceClass from "../../assets/js/environmentConfig";
 import { GlobalConfig } from "../../assets/js/globleConfig";
-import { get } from "../../AppUtills";
 import { to } from "../../RoutesPath";
 import AlertPopup from "../Widgets/AlertPopup";
 import Loader from "../Widgets/Loader";
@@ -15,8 +13,8 @@ const { bookingType } = new AppServiceClass().getEnvironmentVariables();
 const CreditCard = (props) => {
   const hotel = GlobalConfig.Hotel;
 
-  const [last5Digit, setLast5Digit] = useState("desai");
-  const [lastName, setLastName] = useState("desai");
+  const [last5Digit, setLast5Digit] = useState("");
+  const [lastName, setLastName] = useState("");
   const { loading, setLoading } = useContext(GlobalContext);
   const [text, setText] = useState({ header: "", subHeader: "" });
   const [alert, setAlert] = useState(false);

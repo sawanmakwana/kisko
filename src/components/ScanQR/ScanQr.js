@@ -16,7 +16,7 @@ const { bookingType } = new AppServiceClass().getEnvironmentVariables();
 
 const ScanQr = (props) => {
   const hotel = GlobalConfig.Hotel;
-  const [counter, setCounter] = useState(18000);
+  const [counter, setCounter] = useState(180000);
   const [disableRescan, setDisableRescan] = useState(true);
   const [text, setText] = useState({ header: "", subHeader: "" });
   const [alert, setAlert] = useState(false);
@@ -46,14 +46,14 @@ const ScanQr = (props) => {
     HubConnection.ACTION("Scan", "Honeywell3330G").then((result) => {
       console.log(`Scan  execution done  `, result);
       let DATA = {
-        booking_id: result.Data,
-        last_name: "desai",
+        booking_id: result.result.Data,
         hotel_id: hotel.id,
         search_type: bookingType.QR,
         browser: true,
         is_guest_user: true,
       };
       Services.FindReservationKiosk(DATA).then((data) => {
+        console.log("[data]",data)
         if (data.success) {
           GlobalConfig.Bookings = data.bookings;
 
@@ -62,7 +62,7 @@ const ScanQr = (props) => {
           setAlert(true);
           setText({ header: "Not Found", subHeader: "Your Booking not Found" });
           // TOST : Booking not found
-          props.history.push(to.checkIn);
+          // props.history.push(to.checkIn);
         }
       });
     });

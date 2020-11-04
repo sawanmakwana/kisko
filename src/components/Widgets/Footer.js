@@ -20,8 +20,8 @@ const Footer = () => {
         >
           {toggle && (
             <ul class="lang-list">
-              {Object.keys(LANG).map((lang) => (
-                <li
+              {Object.keys(LANG).map((lang,i) => (
+                <li key={i}
                   class={`lang lang-${lang} selected`}
                   title={lang}
                   onClick={() => {

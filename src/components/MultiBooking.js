@@ -20,7 +20,7 @@ const Multibooking = (props) => {
     <div className="container">
       <div className="commontitle">
         <h2>RESERVATION Information</h2>
-        <p>Lorem ipsum is a dummy text.</p>
+        {/* <p>Lorem ipsum is a dummy text.</p> */}
       </div>
       <form className="login100-form validate-form flex-sb flex-w mtop">
         {Bookings.map((booking) => (
@@ -37,12 +37,12 @@ const Multibooking = (props) => {
                   />
                 </div>
               </div>
-              <aside className="col-md-3">
+              {/* <aside className="col-md-3">
                 <div className="img-wrap">
                   <img src={RoomImg} alt="img" />
                 </div>
-              </aside>
-              <div className="col-md-9">
+              </aside> */}
+              <div className="col-md-12">
                 <div className="info-main">
                   <p className="reservtitle">
                     {`${get(["guest_fname"], booking, "")} ${get(

@@ -14,9 +14,9 @@ const { bookingType } = new AppServiceClass().getEnvironmentVariables();
 const BookingDetail = (props) => {
   const hotel = GlobalConfig.Hotel;
 
-  const [checkoutDate, setCheckoutDate] = useState("33923");
-  const [firstName, setFirstName] = useState("desai");
-  const [lastName, setLastName] = useState("desai");
+  const [checkoutDate, setCheckoutDate] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const { loading, setLoading } = useContext(GlobalContext);
   const [text, setText] = useState({ header: "", subHeader: "" });
   const [alert, setAlert] = useState(false);

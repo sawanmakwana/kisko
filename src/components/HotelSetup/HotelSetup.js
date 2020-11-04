@@ -52,7 +52,7 @@ const HotelSetup = (props) => {
         <form className="login100-form validate-form flex-sb flex-w">
           <div className="col-md-12 nopadding mt-3">
             <div className="p-t-31 p-b-9">
-              <span className="txt1">Kiosk ID / Hotel ID</span>
+              <span className="txt1">Kiosk ID </span>
             </div>
             <div className="wrap-input100 validate-input">
               <input

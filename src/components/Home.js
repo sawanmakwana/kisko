@@ -28,7 +28,7 @@ const Home = (props) => {
           <div className="col-md-5">
           <div
               className="bluebutton"
-              onClick={() => props.history.push(to.selectKeys)}
+              onClick={() => props.history.push(to.checkIn)}
             >
               <img src={KeyImg} alt="img" /> <span>Pick up Keys</span>
               <div className="noverlay"></div>
