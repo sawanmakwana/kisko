@@ -137,11 +137,16 @@ const ScanbarCode = (props) => {
         //ADD TOST : LICENCE DETAIL NOT MATCH
         props.history.push(to.scanId);
       }
-      if (GlobalConfig.Hotel.allowed_doc_scan || true) {
-        props.history.push(to.captureFront);
-      } else {
-        props.history.push(to.confirmDetails);
+      if(GlobalConfig.Bookings[0].pre_chekin_status){
+        props.history.push(to.selectKeys);
+      }else{
+        if (GlobalConfig.Hotel.allowed_doc_scan || true) {
+          props.history.push(to.captureFront);
+        } else {
+          props.history.push(to.confirmDetails);
+        }
       }
+      
     } else {
       // ADD TOST : INVALID
     }
@@ -157,23 +162,23 @@ const ScanbarCode = (props) => {
     validateDetail(result);
   }
 
-  // useEffect(() => {
-  //   let intervalId;
+  useEffect(() => {
+    let intervalId;
 
-  //   if (counter === 0) {
-  //     setDisableRescan(false);
-  //     return;
-  //   }
+    if (counter === 0) {
+      setDisableRescan(false);
+      return;
+    }
 
-  //   if (counter > 0) {
-  //     intervalId = setInterval(() => {
-  //       setCounter(counter - 1000);
-  //       // console.log({ counter });
-  //     }, 1000);
-  //   }
+    if (counter > 0) {
+      intervalId = setInterval(() => {
+        setCounter(counter - 1000);
+        // console.log({ counter });
+      }, 1000);
+    }
 
-  //   return () => clearInterval(intervalId);
-  // }, [counter]);
+    return () => clearInterval(intervalId);
+  }, [counter]);
 
   return (
     <div className="container">

@@ -1,6 +1,6 @@
 import React from "react";
 
-const Loader = () => {
+const Loader = (props) => {
   return (
     <div className="cube-wrapper">
       <div className="cube-folding">
@@ -10,7 +10,7 @@ const Loader = () => {
         <span className="leaf4"></span>
       </div>
       <span className="loading" data-name="Loading">
-        Loading
+        {props.text || "Loading"}
       </span>
     </div>
   );

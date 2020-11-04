@@ -3,8 +3,8 @@ export const kisko_user_endpoint = "https://hotel-sandbox.aavgo.com/backend/user
 export const USER_CONTROLLER = "users/v3";
 export const STAFF_CONTROLLER = "users/v3";
 export const BASE = 'https://hotel-sandbox.aavgo.com/backend/'; // DEV
-// export const KIOSK = "http://235e314a072f.ngrok.io";
-export const KIOSK = "http://localhost:7000";
+export const KIOSK = "http://d26d5b1be140.ngrok.io";
+// export const KIOSK = "http://localhost:7000";
 
 export const API = {
     findHotelByUuid         :   'findHotelByUuid',

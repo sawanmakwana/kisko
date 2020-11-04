@@ -7,6 +7,7 @@ import * as Services from "./Services";
 import AppServiceClass from "../../assets/js/environmentConfig";
 import CancelButton from "../Widgets/CancelButton";
 import { get } from "../../AppUtills";
+import Loader from "../Widgets/Loader";
 const { bookingType } = new AppServiceClass().getEnvironmentVariables();
 
 const BookingId = (props) => {
@@ -15,6 +16,7 @@ const BookingId = (props) => {
 
   const [pin, setPin] = useState("33923");
   const [lastName, setLastName] = useState("desai");
+  const [isLoading, setIsLoading] = useState(false);
 
 
   const findReservationKiosk = () => {
@@ -26,7 +28,9 @@ const BookingId = (props) => {
       browser: true,
       is_guest_user: true,
     };
+    setIsLoading(true);
     Services.FindReservationKiosk(DATA).then((data) => {
+      setIsLoading(false);
       if (data.success) {
         GlobalConfig.Bookings = data.bookings;
       
@@ -42,6 +46,7 @@ const BookingId = (props) => {
 
   return (
     <div className="container">
+      {isLoading?<Loader text="Searching"/>:null}
       <div className="commontitle">
         <h2>Pin Number</h2>
         <p>Lorem ipsum is a dummy text.</p>

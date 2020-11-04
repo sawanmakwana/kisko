@@ -12,8 +12,8 @@ const { bookingType } = new AppServiceClass().getEnvironmentVariables();
 const CreditCard = (props) => {
   const hotel = GlobalConfig.Hotel;
 
-  const [last5Digit, setLast5Digit] = useState("desai");
-  const [lastName, setLastName] = useState("desai");
+  const [last5Digit, setLast5Digit] = useState("");
+  const [lastName, setLastName] = useState("");
   const [loading, setLoading] = useState(false);
 
   const findReservationKiosk = () => {

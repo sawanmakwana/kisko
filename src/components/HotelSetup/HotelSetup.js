@@ -32,7 +32,7 @@ const HotelSetup = (props) => {
   return (
     <div className="container">
       {loading && <Loader />}
-      <AlertPopup isVisible={false} />
+      <AlertPopup isVisible={true} />
       <div className="wrap-login100">
         <h2 className="allcaps">Hotel Setup</h2>
         <form className="login100-form validate-form flex-sb flex-w">
