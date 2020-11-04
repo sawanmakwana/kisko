@@ -11,12 +11,15 @@ import AppServiceClass from "../../assets/js/environmentConfig";
 import { get } from "../../AppUtills";
 import ContinueButton from "../Widgets/ContinueButton";
 import moment from "moment";
+import AlertPopup from "../Widgets/AlertPopup";
 const { bookingType } = new AppServiceClass().getEnvironmentVariables();
 
 const ScanQr = (props) => {
   const hotel = GlobalConfig.Hotel;
   const [counter, setCounter] = useState(18000);
   const [disableRescan, setDisableRescan] = useState(true);
+  const [text, setText] = useState({ header: "", subHeader: "" });
+  const [alert, setAlert] = useState(false);
 
   useEffect(() => {
     startScan();
@@ -53,10 +56,11 @@ const ScanQr = (props) => {
       Services.FindReservationKiosk(DATA).then((data) => {
         if (data.success) {
           GlobalConfig.Bookings = data.bookings;
-        
-            props.history.push(to.multiBooking);
-         
+
+          props.history.push(to.multiBooking);
         } else {
+          setAlert(true);
+          setText({ header: "Not Found", subHeader: "Your Booking not Found" });
           // TOST : Booking not found
           props.history.push(to.checkIn);
         }
@@ -84,6 +88,15 @@ const ScanQr = (props) => {
 
   return (
     <div className="container">
+      <AlertPopup
+        isVisible={alert}
+        header={text.header}
+        subHeader={text.subHeader}
+        onCancel={() => {
+          setAlert(false);
+        }}
+        cancelText={"Back"}
+      />
       <div className="commontitle">
         <h2>Scan Qr Code</h2>
         <p>Search using QR code provided in the precheckin email</p>

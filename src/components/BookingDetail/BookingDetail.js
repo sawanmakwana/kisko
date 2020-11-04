@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import CancelButton from "../Widgets/CancelButton";
 import SearchButton from "../Widgets/SearchButton";
 import CalendarImg from "../../assets/images/calendar.png";
@@ -6,8 +6,9 @@ import { to } from "../../RoutesPath";
 import * as Services from "./Services";
 import AppServiceClass from "../../assets/js/environmentConfig";
 import { GlobalConfig } from "../../assets/js/globleConfig";
-import { get } from "../../AppUtills";
-import Footer from "../Widgets/Footer";
+import { GlobalContext } from "../../assets/js/context";
+import AlertPopup from "../Widgets/AlertPopup";
+import Loader from "../Widgets/Loader";
 const { bookingType } = new AppServiceClass().getEnvironmentVariables();
 
 const BookingDetail = (props) => {
@@ -16,7 +17,9 @@ const BookingDetail = (props) => {
   const [checkoutDate, setCheckoutDate] = useState("33923");
   const [firstName, setFirstName] = useState("desai");
   const [lastName, setLastName] = useState("desai");
-  const [loading, setLoading] = useState(false);
+  const { loading, setLoading } = useContext(GlobalContext);
+  const [text, setText] = useState({ header: "", subHeader: "" });
+  const [alert, setAlert] = useState(false);
 
   const findReservationKiosk = () => {
     let DATA = {
@@ -32,23 +35,42 @@ const BookingDetail = (props) => {
 
     Services.FindReservationKiosk(DATA)
       .then((data) => {
+        setLoading(false);
         if (data.success) {
           GlobalConfig.Bookings = data.bookings;
-        
-            props.history.push(to.multiBooking);
-         
+
+          props.history.push(to.multiBooking);
         } else {
+          setAlert(true);
+          setText({
+            header: "Not Found",
+            subHeader: "Your Booking not Found ",
+          });
           // TOST : Booking not found
         }
-        setLoading(false);
       })
       .catch((err) => {
         setLoading(false);
+        setAlert(true);
+        setText({
+          header: "Not Found",
+          subHeader: "Your Booking not Found ",
+        });
       });
   };
 
   return (
     <div className="container">
+       {loading && <Loader />}
+      <AlertPopup
+        isVisible={alert}
+        header={text.header}
+        subHeader={text.subHeader}
+        onCancel={() => {
+          setAlert(false);
+        }}
+        cancelText={"Back"}
+      />
       <div className="commontitle">
         <h2>Booking Detail</h2>
         <p>Lorem ipsum is a dummy text.</p>
