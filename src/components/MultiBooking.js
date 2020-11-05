@@ -45,7 +45,7 @@ const Multibooking = (props) => {
               <div className="col-md-12">
                 <div className="info-main">
                   <p className="reservtitle">
-                    {`${get(["guest_fname"], booking, "")} ${get(
+                    {`${get(["room_number"], booking, "")} - ${get(["guest_fname"], booking, "")} ${get(
                       ["guest_lname"],
                       booking,
                       ""
