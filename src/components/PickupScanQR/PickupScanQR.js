@@ -14,6 +14,7 @@ const { bookingType } = new AppServiceClass().getEnvironmentVariables();
 
 const PickupScanQR = (props) => {
   const hotel = GlobalConfig.Hotel;
+  
 
   useEffect(() => {
     startScan();

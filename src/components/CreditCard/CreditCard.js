@@ -1,12 +1,13 @@
-import React, { useState } from "react";
-import Footer from "../Widgets/Footer";
+import React, { useState, useContext } from "react";
 import SearchButton from "../Widgets/SearchButton";
 import CancelButton from "../Widgets/CancelButton";
 import * as Services from "./Services";
 import AppServiceClass from "../../assets/js/environmentConfig";
 import { GlobalConfig } from "../../assets/js/globleConfig";
-import { get } from "../../AppUtills";
 import { to } from "../../RoutesPath";
+import AlertPopup from "../Widgets/AlertPopup";
+import Loader from "../Widgets/Loader";
+import { GlobalContext } from "../../assets/js/context";
 const { bookingType } = new AppServiceClass().getEnvironmentVariables();
 
 const CreditCard = (props) => {
@@ -14,7 +15,9 @@ const CreditCard = (props) => {
 
   const [last5Digit, setLast5Digit] = useState("");
   const [lastName, setLastName] = useState("");
-  const [loading, setLoading] = useState(false);
+  const { loading, setLoading } = useContext(GlobalContext);
+  const [text, setText] = useState({ header: "", subHeader: "" });
+  const [alert, setAlert] = useState(false);
 
   const findReservationKiosk = () => {
     let DATA = {
@@ -28,21 +31,42 @@ const CreditCard = (props) => {
     setLoading(true);
     Services.FindReservationKiosk(DATA)
       .then((data) => {
+        setLoading(false);
         if (data.success) {
           GlobalConfig.Bookings = data.bookings;
-        
-            props.history.push(to.multiBooking);
-         
-          setLoading(false);
+
+          props.history.push(to.multiBooking);
         } else {
+          setAlert(true);
+          setText({
+            header: "Not Found",
+            subHeader: "Your Booking not Found ",
+          });
           // TOST : Booking not found
         }
       })
-      .catch((err) => setLoading(false));
+      .catch((err) => {
+        setLoading(false);
+        setAlert(true);
+        setText({
+          header: "Not Found",
+          subHeader: "Your Booking not Found ",
+        });
+      });
   };
 
   return (
     <div className="container">
+      {loading && <Loader />}
+      <AlertPopup
+        isVisible={alert}
+        header={text.header}
+        subHeader={text.subHeader}
+        onCancel={() => {
+          setAlert(false);
+        }}
+        cancelText={"Back"}
+      />
       <div className="commontitle">
         <h2>Credit Card</h2>
         <p>Lorem ipsum is a dummy text.</p>

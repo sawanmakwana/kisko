@@ -12,27 +12,41 @@ import AlertPopup from "../Widgets/AlertPopup";
 const HotelSetup = (props) => {
   const [uuid, setUuid] = useState("8881214933");
   const { loading, setLoading } = useContext(GlobalContext);
+  const [hotelText, setHotelText] = useState({ header: "", subHeader: "" });
+  const [alert, setAlert] = useState(false);
 
   const findHotelByUuid = () => {
     setLoading(true);
 
-    Services.FindHotelByUuid({ uuid })
-      .then((data) => {
-        if (data.success) {
-          GlobalConfig.Hotel = data.hotel;
-          setLoading(false);
-          props.history.push(to.home);
-        }
-      })
-      .catch((err) => {
+    Services.FindHotelByUuid({ uuid }).then((data) => {
+      if (data.success) {
+        GlobalConfig.Hotel = data.hotel;
         setLoading(false);
-      });
+        props.history.push(to.home);
+      }
+      if (data.success === 0) {
+        setLoading(false);
+        setAlert(true);
+        setHotelText({
+          header: "Not Found",
+          subHeader: "Your id did not match any hotel",
+        });
+      }
+    });
   };
 
   return (
     <div className="container">
       {loading && <Loader />}
-      <AlertPopup isVisible={false} />
+      <AlertPopup
+        isVisible={alert}
+        header={hotelText.header}
+        subHeader={hotelText.subHeader}
+        onCancel={() => {
+          setAlert(false);
+        }}
+        cancelText={"Back"}
+      />
       <div className="wrap-login100">
         <h2 className="allcaps">Hotel Setup</h2>
         <form className="login100-form validate-form flex-sb flex-w">

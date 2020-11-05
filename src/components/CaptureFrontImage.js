@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Footer from "./Widgets/Footer";
 import SearchButton from "./Widgets/SearchButton";
 import CaptureGif from "../assets/images/capture-photo.gif";
@@ -8,13 +8,16 @@ import { to } from "../RoutesPath";
 import ContinueButton from "./Widgets/ContinueButton";
 import { GlobalConfig } from "../assets/js/globleConfig";
 import HubConnection from "../Connection/hubConnection";
+import { GlobalContext } from "../assets/js/context";
+import Loader from "./Widgets/Loader";
 
 const CaptureFrontImage = (props) => {
-
   const [captureImage, setCaptureImage] = useState(CaptureGif);
   const [retake, setRetake] = useState(false);
+  const { loading, setLoading } = useContext(GlobalContext);
 
-  const captureClick = () =>{
+  const captureClick = () => {
+    setLoading(true);
     if (GlobalConfig.Connected === 0) {
       setTimeout(() => {
         captureClick();
@@ -27,20 +30,18 @@ const CaptureFrontImage = (props) => {
     HubConnection.ACTION("ImagingDeviceCaptureImage", "PosiflexCamera").then(
       (data) => {
         console.log(data);
-        if(data.success){
-          setCaptureImage("data:image/png;base64,"+data.result.Data)
-          setRetake(true)
+        if (data.success) {
+          setCaptureImage("data:image/png;base64," + data.result.Data);
+          setRetake(true);
+          setLoading(false);
         }
-        
-      })
-  
-
-  }
-
-  
+      }
+    );
+  };
 
   return (
     <div className="container">
+      {loading && <Loader text={"Capturing..."} />}
       <div className="commontitle">
         <h2 className="maintitle">
           Keep your <span>Front side</span> ID document infront of camera and
@@ -60,20 +61,29 @@ const CaptureFrontImage = (props) => {
       <form className="login100-form validate-form flex-sb flex-w">
         <div className="formarea fixarea">
           <img src={captureImage} alt="img" />
-          
         </div>
-        {retake?
+        {retake ? (
           <div className="col-md-12 text-center mtop">
-            <ContinueButton imgIcon={CameraIcon} text={"Retake"} onClick={() => captureClick()} />
+            <ContinueButton
+              imgIcon={CameraIcon}
+              text={"Retake"}
+              onClick={() => captureClick()}
+            />
           </div>
-          :null}
+        ) : null}
         <div className="col-md-12 text-center mtop">
           <CancelButton onClick={() => props.history.push(to.scanId)} />{" "}
-          {retake?
-            <ContinueButton   onClick={() => props.history.push(to.confirmDetails)} />:
-            <ContinueButton  imgIcon={CameraIcon} text={"Capture"} onClick={() => captureClick()} />
-          }
-
+          {retake ? (
+            <ContinueButton
+              onClick={() => props.history.push(to.confirmDetails)}
+            />
+          ) : (
+            <ContinueButton
+              imgIcon={CameraIcon}
+              text={"Capture"}
+              onClick={() => captureClick()}
+            />
+          )}
         </div>
       </form>
       {/* <Footer /> */}

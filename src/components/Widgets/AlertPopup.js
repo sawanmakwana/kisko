@@ -3,7 +3,15 @@ import AlertImg from "../../assets/images/alert.png";
 import SearchImg from "../../assets/images/search.png";
 
 const AlertPopup = (props) => {
-  const { isVisible } = props;
+  const {
+    isVisible,
+    header,
+    subHeader,
+    successText,
+    cancelText,
+    onSuccess,
+    onCancel,
+  } = props;
 
   return (
     <div
@@ -12,13 +20,20 @@ const AlertPopup = (props) => {
     >
       <div className="cd-popup-container">
         <img src={AlertImg} className="alertimg" alt="img" />
-        <h5>Invalid QR Code</h5>
-        <p>QR Code is invalid. Please rescan.</p>
+        <h5>{header}</h5>
+        <p>{subHeader}</p>
         <div className="popupfooter">
-          <button className="mainbutton mr-10">
-            Scan Again <img src={SearchImg} alt="img" />{" "}
-          </button>
-          <button className="cancelbutton">Cancel </button>
+          {successText && (
+            <button className="mainbutton mr-10" onClick={onSuccess}>
+              {successText}
+              {/* <img src={SearchImg} alt="img" />{" "} */}
+            </button>
+          )}
+          {cancelText && (
+            <button className="cancelbutton" onClick={onCancel}>
+              {cancelText}{" "}
+            </button>
+          )}
         </div>
       </div>
     </div>

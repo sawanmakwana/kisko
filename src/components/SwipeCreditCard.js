@@ -1,19 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Footer from "./Widgets/Footer";
 import { to } from "../RoutesPath";
 import CaptureGif from "../assets/images/capture-photo.gif";
 import ContinueButton from "./Widgets/ContinueButton";
 import HubConnection from "../Connection/hubConnection";
 import { GlobalConfig } from "../assets/js/globleConfig";
+import Loader from "./Widgets/Loader";
+import AlertPopup from "./Widgets/AlertPopup";
+import { GlobalContext } from "../assets/js/context";
 const SwipeCreditCard = (props) => {
-  let interval = null;
+  const { loading, setLoading } = useContext(GlobalContext);
+  const [text, setText] = useState({ header: "", subHeader: "" });
+  const [alert, setAlert] = useState(false);
   useEffect(() => {
-      HubConnection.ACTION("CancelCardRead", "IUC285");
-      HubConnection.ACTION("DisableNfc", "IUC285");
-      HubConnection.ACTION("DisableSmartCard", "IUC285");
+    HubConnection.ACTION("CancelCardRead", "IUC285");
+    HubConnection.ACTION("DisableNfc", "IUC285");
+    HubConnection.ACTION("DisableSmartCard", "IUC285");
 
     scanCreditCard();
-    
+
     // setTimeout(()=>{
     //   processNextScreen();
     // },3000)
@@ -34,6 +39,7 @@ const SwipeCreditCard = (props) => {
   }, []);
 
   const scanCreditCard = async () => {
+    setLoading(true);
     if (GlobalConfig.Connected === 0) {
       setTimeout(() => {
         scanCreditCard();
@@ -67,7 +73,6 @@ const SwipeCreditCard = (props) => {
     /*===== TESTED OK END ====*/
 
     /*===== TEMP : END ====*/
-    
 
     // HubConnection.ACTION("EnableNfc", "IUC285").then((data) => {
     //   console.log("EnableNfc : START =======");
@@ -75,7 +80,7 @@ const SwipeCreditCard = (props) => {
     //   console.log("EnableNfc : ", new Date());
     //   console.log("EnableNfc : END =======");
     //   HubConnection.ACTION("ReadNfc", "IUC285", 1.5, -1).then((data) => {
-        
+
     //     console.log("ReadNfc : START =======");
     //     console.log("ReadNfc : ", data);
     //     console.log("ReadNfc : ", new Date());
@@ -84,27 +89,31 @@ const SwipeCreditCard = (props) => {
     //   });
     // });
 
-    HubConnection.ACTION("EnableSmartCard", "IUC285").then(
-      (data) => {
-        console.log("EnableSmartCard : START =======");
-        console.log("EnableSmartCard : ",data);
-        HubConnection.ACTION("ReadSmartCard", "IUC285", 1,-1).then(
-          (data) => {
-            processNextScreen();
-            console.log("ReadSmartCard : START =======");
-            console.log("ReadSmartCard : ",data);
-            HubConnection.ACTION("DisableSmartCard", "IUC285")
-          }
-        );
-        // HubConnection.ACTION("ReadSwipe", "IUC285", -1).then((data) => {
-        //   processNextScreen();
-        //   console.log("ReadSwipe : START =======");
-        //   console.log("ReadSwipe : ", data);
-        //   console.log("ReadSwipe : ", new Date());
-        //   console.log("ReadSwipe : END =======");
+    HubConnection.ACTION("EnableSmartCard", "IUC285").then((data) => {
+      console.log("EnableSmartCard : START =======");
+      console.log("EnableSmartCard : ", data);
+      HubConnection.ACTION("ReadSmartCard", "IUC285", 1, -1)
+        .then((data) => {
+          processNextScreen();
+          console.log("ReadSmartCard : START =======");
+          console.log("ReadSmartCard : ", data);
+          HubConnection.ACTION("DisableSmartCard", "IUC285");
+        })
+        //For card error...need to fix the case for alert !! (Multiple alert)
+        // .catch((err) => {
+        //   setLoading(false);
+        //   setAlert(true);
+        //   setText({ header: "Error", subHeader: "Something went wrong with payment" });
         // });
-      }
-    );
+
+      // HubConnection.ACTION("ReadSwipe", "IUC285", -1).then((data) => {
+      //   processNextScreen();
+      //   console.log("ReadSwipe : START =======");
+      //   console.log("ReadSwipe : ", data);
+      //   console.log("ReadSwipe : ", new Date());
+      //   console.log("ReadSwipe : END =======");
+      // });
+    });
 
     // HubConnection.ACTION("CancelCardRead", "IUC285").then((data) => {
     //   console.log(data);
@@ -129,27 +138,49 @@ const SwipeCreditCard = (props) => {
     //     );
     //   }
     // });
+    setLoading(false);
   };
 
-  const processNextScreen = () =>{
-    props.history.push(to.selectKeys)
-  }
+  const processNextScreen = () => {
+    props.history.push(to.selectKeys);
+  };
   return (
     <div className="container">
+      {loading && <Loader />}
+      <AlertPopup
+        isVisible={alert}
+        header={text.header}
+        subHeader={text.subHeader}
+        onCancel={() => {
+          setAlert(false);
+        }}
+        cancelText={"no"}
+        successText={"yes"}
+        onSuccess={() => {
+          setAlert(false);
+          props.history.push(`/home`);
+        }}
+      />
       <h2 className="maintitle">
-        Swipe your <span>Credit Card</span> to do payment
+        Insert your <span>Credit Card</span> to do payment
       </h2>
       <form className="login100-form validate-form flex-sb flex-w mtop">
         <div
           className="formarea fixarea"
           onClick={() => props.history.push(to.selectKeys)}
         >
-          <img src={CaptureGif} />
+          <img src={CaptureGif} alt="capture" />
         </div>
         <div className="col-md-12 text-center mtop">
           <button
             className="cancelbutton"
-            onClick={() => props.history.push(to.captureFace)}
+            onClick={() => {
+              setAlert(true);
+              setText({
+                header: "Cancel Checkin",
+                subHeader: "Are you sure you want to cancel checkin ?",
+              });
+            }}
           >
             Cancel{" "}
           </button>
