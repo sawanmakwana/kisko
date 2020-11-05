@@ -23,7 +23,7 @@ const ThankYou = (props) => {
         <h2 class="maintitle">Pick up your key(s) from tray</h2>
         <div class="roomnumber">
           <p>
-            Your room number is <span> {RoomId.room_id}</span>
+            Your room number is <span> {RoomId.room_number}</span>
           </p>
         </div>
       </div>

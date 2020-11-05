@@ -179,7 +179,7 @@ const ConfirmDetails = (props) => {
                 <span className="leftsection">Address</span>
               </div>
               <div className="col-md-9">
-                <span className="rightsection">{UserDetails.address}</span>
+                <span className="rightsection">{UserDetails.address}, {UserDetails.city}, {UserDetails.state}, {UserDetails.postalCode}</span>
               </div>
             </div>
           </div>
@@ -187,6 +187,7 @@ const ConfirmDetails = (props) => {
 
         <div className="col-md-12 text-center mtop">
           <CancelButton
+          text="Cancle"
             onClick={() => {
               setAlert(true);
               setText({

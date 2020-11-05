@@ -1,6 +1,6 @@
 import React from "react";
 
-const CancelButton = ({ onClick }) => {
+const CancelButton = ({ onClick,text }) => {
   return (
     <button
       className="cancelbutton"
@@ -9,7 +9,7 @@ const CancelButton = ({ onClick }) => {
         e.preventDefault();
       }}
     >
-      Back
+      {text || "Back"}
     </button>
   );
 };
