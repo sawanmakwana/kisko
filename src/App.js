@@ -15,7 +15,7 @@ import { connection, proxy } from "./Connection/hubConnection";
 function App(props) {
   const [lang, setLang] = useState(GlobalConfig.Language || "en");
   const [loading, setLoading] = useState(false);
-  
+  const [scanData, setScanData] = useState("");
 
   useEffect(() => {
     connection
@@ -30,9 +30,9 @@ function App(props) {
       });
     proxy.on("barcodeScanned", function (result) {
       console.log({ result });
+      setScanData(result);
 
-      proxy.invoke("CancelScanWait", "Honeywell3330G")
-
+      proxy.invoke("CancelScanWait", "Honeywell3330G");
     });
   }, []);
 
@@ -50,7 +50,9 @@ function App(props) {
             Logout
           </span>
         )} */}
-        <GlobalContext.Provider value={{ setLang, lang, loading, setLoading }}>
+        <GlobalContext.Provider
+          value={{ setLang, lang, loading, setLoading, scanData, setScanData }}
+        >
           <Routes />
         </GlobalContext.Provider>
       </div>

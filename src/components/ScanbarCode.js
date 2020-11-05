@@ -10,32 +10,19 @@ import { pdf417 } from "../assets/js/idDecoder";
 import moment from "moment";
 import AlertPopup from "./Widgets/AlertPopup";
 import { GlobalContext } from "../assets/js/context";
-import Loader from "./Widgets/Loader";
-import { connection, proxy } from "../Connection/hubConnection";
-
-console.log("hello");
 
 const ScanbarCode = (props) => {
   const [disableRescan, setDisableRescan] = useState(true);
   const [counter, setCounter] = useState(5000);
-  const { loading, setLoading } = useContext(GlobalContext);
+  const { scanData } = useContext(GlobalContext);
 
   const [text, setText] = useState({ header: "", subHeader: "" });
   const [alert, setAlert] = useState(false);
 
-  
-
-  useEffect(() => {
-    // setTimeout(() => {
-    //   startScan();
-    // }, 5000);
-  });
-
   useEffect(() => {
     HubConnection.ACTION("CancelScanWait", "Honeywell3330G");
-    setTimeout(() => {
-      startScan();
-    }, 2000);
+    startScan();
+
     return () => {
       HubConnection.ACTION(
         "CancelScanWait",
@@ -48,7 +35,6 @@ const ScanbarCode = (props) => {
   }, []);
 
   const startScan = async () => {
-
     setCounter(5000);
     setDisableRescan(true);
     if (GlobalConfig.Connected === 0) {
@@ -60,59 +46,7 @@ const ScanbarCode = (props) => {
       return;
     }
 
-    /*===== INIT TEMP : START ====*/
-    // HubConnection.proxy.on("barcodeScanned", function (result) {
-    //   console.log("barcodeScanned *** Scan successful!: " + result);
-    //   if(result && result.HardwareResult === 0){
-    //     if (result && result.Data) {
-    //       result.Data = result.Data.replace("@ANSI ", "u001eANSI ");
-    //       result = pdf417(result.Data);
-    //       validateDetail(result);
-    //     }
-    //   }
-    //   // HubConnection.ACTION("CancelScanWait", "Honeywell3330G");
-    //   // props.history.push(to.scanId)
-
-    // });
-
-    // HubConnection.ACTION("CancelScanWait", "Honeywell3330G").then((data) => {
-
-    //     HubConnection.ACTION("startScanBarcode", "Honeywell3330G", false).then(
-    //       (data) => {
-    //         console.log("[startScanBarcode == ]",data);
-    //         // HubConnection.ACTION("CancelScanWait", "Honeywell3330G");
-    //         HubConnection.ACTION("Scan", "Honeywell3330G").then((result) => {
-    //           console.log(`Scan  execution done  `,result.success);
-    //           console.log(`Scan  execution done  `,result.result.Data);
-
-    //           if (result.success && result.result.Data) {
-    //             // result.Data = result.Data.replace("@ANSI ", "u001eANSI ");
-    //             result = pdf417(result.result.Data);
-    //             console.log(result)
-    //             validateDetail(result);
-    //           }
-    //           HubConnection.ACTION("CancelScanWait", "Honeywell3330G");
-    //         });
-    //       }
-    //     );
-
-    // });
-    HubConnection.ACTION("startScanBarcode", "Honeywell3330G", false).then(
-      (data) => {
-        // HubConnection.ACTION("Scan", "Honeywell3330G").then((result) => {
-        // console.log(`Scan  execution done  `, result.success);
-        // console.log(`Scan  execution done  `, result.result.Data);
-        //   setLoading(false);
-        //   if (result.success && result.result.Data) {
-        //     // result.Data = result.Data.replace("@ANSI ", "u001eANSI ");
-        //     result = pdf417(result.result.Data);
-        //     console.log(result);
-        //     validateDetail(result);
-        //   }
-        //   // HubConnection.ACTION("CancelScanWait", "Honeywell3330G");
-        // });
-      }
-    );
+    HubConnection.ACTION("startScanBarcode", "Honeywell3330G", false);
   };
   const validateDetail = (result) => {
     if (typeof result == "object" && result.name && result.name.first) {
@@ -181,11 +115,13 @@ const ScanbarCode = (props) => {
     }
   };
 
+  console.log({ scanData });
+
   const processNext = () => {
-    let result =
-      // 'u001eANSI 636015080001DL00410285ZC03260033DLDCACDCBNONEDCDNONEDBA01312022DCSHODARDACRATANDADGOVINDDBD08112017DBB01311978DBC1DAYBRNDAU069 INDAG388 BEALE ST APT 805DAISAN FRANCISCODAJCADAK941050000  DAQY8199490DCF08/11/2017503C8/DDFD/22DCGUSADDEUDDFUDDGUDAW164DAZBLKDCK17223Y81994900401DDB04162010DDD0ZCZCAZCBZCCBRNZCDBLKZCEZCF"';
-      // '@ANSI 636014040002DL00410288ZC03290034DLDCACDCBNONEDCDNONEDBA11092020DCSDESAIDACMRUNALDADHEMANTKUMARDBD11242015DBB11091982DBC1DAYBLKDAU067 INDAG2167 EL CAPITAN AVEDAISANTA CLARADAJCADAK950500000  DAQD3634400DCF11/24/20156453A/AAFD/20DCGUSADDEUDDFUDDGUDAW180DAZBLKDCK15328D36344000401DDB04162010DDD0ZCZCAYZCBZCCBLKZCDBLKZCEZCF"';
-      'u001eANSI 636015080001DL00310274DLDCACDDAFDDB10102016DCBNONEDCDNONEDBA07132026DCSDESAIDDENDACCHINTAKDDFNDADNONEDDGNDBD09092019DBB07131987DBC1DAYBRODAZBLKDAU070 INDAW170DCLADAG5418 ANITA STDAIDALLASDAJTXDAK752060000  DCK45110063  20190911DAQ45110063DCF42111940195029205598DCGUSA"';
+    let result = scanData?.Barcode;
+    // 'u001eANSI 636015080001DL00410285ZC03260033DLDCACDCBNONEDCDNONEDBA01312022DCSHODARDACRATANDADGOVINDDBD08112017DBB01311978DBC1DAYBRNDAU069 INDAG388 BEALE ST APT 805DAISAN FRANCISCODAJCADAK941050000  DAQY8199490DCF08/11/2017503C8/DDFD/22DCGUSADDEUDDFUDDGUDAW164DAZBLKDCK17223Y81994900401DDB04162010DDD0ZCZCAZCBZCCBRNZCDBLKZCEZCF"';
+    // '@ANSI 636014040002DL00410288ZC03290034DLDCACDCBNONEDCDNONEDBA11092020DCSDESAIDACMRUNALDADHEMANTKUMARDBD11242015DBB11091982DBC1DAYBLKDAU067 INDAG2167 EL CAPITAN AVEDAISANTA CLARADAJCADAK950500000  DAQD3634400DCF11/24/20156453A/AAFD/20DCGUSADDEUDDFUDDGUDAW180DAZBLKDCK15328D36344000401DDB04162010DDD0ZCZCAYZCBZCCBLKZCDBLKZCEZCF"';
+    // ('u001eANSI 636015080001DL00310274DLDCACDDAFDDB10102016DCBNONEDCDNONEDBA07132026DCSDESAIDDENDACCHINTAKDDFNDADNONEDDGNDBD09092019DBB07131987DBC1DAYBRODAZBLKDAU070 INDAW170DCLADAG5418 ANITA STDAIDALLASDAJTXDAK752060000  DCK45110063  20190911DAQ45110063DCF42111940195029205598DCGUSA"');
 
     result = pdf417(result);
     validateDetail(result);
@@ -221,7 +157,8 @@ const ScanbarCode = (props) => {
         cancelText={"Back"}
         successText={"Scan Again"}
         onSuccess={() => {
-          // startScan()
+          startScan();
+          setAlert(false);
         }}
       />
 
@@ -235,20 +172,22 @@ const ScanbarCode = (props) => {
           <ContinueButton
             disable={disableRescan}
             text={"Rescan"}
-            onClick={()=>startScan()}
+            onClick={() => startScan()}
           />
         </div>
         <div className="col-md-12 text-center mtop">
           <ContinueButton onClick={processNext} />
         </div>
-        {counter !== 0 && (
-          <div className="col-md-12 text-center timer">
-            <p>
-              Scan will auto cancel in{" "}
-              <span>{moment.utc(counter).format("mm:ss")}</span>
-            </p>
-          </div>
-        )}
+
+        <div
+          className="col-md-12 text-center timer"
+          style={{ visibility: counter !== 0 ? "visible" : "hidden" }}
+        >
+          <p>
+            Scan will auto cancel in{" "}
+            <span>{moment.utc(counter).format("mm:ss")}</span>
+          </p>
+        </div>
       </form>
       {/* <Footer /> */}
     </div>
