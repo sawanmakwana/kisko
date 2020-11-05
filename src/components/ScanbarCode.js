@@ -11,14 +11,20 @@ import moment from "moment";
 import AlertPopup from "./Widgets/AlertPopup";
 import { GlobalContext } from "../assets/js/context";
 import Loader from "./Widgets/Loader";
+import { connection, proxy } from "../Connection/hubConnection";
+
+console.log("hello");
 
 const ScanbarCode = (props) => {
   const [disableRescan, setDisableRescan] = useState(true);
-  const [counter, setCounter] = useState(180000);
+  const [counter, setCounter] = useState(5000);
   const { loading, setLoading } = useContext(GlobalContext);
 
   const [text, setText] = useState({ header: "", subHeader: "" });
   const [alert, setAlert] = useState(false);
+
+  
+
   useEffect(() => {
     // setTimeout(() => {
     //   startScan();
@@ -42,10 +48,9 @@ const ScanbarCode = (props) => {
   }, []);
 
   const startScan = async () => {
-    setLoading(true);
 
-    // setCounter(18000);
-    // setDisableRescan(true);
+    setCounter(5000);
+    setDisableRescan(true);
     if (GlobalConfig.Connected === 0) {
       setTimeout(() => {
         startScan();
@@ -94,19 +99,18 @@ const ScanbarCode = (props) => {
     // });
     HubConnection.ACTION("startScanBarcode", "Honeywell3330G", false).then(
       (data) => {
-        HubConnection.ACTION("Scan", "Honeywell3330G").then((result) => {
-          console.log(`Scan  execution done  `, result.success);
-          console.log(`Scan  execution done  `, result.result.Data);
-          setLoading(false);
-
-          if (result.success && result.result.Data) {
-            // result.Data = result.Data.replace("@ANSI ", "u001eANSI ");
-            result = pdf417(result.result.Data);
-            console.log(result);
-            validateDetail(result);
-          }
-          // HubConnection.ACTION("CancelScanWait", "Honeywell3330G");
-        });
+        // HubConnection.ACTION("Scan", "Honeywell3330G").then((result) => {
+        // console.log(`Scan  execution done  `, result.success);
+        // console.log(`Scan  execution done  `, result.result.Data);
+        //   setLoading(false);
+        //   if (result.success && result.result.Data) {
+        //     // result.Data = result.Data.replace("@ANSI ", "u001eANSI ");
+        //     result = pdf417(result.result.Data);
+        //     console.log(result);
+        //     validateDetail(result);
+        //   }
+        //   // HubConnection.ACTION("CancelScanWait", "Honeywell3330G");
+        // });
       }
     );
   };
@@ -220,7 +224,6 @@ const ScanbarCode = (props) => {
           // startScan()
         }}
       />
-      {loading && <Loader />}
 
       <h2 className="maintitle">Place your Barcode ID in scanning area</h2>
       <form className="login100-form validate-form flex-sb flex-w mtop">
@@ -232,7 +235,7 @@ const ScanbarCode = (props) => {
           <ContinueButton
             disable={disableRescan}
             text={"Rescan"}
-            // onClick={()=>startScan()}
+            onClick={()=>startScan()}
           />
         </div>
         <div className="col-md-12 text-center mtop">

@@ -7,13 +7,34 @@ import "./assets/vendor/bootstrap/css/bootstrap.min.css";
 import Routes from "./Routes";
 import Clock from "./components/Widgets/Clock";
 import { GlobalContext } from "./assets/js/context";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { GlobalConfig } from "./assets/js/globleConfig";
 import { withRouter } from "react-router-dom";
+import { connection, proxy } from "./Connection/hubConnection";
 
 function App(props) {
   const [lang, setLang] = useState(GlobalConfig.Language || "en");
   const [loading, setLoading] = useState(false);
+  
+
+  useEffect(() => {
+    connection
+      .start()
+      .done(function () {
+        GlobalConfig.Connected = 1;
+        console.log("Now connected, connection ID=" + connection.id);
+      })
+      .fail(function () {
+        GlobalConfig.Connected = 2;
+        console.log("Could not connect");
+      });
+    proxy.on("barcodeScanned", function (result) {
+      console.log({ result });
+
+      proxy.invoke("CancelScanWait", "Honeywell3330G")
+
+    });
+  }, []);
 
   return (
     <div className="limiter">

@@ -1,18 +1,9 @@
 import { hubConnection } from "signalr-no-jquery";
 import { KIOSK } from "../assets/js/endpoint";
 import { GlobalConfig } from "../assets/js/globleConfig";
-const connection = hubConnection(KIOSK);
-const proxy = connection.createHubProxy("kioskHardwareHub");
-connection
-  .start()
-  .done(function () {
-    GlobalConfig.Connected = 1;
-    console.log("Now connected, connection ID=" + connection.id);
-  })
-  .fail(function () {
-    GlobalConfig.Connected = 2;
-    console.log("Could not connect");
-  });
+export const connection = hubConnection(KIOSK);
+export const proxy = connection.createHubProxy("kioskHardwareHub");
+
 class HubConnection {
   static ACTION = async (METHOD, DEVICE, MODE,TIMEOUT) => {
     return new Promise((resolve) => {
