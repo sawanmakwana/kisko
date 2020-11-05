@@ -63,7 +63,7 @@ const BookingId = (props) => {
             >
               <input
                 className="input100"
-                type="text"
+                type="number"
                 name="username"
                 placeholder="Type here.."
                 value={pin}

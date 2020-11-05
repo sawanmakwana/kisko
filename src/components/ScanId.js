@@ -14,7 +14,7 @@ const ScanId = (props) => {
       <div className="container transparent">
         <h2 className="maintitle">Select an option to scan ID</h2>
         <div className="row mt-5 mb-5m text-center">
-          <div className=" col-md-3 "></div>
+          <div className=" col-md-3 ml-3 "></div>
           {/* <div className="col-md-5">
             <a href="" className="bluebutton">
               <img src={SocialImg} /> <span>Social ID</span>

@@ -135,7 +135,8 @@ const ScanbarCode = (props) => {
           String(GlobalConfig.UserScanDetail.lastName).toLowerCase()
       ) {
         //ADD TOST : LICENCE DETAIL NOT MATCH
-        props.history.push(to.scanId);
+        // props.history.push(to.scanId);
+        return;
       }
       if(GlobalConfig.Bookings[0].pre_chekin_status){
         props.history.push(to.selectKeys);
@@ -148,7 +149,7 @@ const ScanbarCode = (props) => {
       }
       
     } else {
-      // ADD TOST : INVALID
+      // ADD TOST : INVALID BARCODE
     }
   };
 
