@@ -6,18 +6,18 @@ import SearchButton from "../Widgets/SearchButton";
 import * as Services from "./Services";
 import AppServiceClass from "../../assets/js/environmentConfig";
 import CancelButton from "../Widgets/CancelButton";
-import { get } from "../../AppUtills";
+
 import Loader from "../Widgets/Loader";
 import AlertPopup from "../Widgets/AlertPopup";
-import { GlobalContext } from "../../assets/js/context";
+
 const { bookingType } = new AppServiceClass().getEnvironmentVariables();
 
 const BookingId = (props) => {
   const hotel = GlobalConfig.Hotel;
 
-  const [pin, setPin] = useState("33923");
+  const [pin, setPin] = useState("33970");
   const [lastName, setLastName] = useState("desai");
-  const { loading, setLoading } = useContext(GlobalContext);
+  const [ loading, setLoading ]  = useState(false);
   const [text, setText] = useState({ header: "", subHeader: "" });
   const [alert, setAlert] = useState(false);
 
@@ -25,7 +25,7 @@ const BookingId = (props) => {
     let DATA = {
       booking_id: pin,
       last_name: lastName,
-      hotel_id: hotel.id,
+      hotel_id: hotel.hotel_id,
       search_type: bookingType.Booking,
       browser: true,
       is_guest_user: true,
@@ -69,7 +69,7 @@ const BookingId = (props) => {
       />
       <div className="commontitle">
         <h2>Pin Number</h2>
-        <p>Lorem ipsum is a dummy text.</p>
+        {/* <p>Lorem ipsum is a dummy text.</p> */}
       </div>
       <form className="login100-form validate-form flex-sb flex-w">
         <div className="formarea">

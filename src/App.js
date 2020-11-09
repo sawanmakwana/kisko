@@ -23,6 +23,7 @@ function App(props) {
       .done(function () {
         GlobalConfig.Connected = 1;
         console.log("Now connected, connection ID=" + connection.id);
+        proxy.invoke("CancelScanWait", "Honeywell3330G");
       })
       .fail(function () {
         GlobalConfig.Connected = 2;

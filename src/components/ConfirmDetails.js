@@ -13,8 +13,8 @@ import { GlobalContext } from "../assets/js/context";
 const ConfirmDetails = (props) => {
   const UserDetails = GlobalConfig.UserScanDetail;
   const SelectedBooking = GlobalConfig.SelectedBooking;
-  const [phone, setPhone] = useState(UserDetails.phone || "");
-  const [email, setEmail] = useState(UserDetails.email || "");
+  const [phone, setPhone] = useState(SelectedBooking.user.phone || "");
+  const [email, setEmail] = useState(SelectedBooking.user.email || "");
   const { loading, setLoading } = useContext(GlobalContext);
   const [text, setText] = useState({ header: "", subHeader: "" });
   const [alert, setAlert] = useState(false);
@@ -52,7 +52,7 @@ const ConfirmDetails = (props) => {
       />
       <div className="commontitle">
         <h2>Confirmation Details</h2>
-        <p>Lorem ipsum is a dummy text.</p>
+        {/* <p>Lorem ipsum is a dummy text.</p> */}
       </div>
       <form className="login100-form validate-form  mtop">
         <div className="nscroll">
@@ -81,7 +81,7 @@ const ConfirmDetails = (props) => {
                 <span className="rightsection">
                   <img src={CalendarImg} className="detailcalendar" alt="img" />{" "}
                   {moment(get(["checkin_time"], SelectedBooking)).format(
-                    "DD MMM, YYYY HH:MM"
+                    "DD MMM, YYYY"
                   )}
                 </span>
               </div>
@@ -95,8 +95,8 @@ const ConfirmDetails = (props) => {
               <div className="col-md-8">
                 <span className="rightsection">
                   <img src={CalendarImg} className="detailcalendar" alt="img" />{" "}
-                  {moment(get(["checkin_time"], SelectedBooking)).format(
-                    "DD MMM, YYYY HH:MM"
+                  {moment(get(["checkout_time"], SelectedBooking)).format(
+                    "DD MMM, YYYY"
                   )}
                 </span>
               </div>
@@ -122,7 +122,7 @@ const ConfirmDetails = (props) => {
               </div>
               <div className="col-md-8">
                 <span className="rightsection">
-                  {get(["room_type_name"], SelectedBooking)}
+                  {get(["room_type_name"], SelectedBooking) || "Standard"}
                 </span>
               </div>
             </div>
@@ -187,7 +187,7 @@ const ConfirmDetails = (props) => {
 
         <div className="col-md-12 text-center mtop">
           <CancelButton
-          text="Cancle"
+          text="Cancel"
             onClick={() => {
               setAlert(true);
               setText({

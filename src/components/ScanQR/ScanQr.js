@@ -23,7 +23,7 @@ const ScanQr = (props) => {
   const [text, setText] = useState({ header: "", subHeader: "" });
   const [alert, setAlert] = useState(false);
   const { loading, setLoading } = useContext(GlobalContext);
-
+  const { scanData , setScanData} = useContext(GlobalContext);
   useEffect(() => {
     startScan();
     return () => {
@@ -38,7 +38,7 @@ const ScanQr = (props) => {
     };
   }, []);
   const startScan = async () => {
-    setLoading(true);
+    // setLoading(true);
     if (GlobalConfig.Connected === 0) {
       setTimeout(() => {
         startScan();
@@ -47,12 +47,21 @@ const ScanQr = (props) => {
     } else if (GlobalConfig.Connected === 2) {
       return;
     }
+    HubConnection.ACTION("startScanBarcode", "Honeywell3330G", false);
+    GlobalConfig.QR = true;
+    
+  };
+  
+  const validateDetail = (resultScan) => {
+    GlobalConfig.QR = false;
+    setScanData(null)
+    console.log("[validate QR=]",resultScan)
     HubConnection.ACTION("Scan", "Honeywell3330G")
       .then((result) => {
         console.log(`Scan  execution done  `, result);
         let DATA = {
-          booking_id: result.result.Data,
-          hotel_id: hotel.id,
+          booking_id: resultScan.Barcode,
+          hotel_id: hotel.hotel_id,
           search_type: bookingType.QR,
           browser: true,
           is_guest_user: true,
@@ -81,7 +90,8 @@ const ScanQr = (props) => {
         setAlert(true);
         setText({ header: "Not Found", subHeader: "Your Booking not Found" });
       });
-  };
+  }
+  if(GlobalConfig.QR && scanData) validateDetail(scanData)
 
   useEffect(() => {
     let intervalId;
@@ -90,11 +100,10 @@ const ScanQr = (props) => {
       setDisableRescan(false);
       return;
     }
-
+    
     if (counter > 0) {
       intervalId = setInterval(() => {
         setCounter(counter - 1000);
-        console.log({ counter });
       }, 1000);
     }
 
@@ -110,6 +119,9 @@ const ScanQr = (props) => {
         subHeader={text.subHeader}
         onCancel={() => {
           setAlert(false);
+          startScan()
+          setCounter(180000);
+          // setDisableRescan(false);
         }}
         cancelText={"Back"}
       />

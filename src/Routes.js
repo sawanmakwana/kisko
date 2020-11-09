@@ -18,8 +18,8 @@ import ConfirmDetails from "./components/ConfirmDetails";
 import Multibooking from "./components/MultiBooking";
 import Terms from "./components/Terms";
 import SwipeCreditCard from "./components/SwipeCreditCard";
-import CaptureFrontImage from "./components/CaptureFrontImage";
-import CaptureFace from "./components/CaptureFace";
+import CaptureFrontImage from "./components/Capture/CaptureFrontImage";
+import CaptureFace from "./components/Capture/CaptureFace";
 
 const Routes = () => {
   return (

@@ -28,7 +28,10 @@ const Home = (props) => {
           <div className="col-md-5">
           <div
               className="bluebutton"
-              onClick={() => props.history.push(to.checkIn)}
+              onClick={() => {
+                GlobalConfig.SEARCH_TYPE = "pickUp";
+                props.history.push(to.checkIn)
+              }}
             >
               <img src={KeyImg} alt="img" /> <span>Pick up Keys</span>
               <div className="noverlay"></div>
@@ -37,7 +40,10 @@ const Home = (props) => {
           <div className="col-md-5">
             <div
               className="bluebutton"
-              onClick={() => props.history.push(to.checkIn)}
+              onClick={() => {
+                GlobalConfig.SEARCH_TYPE = "checkIn";
+                props.history.push(to.checkIn)
+              }}
             >
               <img src={CheckInImg} alt="img" /> <span>Check In</span>
               <div className="noverlay"></div>

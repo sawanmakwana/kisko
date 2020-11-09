@@ -22,14 +22,14 @@ const ScanId = (props) => {
             </a>
           </div> */}
           <div className="col-md-5 ml-3" onClick={() => props.history.push(to.scanbarCode)}>
-            <a href="" className="bluebutton" onClick={(e)=>e.preventDefault()}>
+            <a  className="bluebutton" onClick={(e)=>e.preventDefault()}>
               <img src={LicenceImg} /> <span>Licence</span>
               <div className="noverlay"></div>
             </a>
           </div>
         </div>
         <div className="col-md-12 text-center mtop">
-          <CancelButton onClick={() => props.history.push(to.bookingInfo)} />
+          <CancelButton onClick={() => props.history.push(to.multiBooking)} />
         </div>
       </div>
       <Footer />

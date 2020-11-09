@@ -24,7 +24,7 @@ const BookingDetail = (props) => {
   const findReservationKiosk = () => {
     let DATA = {
       last_name: lastName,
-      hotel_id: hotel.id,
+      hotel_id: hotel.hotel_id,
       search_type: bookingType.Detail,
       browser: true,
       is_guest_user: true,
@@ -73,7 +73,7 @@ const BookingDetail = (props) => {
       />
       <div className="commontitle">
         <h2>Booking Detail</h2>
-        <p>Lorem ipsum is a dummy text.</p>
+        {/* <p>Lorem ipsum is a dummy text.</p> */}
       </div>
       <form className="login100-form validate-form flex-sb flex-w">
         <div className="formarea">

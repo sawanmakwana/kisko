@@ -1,4 +1,4 @@
-let _token,_hotel,_language,_booking,_connected = 0, _userDetail;
+let _token,_hotel,_language,_booking,_connected = 0, _userDetail, _scanLicense = false, _scanQR = false,_searchType = "checkIn";
 
 export class GlobalConfig {
   static get Token() {
@@ -84,4 +84,28 @@ export class GlobalConfig {
   static set Connected(value) {
     return _connected = value;
   }
+
+  static get License() {
+    return _scanLicense;
+  }
+  static set License(value) {
+    return _scanLicense = value;
+  }
+
+  static get QR() {
+    return _scanQR;
+  }
+  static set QR(value) {
+    return _scanQR = value;
+  }
+
+  static get SEARCH_TYPE() {
+    return _searchType;
+  }
+  static set SEARCH_TYPE(value) {
+    return _searchType = value;
+  }
 }
+
+
+

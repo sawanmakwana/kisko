@@ -39,7 +39,7 @@ const SwipeCreditCard = (props) => {
   }, []);
 
   const scanCreditCard = async () => {
-    setLoading(true);
+    // setLoading(true);
     if (GlobalConfig.Connected === 0) {
       setTimeout(() => {
         scanCreditCard();
@@ -158,7 +158,7 @@ const SwipeCreditCard = (props) => {
         successText={"yes"}
         onSuccess={() => {
           setAlert(false);
-          props.history.push(`/home`);
+          props.history.push(to.home);
         }}
       />
       <h2 className="maintitle">
@@ -167,22 +167,24 @@ const SwipeCreditCard = (props) => {
       <form className="login100-form validate-form flex-sb flex-w mtop">
         <div
           className="formarea fixarea"
-          onClick={() => props.history.push(to.selectKeys)}
+          // onClick={() => props.history.push(to.selectKeys)}
         >
           <img src={CaptureGif} alt="capture" />
         </div>
         <div className="col-md-12 text-center mtop">
           <button
             className="cancelbutton"
-            onClick={() => {
-              setAlert(true);
-              setText({
-                header: "Cancel Checkin",
-                subHeader: "Are you sure you want to cancel checkin ?",
-              });
-            }}
+            // onClick={() => {
+            //   setAlert(true);
+            //   setText({
+            //     header: "Cancel Checkin",
+            //     subHeader: "Are you sure you want to cancel checkin ?",
+            //   });
+            // }}
+            
+            onClick={() => props.history.push(to.terms)}
           >
-            Cancel{" "}
+            Back{" "}
           </button>
           <ContinueButton onClick={() => props.history.push(to.selectKeys)} />
           {/* <ContinueButton onClick={() =>startNFC} /> */}

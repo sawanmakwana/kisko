@@ -13,8 +13,8 @@ import { GlobalContext } from "../assets/js/context";
 
 const ScanbarCode = (props) => {
   const [disableRescan, setDisableRescan] = useState(true);
-  const [counter, setCounter] = useState(5000);
-  const { scanData } = useContext(GlobalContext);
+  const [counter, setCounter] = useState(180000);
+  const { scanData,setScanData } = useContext(GlobalContext);
 
   const [text, setText] = useState({ header: "", subHeader: "" });
   const [alert, setAlert] = useState(false);
@@ -35,7 +35,7 @@ const ScanbarCode = (props) => {
   }, []);
 
   const startScan = async () => {
-    setCounter(5000);
+    // setCounter(5000);
     setDisableRescan(true);
     if (GlobalConfig.Connected === 0) {
       setTimeout(() => {
@@ -47,8 +47,15 @@ const ScanbarCode = (props) => {
     }
 
     HubConnection.ACTION("startScanBarcode", "Honeywell3330G", false);
+    GlobalConfig.License = true;
   };
+  
   const validateDetail = (result) => {
+    GlobalConfig.License = false;
+    setScanData(null)
+    console.log("[validate=]",result)
+    result = pdf417(result.Barcode)
+    
     if (typeof result == "object" && result.name && result.name.first) {
       GlobalConfig.UserScanDetail = {
         firstName: result.name.first,
@@ -86,18 +93,19 @@ const ScanbarCode = (props) => {
         String(GlobalConfig.Bookings[0].guest_lname).toLowerCase() !=
           String(GlobalConfig.UserScanDetail.lastName).toLowerCase()
       ) {
+
         setAlert(true);
         setText({
-          header: "Details dont match",
-          subHeader: "Licence detail do not match",
+          header: "Details not match",
+          subHeader: "License details not matching with booking",
         });
 
         //ADD TOST : LICENCE DETAIL NOT MATCH
         // props.history.push(to.scanId);
         return;
       }
-      if (GlobalConfig.Bookings[0].pre_chekin_status) {
-        props.history.push(to.selectKeys);
+      if (GlobalConfig.SEARCH_TYPE === "pickUp") {
+        props.history.push(to.captureFace);
       } else {
         if (GlobalConfig.Hotel.allowed_doc_scan || true) {
           props.history.push(to.captureFront);
@@ -114,16 +122,17 @@ const ScanbarCode = (props) => {
       // ADD TOST : INVALID
     }
   };
-
-  console.log({ scanData });
+  if(GlobalConfig.License && scanData) validateDetail(scanData)
+  // console.log({ scanData });
 
   const processNext = () => {
-    let result = scanData?.Barcode;
+    let result = {
     // 'u001eANSI 636015080001DL00410285ZC03260033DLDCACDCBNONEDCDNONEDBA01312022DCSHODARDACRATANDADGOVINDDBD08112017DBB01311978DBC1DAYBRNDAU069 INDAG388 BEALE ST APT 805DAISAN FRANCISCODAJCADAK941050000  DAQY8199490DCF08/11/2017503C8/DDFD/22DCGUSADDEUDDFUDDGUDAW164DAZBLKDCK17223Y81994900401DDB04162010DDD0ZCZCAZCBZCCBRNZCDBLKZCEZCF"';
-    // '@ANSI 636014040002DL00410288ZC03290034DLDCACDCBNONEDCDNONEDBA11092020DCSDESAIDACMRUNALDADHEMANTKUMARDBD11242015DBB11091982DBC1DAYBLKDAU067 INDAG2167 EL CAPITAN AVEDAISANTA CLARADAJCADAK950500000  DAQD3634400DCF11/24/20156453A/AAFD/20DCGUSADDEUDDFUDDGUDAW180DAZBLKDCK15328D36344000401DDB04162010DDD0ZCZCAYZCBZCCBLKZCDBLKZCEZCF"';
-    // ('u001eANSI 636015080001DL00310274DLDCACDDAFDDB10102016DCBNONEDCDNONEDBA07132026DCSDESAIDDENDACCHINTAKDDFNDADNONEDDGNDBD09092019DBB07131987DBC1DAYBRODAZBLKDAU070 INDAW170DCLADAG5418 ANITA STDAIDALLASDAJTXDAK752060000  DCK45110063  20190911DAQ45110063DCF42111940195029205598DCGUSA"');
-
-    result = pdf417(result);
+    Barcode : ('@ANSI 636014040002DL00410288ZC03290034DLDCACDCBNONEDCDNONEDBA11092020DCSDESAIDACMRUNALDADHEMANTKUMARDBD11242015DBB11091982DBC1DAYBLKDAU067 INDAG2167 EL CAPITAN AVEDAISANTA CLARADAJCADAK950500000  DAQD3634400DCF11/24/20156453A/AAFD/20DCGUSADDEUDDFUDDGUDAW180DAZBLKDCK15328D36344000401DDB04162010DDD0ZCZCAYZCBZCCBLKZCDBLKZCEZCF"')
+    // Barcode : ('u001eANSI 636015080001DL00310274DLDCACDDAFDDB10102016DCBNONEDCDNONEDBA07132026DCSDESAIDDENDACCHINTAKDDFNDADNONEDDGNDBD09092019DBB07131987DBC1DAYBRODAZBLKDAU070 INDAW170DCLADAG5418 ANITA STDAIDALLASDAJTXDAK752060000  DCK45110063  20190911DAQ45110063DCF42111940195029205598DCGUSA"')
+    };
+    console.log("Static")
+    // result = pdf417(result);
     validateDetail(result);
   };
 

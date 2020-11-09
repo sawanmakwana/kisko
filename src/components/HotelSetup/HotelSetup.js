@@ -10,7 +10,7 @@ import Loader from "../Widgets/Loader";
 import AlertPopup from "../Widgets/AlertPopup";
 
 const HotelSetup = (props) => {
-  const [uuid, setUuid] = useState("8881214933");
+  const [uuid, setUuid] = useState("4734181389");
   const { loading, setLoading } = useContext(GlobalContext);
   const [hotelText, setHotelText] = useState({ header: "", subHeader: "" });
   const [alert, setAlert] = useState(false);

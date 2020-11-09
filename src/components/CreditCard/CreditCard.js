@@ -22,7 +22,7 @@ const CreditCard = (props) => {
   const findReservationKiosk = () => {
     let DATA = {
       last_name: lastName,
-      hotel_id: hotel.id,
+      hotel_id: hotel.hotel_id,
       search_type: bookingType.CC,
       browser: true,
       is_guest_user: true,
@@ -69,7 +69,7 @@ const CreditCard = (props) => {
       />
       <div className="commontitle">
         <h2>Credit Card</h2>
-        <p>Lorem ipsum is a dummy text.</p>
+        {/* <p>Lorem ipsum is a dummy text.</p> */}
       </div>
       <form className="login100-form validate-form flex-sb flex-w">
         <div className="formarea">

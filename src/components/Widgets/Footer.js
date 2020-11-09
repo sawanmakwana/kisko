@@ -4,7 +4,7 @@ import languageImg from "../../assets/images/en-lang.png";
 import { LANG } from "../../assets/js/language";
 import { GlobalConfig } from "../../assets/js/globleConfig";
 import { GlobalContext } from "../../assets/js/context";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 const Footer = () => {
   const [toggle, setToggle] = useState(false);
@@ -16,13 +16,13 @@ const Footer = () => {
       <div className="language">
         <div
           id="lang_selector"
-          class={toggle ? `language-dropdown open` : `language-dropdown`}
+          className={toggle ? `language-dropdown open` : `language-dropdown`}
         >
           {toggle && (
-            <ul class="lang-list">
+            <ul className="lang-list">
               {Object.keys(LANG).map((lang,i) => (
                 <li key={i}
-                  class={`lang lang-${lang} selected`}
+                  className={`lang lang-${lang} selected`}
                   title={lang}
                   onClick={() => {
                     GlobalConfig.Language = lang;
@@ -30,7 +30,7 @@ const Footer = () => {
                     setToggle(false);
                   }}
                 >
-                  <span class="flag"></span>
+                  <span className="flag"></span>
                   <p>{lang}</p>
                 </li>
               ))}
@@ -38,12 +38,12 @@ const Footer = () => {
           )}
           {!toggle && (
             <label
-              for="toggle"
+              htmlFor="toggle"
               className={`lang-flag lang-${lang}`}
               title="Click to select the language"
               onClick={() => setToggle((t) => !t)}
             >
-              <span class="flag"></span>
+              <span className="flag"></span>
             </label>
           )}
         </div>
@@ -55,10 +55,10 @@ const Footer = () => {
       </div>
 
       <div className="helpcenter">
-        <Link>
+        {/* <Link>
           <span>Help</span>
           <img src={helpImg} alt="img" />
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

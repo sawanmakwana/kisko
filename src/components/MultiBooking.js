@@ -23,8 +23,8 @@ const Multibooking = (props) => {
         {/* <p>Lorem ipsum is a dummy text.</p> */}
       </div>
       <form className="login100-form validate-form flex-sb flex-w mtop">
-        {Bookings.map((booking) => (
-          <article className="card card-product-list maindetail">
+        {Bookings.map((booking,i) => (
+          <article key={i} className="card card-product-list maindetail">
             <div className="row no-gutters">
               <div className="reservtick">
                 <div className="radio">
@@ -86,13 +86,13 @@ const Multibooking = (props) => {
                 <div className="price-wrap col-md-4">
                   <span>
                     <h6>Price</h6>
-                    <strong>${get(["avg_night_rate"], booking, "")}</strong>
+                    <strong>${get(["avg_night_rate"], booking, "") === "null"?"--" : get(["avg_night_rate"], booking, "")}</strong>
                   </span>
                 </div>
                 <div className="people col-md-4">
                   <h6>No. of Night(s)</h6>
                   <img src={BedImg} alt="img" />
-                  <span>1 </span>
+                  <span>{moment(get(["checkout_time"], booking, "")).diff(moment(get(["checkin_time"], booking, "")), 'days') || 1} </span>
                 </div>
                 <div className="people col-md-4">
                   <h6>Adult(s)</h6>
