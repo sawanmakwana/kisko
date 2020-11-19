@@ -12,10 +12,10 @@ const { key, iv, isEncrypt } = new AppServiceClass().getEnvironmentVariables();
 class Connection extends React.Component {
   static BASE = BASE;
 
-  static createHeaders = () => {
+  static createHeaders = (token) => {
     const HEADERS = new Headers();
     HEADERS.append("Content-Type", "application/json");
-    HEADERS.append("Authorization", `Bearer ${Settings.token}`);
+    HEADERS.append("Authorization", `Bearer ${token || Settings.token}`);
     !isEncrypt && HEADERS.append("x-aavgo-crypto-disable", `true`);
     return HEADERS;
   };
@@ -35,7 +35,8 @@ class Connection extends React.Component {
     </GlobalContext.Consumer>;
     // console.log({ load: this.context.loading ,actionName});
 
-    const HEADERS = Connection.createHeaders();
+    const HEADERS = Connection.createHeaders(body.token);
+    delete body.token;
     if (isEncrypt) {
       let data = body;
       const requestObject = await this.encryptFunc(

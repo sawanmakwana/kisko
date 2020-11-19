@@ -17,10 +17,15 @@ import { LANG } from "../../assets/js/language";
 
 const CaptureFace = (props) => {
   const [captureImage, setCaptureImage] = useState(CaptureGif);
+
   const [retake, setRetake] = useState(true);
   const { loading, setLoading, lang } = useContext(GlobalContext);
 
-  const [text, setText] = useState({ header: "", subHeader: "" });
+  const [text, setText] = useState({
+    header: "",
+    subHeader: "",
+    cancelText: "Cancel",
+  });
   const [alert, setAlert] = useState(false);
 
   const hotel = GlobalConfig.Hotel;
@@ -35,7 +40,7 @@ const CaptureFace = (props) => {
     } else if (GlobalConfig.Connected === 2) {
       return;
     }
-
+    console.log("[captureClick]");
     HubConnection.ACTION("ImagingDeviceCaptureImage", "PosiflexCamera").then(
       (data) => {
         console.log(data);
@@ -74,6 +79,7 @@ const CaptureFace = (props) => {
           setText({
             header: LANG[lang].Invalid_Image,
             subHeader: LANG[lang].Please_Try_Again,
+            cancelText: LANG[lang].Cancel,
           });
           // TOST : Booking not found
         }
@@ -84,6 +90,7 @@ const CaptureFace = (props) => {
         setText({
           header: LANG[lang].Something_went_wrong,
           subHeader: LANG[lang].Please_Try_Again,
+          cancelText: LANG[lang].Cancel,
         });
       });
   };
@@ -94,6 +101,7 @@ const CaptureFace = (props) => {
         isVisible={alert}
         header={text.header}
         subHeader={text.subHeader}
+        cancelText={text.cancelText}
         onCancel={() => {
           setAlert(false);
         }}
