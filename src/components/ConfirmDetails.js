@@ -9,8 +9,10 @@ import moment from "moment";
 import AlertPopup from "./Widgets/AlertPopup";
 import Loader from "./Widgets/Loader";
 import { GlobalContext } from "../assets/js/context";
+import { LANG } from "../assets/js/language";
 
 const ConfirmDetails = (props) => {
+  const { lang } = useContext(GlobalContext);
   const UserDetails = GlobalConfig.UserScanDetail;
   const SelectedBooking = GlobalConfig.SelectedBooking;
   const [phone, setPhone] = useState(SelectedBooking.user.phone || "");
@@ -59,7 +61,7 @@ const ConfirmDetails = (props) => {
           <div className="maindetail">
             <div className="row">
               <div className="col-md-4">
-                <span className="leftsection">Guest Name</span>
+                <span className="leftsection">{LANG[lang].Guest_Name}</span>
               </div>
               <div className="col-md-8">
                 <span className="rightsection">
@@ -75,7 +77,7 @@ const ConfirmDetails = (props) => {
           <div className="maindetail mtop">
             <div className="row">
               <div className="col-md-4">
-                <span className="leftsection">Check-In</span>
+                <span className="leftsection">{LANG[lang].Check_In}</span>
               </div>
               <div className="col-md-8">
                 <span className="rightsection">
@@ -90,7 +92,7 @@ const ConfirmDetails = (props) => {
           <div className="maindetail mtop">
             <div className="row">
               <div className="col-md-4">
-                <span className="leftsection">Check-Out</span>
+                <span className="leftsection">{LANG[lang].Check_Out}</span>
               </div>
               <div className="col-md-8">
                 <span className="rightsection">
@@ -105,12 +107,12 @@ const ConfirmDetails = (props) => {
           <div className="maindetail mtop">
             <div className="row">
               <div className="col-md-4">
-                <span className="leftsection">Avg. Rate</span>
+                <span className="leftsection">{LANG[lang].Avg_Rate}</span>
               </div>
               <div className="col-md-8">
                 <span className="rightsection">
                   <strong>${get(["avg_night_rate"], SelectedBooking)}/</strong>{" "}
-                  <small>Per Night</small>
+                  <small>{LANG[lang].Per_Night}</small>
                 </span>
               </div>
             </div>
@@ -118,7 +120,7 @@ const ConfirmDetails = (props) => {
           <div className="maindetail mtop">
             <div className="row">
               <div className="col-md-4">
-                <span className="leftsection">Room Type</span>
+                <span className="leftsection">{LANG[lang].Room_type}</span>
               </div>
               <div className="col-md-8">
                 <span className="rightsection">
@@ -130,7 +132,9 @@ const ConfirmDetails = (props) => {
           <div className="maindetail mtop">
             <div className="row">
               <div className="col-md-4">
-                <span className="leftsection editablefield">Mobile No.</span>
+                <span className="leftsection editablefield">
+                  {LANG[lang].Mobile_no}
+                </span>
               </div>
               <div className="col-md-8">
                 <div
@@ -153,7 +157,9 @@ const ConfirmDetails = (props) => {
           <div className="maindetail mtop">
             <div className="row">
               <div className="col-md-4">
-                <span className="leftsection editablefield">Email ID</span>
+                <span className="leftsection editablefield">
+                  {LANG[lang].Email_Id}
+                </span>
               </div>
               <div className="col-md-8">
                 <div
@@ -179,7 +185,10 @@ const ConfirmDetails = (props) => {
                 <span className="leftsection">Address</span>
               </div>
               <div className="col-md-9">
-                <span className="rightsection">{UserDetails.address}, {UserDetails.city}, {UserDetails.state}, {UserDetails.postalCode}</span>
+                <span className="rightsection">
+                  {UserDetails.address}, {UserDetails.city}, {UserDetails.state}
+                  , {UserDetails.postalCode}
+                </span>
               </div>
             </div>
           </div>
@@ -187,12 +196,12 @@ const ConfirmDetails = (props) => {
 
         <div className="col-md-12 text-center mtop">
           <CancelButton
-          text="Cancel"
+            text={LANG[lang].Cancel}
             onClick={() => {
               setAlert(true);
               setText({
-                header: "Cancel",
-                subHeader: "Are you sure you want to cancel checkin ?",
+                header: LANG[lang].Cancel,
+                subHeader: LANG[lang].Are_you_sure_you_want_to_cancel_checkin,
               });
             }}
           />

@@ -8,8 +8,9 @@ import { GlobalConfig } from "../assets/js/globleConfig";
 import Loader from "./Widgets/Loader";
 import AlertPopup from "./Widgets/AlertPopup";
 import { GlobalContext } from "../assets/js/context";
+import { LANG } from "../assets/js/language";
 const SwipeCreditCard = (props) => {
-  const { loading, setLoading } = useContext(GlobalContext);
+  const { loading, setLoading, lang } = useContext(GlobalContext);
   const [text, setText] = useState({ header: "", subHeader: "" });
   const [alert, setAlert] = useState(false);
   useEffect(() => {
@@ -92,19 +93,18 @@ const SwipeCreditCard = (props) => {
     HubConnection.ACTION("EnableSmartCard", "IUC285").then((data) => {
       console.log("EnableSmartCard : START =======");
       console.log("EnableSmartCard : ", data);
-      HubConnection.ACTION("ReadSmartCard", "IUC285", 1, -1)
-        .then((data) => {
-          processNextScreen();
-          console.log("ReadSmartCard : START =======");
-          console.log("ReadSmartCard : ", data);
-          HubConnection.ACTION("DisableSmartCard", "IUC285");
-        })
-        //For card error...need to fix the case for alert !! (Multiple alert)
-        // .catch((err) => {
-        //   setLoading(false);
-        //   setAlert(true);
-        //   setText({ header: "Error", subHeader: "Something went wrong with payment" });
-        // });
+      HubConnection.ACTION("ReadSmartCard", "IUC285", 1, -1).then((data) => {
+        processNextScreen();
+        console.log("ReadSmartCard : START =======");
+        console.log("ReadSmartCard : ", data);
+        HubConnection.ACTION("DisableSmartCard", "IUC285");
+      });
+      //For card error...need to fix the case for alert !! (Multiple alert)
+      // .catch((err) => {
+      //   setLoading(false);
+      //   setAlert(true);
+      //   setText({ header: "Error", subHeader: "Something went wrong with payment" });
+      // });
 
       // HubConnection.ACTION("ReadSwipe", "IUC285", -1).then((data) => {
       //   processNextScreen();
@@ -162,7 +162,7 @@ const SwipeCreditCard = (props) => {
         }}
       />
       <h2 className="maintitle">
-        Insert your <span>Credit Card</span> to do payment
+        {LANG[lang].Insert_your} <span>{LANG[lang].Credit_Card}</span> {LANG[lang].to_do_payment}
       </h2>
       <form className="login100-form validate-form flex-sb flex-w mtop">
         <div
@@ -181,7 +181,7 @@ const SwipeCreditCard = (props) => {
             //     subHeader: "Are you sure you want to cancel checkin ?",
             //   });
             // }}
-            
+
             onClick={() => props.history.push(to.terms)}
           >
             Back{" "}

@@ -8,6 +8,7 @@ import { to } from "../../RoutesPath";
 import AlertPopup from "../Widgets/AlertPopup";
 import Loader from "../Widgets/Loader";
 import { GlobalContext } from "../../assets/js/context";
+import { LANG } from "../../assets/js/language";
 const { bookingType } = new AppServiceClass().getEnvironmentVariables();
 
 const CreditCard = (props) => {
@@ -15,7 +16,7 @@ const CreditCard = (props) => {
 
   const [last5Digit, setLast5Digit] = useState("");
   const [lastName, setLastName] = useState("");
-  const { loading, setLoading } = useContext(GlobalContext);
+  const { loading, setLoading , lang} = useContext(GlobalContext);
   const [text, setText] = useState({ header: "", subHeader: "" });
   const [alert, setAlert] = useState(false);
 
@@ -39,8 +40,8 @@ const CreditCard = (props) => {
         } else {
           setAlert(true);
           setText({
-            header: "Not Found",
-            subHeader: "Your Booking not Found ",
+            header: LANG[lang].Not_Found,
+            subHeader: LANG[lang].Your_Booking_not_Found,
           });
           // TOST : Booking not found
         }
@@ -49,8 +50,8 @@ const CreditCard = (props) => {
         setLoading(false);
         setAlert(true);
         setText({
-          header: "Not Found",
-          subHeader: "Your Booking not Found ",
+          header: LANG[lang].Not_Found,
+          subHeader: LANG[lang].Your_Booking_not_Found,
         });
       });
   };
@@ -93,7 +94,7 @@ const CreditCard = (props) => {
           </div>
           <div className="col-md-12 nopadding mt-3">
             <div className="p-t-31 p-b-9">
-              <span className="txt1">Last Name</span>
+      <span className="txt1">{LANG[lang].Last_Name}</span>
             </div>
             <div
               className="wrap-input100 validate-input"

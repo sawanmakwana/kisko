@@ -9,10 +9,12 @@ import { GlobalConfig } from "../../assets/js/globleConfig";
 import { GlobalContext } from "../../assets/js/context";
 import AlertPopup from "../Widgets/AlertPopup";
 import Loader from "../Widgets/Loader";
+import { LANG } from "../../assets/js/language";
 const { bookingType } = new AppServiceClass().getEnvironmentVariables();
 
 const BookingDetail = (props) => {
   const hotel = GlobalConfig.Hotel;
+  const { lang } = useContext(GlobalContext);
 
   const [checkoutDate, setCheckoutDate] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -43,8 +45,8 @@ const BookingDetail = (props) => {
         } else {
           setAlert(true);
           setText({
-            header: "Not Found",
-            subHeader: "Your Booking not Found ",
+            header: LANG[lang].Not_Found,
+            subHeader: LANG[lang].Your_Booking_not_Found,
           });
           // TOST : Booking not found
         }
@@ -53,15 +55,15 @@ const BookingDetail = (props) => {
         setLoading(false);
         setAlert(true);
         setText({
-          header: "Not Found",
-          subHeader: "Your Booking not Found ",
+          header: LANG[lang].Not_Found,
+          subHeader: LANG[lang].Your_Booking_not_Found,
         });
       });
   };
 
   return (
     <div className="container">
-       {loading && <Loader />}
+      {loading && <Loader />}
       <AlertPopup
         isVisible={alert}
         header={text.header}
@@ -79,7 +81,7 @@ const BookingDetail = (props) => {
         <div className="formarea">
           <div className="col-md-12 nopadding">
             <div className="p-b-9">
-              <span className="txt1">Check Out Date</span>
+      <span className="txt1">{LANG[lang].Check_Out_Date}</span>
             </div>
             <div
               className="wrap-input100 validate-input"

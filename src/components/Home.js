@@ -12,7 +12,6 @@ const Home = (props) => {
 
   const { lang } = useContext(GlobalContext);
 
-  console.log({ lang });
 
   return (
     <>
@@ -26,26 +25,28 @@ const Home = (props) => {
         <div className="row mt-5">
           <div className=" col-md-1"></div>
           <div className="col-md-5">
-          <div
+            <div
               className="bluebutton"
               onClick={() => {
                 GlobalConfig.SEARCH_TYPE = "pickUp";
-                props.history.push(to.checkIn)
+                props.history.push(to.checkIn);
               }}
             >
-              <img src={KeyImg} alt="img" /> <span>Pick up Keys</span>
+              <img src={KeyImg} alt="img" />{" "}
+              <span>{LANG[lang].Pick_up_Keys}</span>
               <div className="noverlay"></div>
-              </div>
+            </div>
           </div>
           <div className="col-md-5">
             <div
               className="bluebutton"
               onClick={() => {
                 GlobalConfig.SEARCH_TYPE = "checkIn";
-                props.history.push(to.checkIn)
+                props.history.push(to.checkIn);
               }}
             >
-              <img src={CheckInImg} alt="img" /> <span>Check In</span>
+              <img src={CheckInImg} alt="img" />{" "}
+              <span>{LANG[lang].Check_In}</span>
               <div className="noverlay"></div>
             </div>
           </div>

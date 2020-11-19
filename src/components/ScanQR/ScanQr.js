@@ -14,16 +14,19 @@ import moment from "moment";
 import AlertPopup from "../Widgets/AlertPopup";
 import Loader from "../Widgets/Loader";
 import { GlobalContext } from "../../assets/js/context";
+import { LANG } from "../../assets/js/language";
 const { bookingType } = new AppServiceClass().getEnvironmentVariables();
 
 const ScanQr = (props) => {
+  const { lang } = useContext(GlobalContext);
+
   const hotel = GlobalConfig.Hotel;
   const [counter, setCounter] = useState(180000);
   const [disableRescan, setDisableRescan] = useState(true);
   const [text, setText] = useState({ header: "", subHeader: "" });
   const [alert, setAlert] = useState(false);
   const { loading, setLoading } = useContext(GlobalContext);
-  const { scanData , setScanData} = useContext(GlobalContext);
+  const { scanData, setScanData } = useContext(GlobalContext);
   useEffect(() => {
     startScan();
     return () => {
@@ -49,13 +52,12 @@ const ScanQr = (props) => {
     }
     HubConnection.ACTION("startScanBarcode", "Honeywell3330G", false);
     GlobalConfig.QR = true;
-    
   };
-  
+
   const validateDetail = (resultScan) => {
     GlobalConfig.QR = false;
-    setScanData(null)
-    console.log("[validate QR=]",resultScan)
+    setScanData(null);
+    console.log("[validate QR=]", resultScan);
     HubConnection.ACTION("Scan", "Honeywell3330G")
       .then((result) => {
         console.log(`Scan  execution done  `, result);
@@ -77,8 +79,8 @@ const ScanQr = (props) => {
             setLoading();
             setAlert(true);
             setText({
-              header: "Not Found",
-              subHeader: "Your Booking not Found",
+              header: LANG[lang].Not_Found,
+              subHeader: LANG[lang].Your_Booking_not_Found,
             });
             // TOST : Booking not found
             // props.history.push(to.checkIn);
@@ -88,10 +90,13 @@ const ScanQr = (props) => {
       .catch((err) => {
         setLoading();
         setAlert(true);
-        setText({ header: "Not Found", subHeader: "Your Booking not Found" });
+        setText({
+          header: LANG[lang].Not_Found,
+          subHeader: LANG[lang].Your_Booking_not_Found,
+        });
       });
-  }
-  if(GlobalConfig.QR && scanData) validateDetail(scanData)
+  };
+  if (GlobalConfig.QR && scanData) validateDetail(scanData);
 
   useEffect(() => {
     let intervalId;
@@ -100,7 +105,7 @@ const ScanQr = (props) => {
       setDisableRescan(false);
       return;
     }
-    
+
     if (counter > 0) {
       intervalId = setInterval(() => {
         setCounter(counter - 1000);
@@ -119,15 +124,15 @@ const ScanQr = (props) => {
         subHeader={text.subHeader}
         onCancel={() => {
           setAlert(false);
-          startScan()
+          startScan();
           setCounter(180000);
           // setDisableRescan(false);
         }}
         cancelText={"Back"}
       />
       <div className="commontitle">
-        <h2>Scan Qr Code</h2>
-        <p>Search using QR code provided in the precheckin email</p>
+        <h2>{LANG[lang].Scan_Qr_Code}</h2>
+        <p>{LANG[lang].SearchusingQRcodeprovidedintheprecheckinemail}</p>
       </div>
       <form className="login100-form validate-form flex-sb flex-w">
         <div className="formarea fixarea">
@@ -149,7 +154,7 @@ const ScanQr = (props) => {
         {counter !== 0 && (
           <div className="col-md-12 text-center timer">
             <p>
-              Scan will auto cancel in{" "}
+              {LANG[lang].Scan_will_auto_cancel_in}{" "}
               <span>{moment.utc(counter).format("mm:ss")}</span>
             </p>
           </div>

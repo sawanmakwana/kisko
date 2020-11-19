@@ -8,10 +8,11 @@ import { GlobalContext } from "../../assets/js/context";
 import { to } from "../../RoutesPath";
 import Loader from "../Widgets/Loader";
 import AlertPopup from "../Widgets/AlertPopup";
+import { LANG } from "../../assets/js/language";
 
 const HotelSetup = (props) => {
   const [uuid, setUuid] = useState("4734181389");
-  const { loading, setLoading } = useContext(GlobalContext);
+  const { loading, setLoading, lang } = useContext(GlobalContext);
   const [hotelText, setHotelText] = useState({ header: "", subHeader: "" });
   const [alert, setAlert] = useState(false);
 
@@ -48,7 +49,7 @@ const HotelSetup = (props) => {
         cancelText={"Back"}
       />
       <div className="wrap-login100">
-        <h2 className="allcaps">Hotel Setup</h2>
+        <h2 className="allcaps">{LANG[lang].Hotel_Setup}</h2>
         <form className="login100-form validate-form flex-sb flex-w">
           <div className="col-md-12 nopadding mt-3">
             <div className="p-t-31 p-b-9">

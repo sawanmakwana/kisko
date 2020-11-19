@@ -1,24 +1,27 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import ContinueButton from "./Widgets/ContinueButton";
 import CancelButton from "./Widgets/CancelButton";
-import Footer from "./Widgets/Footer";
 import { to } from "../RoutesPath";
 import SignatureCanvas from "react-signature-canvas";
 import { GlobalConfig } from "../assets/js/globleConfig";
+import { GlobalContext } from "../assets/js/context";
+import { LANG } from "../assets/js/language";
 
 const Terms = (props) => {
   const [signatureEnd, setSignatureEnd] = useState(true);
   const hotel = GlobalConfig.Hotel;
+  const { lang } = useContext(GlobalContext);
+
   return (
     <div className="container">
       <div className="commontitle">
-        <h2>Terms & Conditions</h2>
+        <h2>{LANG[lang].Terms_Conditions}</h2>
         {/* <p>Lorem ipsum is a dummy text.</p> */}
       </div>
       <form className="login100-form validate-form flex-sb flex-w mtop">
         <div className="formarea terms ">
           <p
-          style={{textAlign:"justify"}}
+            style={{ textAlign: "justify" }}
             dangerouslySetInnerHTML={{
               __html: hotel.pre_checkin,
             }}

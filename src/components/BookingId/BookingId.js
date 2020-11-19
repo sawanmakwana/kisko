@@ -9,15 +9,18 @@ import CancelButton from "../Widgets/CancelButton";
 
 import Loader from "../Widgets/Loader";
 import AlertPopup from "../Widgets/AlertPopup";
+import { LANG } from "../../assets/js/language";
+import { GlobalContext } from "../../assets/js/context";
 
 const { bookingType } = new AppServiceClass().getEnvironmentVariables();
 
 const BookingId = (props) => {
   const hotel = GlobalConfig.Hotel;
+  const { lang } = useContext(GlobalContext);
 
   const [pin, setPin] = useState("33970");
   const [lastName, setLastName] = useState("desai");
-  const [ loading, setLoading ]  = useState(false);
+  const [loading, setLoading] = useState(false);
   const [text, setText] = useState({ header: "", subHeader: "" });
   const [alert, setAlert] = useState(false);
 
@@ -42,8 +45,8 @@ const BookingId = (props) => {
           setLoading(false);
           setAlert(true);
           setText({
-            header: "Not Found",
-            subHeader: "Your Booking not Found ",
+            header: LANG[lang].Not_Found,
+            subHeader: LANG[lang].Your_Booking_not_Found,
           });
           // TOST : Booking not found
         }
@@ -51,7 +54,10 @@ const BookingId = (props) => {
       .catch((err) => {
         setLoading(false);
         setAlert(true);
-        setText({ header: "Not Found", subHeader: "Your Booking not Found " });
+        setText({
+          header: LANG[lang].Not_Found,
+          subHeader: LANG[lang].Your_Booking_not_Found,
+        });
       });
   };
 
@@ -65,17 +71,17 @@ const BookingId = (props) => {
         onCancel={() => {
           setAlert(false);
         }}
-        cancelText={"Back"}
+        cancelText={LANG[lang].Back}
       />
       <div className="commontitle">
-        <h2>Pin Number</h2>
+        <h2>{LANG[lang].PIN_No}</h2>
         {/* <p>Lorem ipsum is a dummy text.</p> */}
       </div>
       <form className="login100-form validate-form flex-sb flex-w">
         <div className="formarea">
           <div className="col-md-12 nopadding">
             <div className="p-b-9">
-              <span className="txt1">PIN Number</span>
+              <span className="txt1">{LANG[lang].PIN_No}</span>
             </div>
             <div
               className="wrap-input100 validate-input"
@@ -94,7 +100,7 @@ const BookingId = (props) => {
           </div>
           <div className="col-md-12 nopadding mt-3">
             <div className="p-t-31 p-b-9">
-              <span className="txt1">Last Name</span>
+              <span className="txt1">{LANG[lang].Last_Name}</span>
             </div>
             <div
               className="wrap-input100 validate-input"

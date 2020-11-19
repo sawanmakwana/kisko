@@ -10,11 +10,12 @@ import { pdf417 } from "../assets/js/idDecoder";
 import moment from "moment";
 import AlertPopup from "./Widgets/AlertPopup";
 import { GlobalContext } from "../assets/js/context";
+import { LANG } from "../assets/js/language";
 
 const ScanbarCode = (props) => {
   const [disableRescan, setDisableRescan] = useState(true);
   const [counter, setCounter] = useState(180000);
-  const { scanData,setScanData } = useContext(GlobalContext);
+  const { scanData, setScanData, lang } = useContext(GlobalContext);
 
   const [text, setText] = useState({ header: "", subHeader: "" });
   const [alert, setAlert] = useState(false);
@@ -49,13 +50,13 @@ const ScanbarCode = (props) => {
     HubConnection.ACTION("startScanBarcode", "Honeywell3330G", false);
     GlobalConfig.License = true;
   };
-  
+
   const validateDetail = (result) => {
     GlobalConfig.License = false;
-    setScanData(null)
-    console.log("[validate=]",result)
-    result = pdf417(result.Barcode)
-    
+    setScanData(null);
+    console.log("[validate=]", result);
+    result = pdf417(result.Barcode);
+
     if (typeof result == "object" && result.name && result.name.first) {
       GlobalConfig.UserScanDetail = {
         firstName: result.name.first,
@@ -79,8 +80,8 @@ const ScanbarCode = (props) => {
       ) {
         setAlert(true);
         setText({
-          header: "Under Age ",
-          subHeader: "Your Age is under 18",
+          header: LANG[lang].Under_Age,
+          subHeader: LANG[lang].Your_Age_is_under_18,
         });
 
         //ADD TOST : AGE UNDER 18
@@ -93,11 +94,10 @@ const ScanbarCode = (props) => {
         String(GlobalConfig.Bookings[0].guest_lname).toLowerCase() !=
           String(GlobalConfig.UserScanDetail.lastName).toLowerCase()
       ) {
-
         setAlert(true);
         setText({
-          header: "Details not match",
-          subHeader: "License details not matching with booking",
+          header: LANG[lang].Details_not_match,
+          subHeader: LANG[lang].License_details_not_matching_with_booking,
         });
 
         //ADD TOST : LICENCE DETAIL NOT MATCH
@@ -110,28 +110,28 @@ const ScanbarCode = (props) => {
         if (GlobalConfig.Hotel.allowed_doc_scan || true) {
           props.history.push(to.captureFront);
         } else {
-          props.history.push(to.confirmDetails);
         }
       }
     } else {
       setAlert(true);
       setText({
-        header: "Invalid",
-        subHeader: "Invlaid QR",
+        header: LANG[lang].Invalid,
+        subHeader: LANG[lang].Invalid_QR,
       });
       // ADD TOST : INVALID
     }
   };
-  if(GlobalConfig.License && scanData) validateDetail(scanData)
+  if (GlobalConfig.License && scanData) validateDetail(scanData);
   // console.log({ scanData });
 
   const processNext = () => {
     let result = {
-    // 'u001eANSI 636015080001DL00410285ZC03260033DLDCACDCBNONEDCDNONEDBA01312022DCSHODARDACRATANDADGOVINDDBD08112017DBB01311978DBC1DAYBRNDAU069 INDAG388 BEALE ST APT 805DAISAN FRANCISCODAJCADAK941050000  DAQY8199490DCF08/11/2017503C8/DDFD/22DCGUSADDEUDDFUDDGUDAW164DAZBLKDCK17223Y81994900401DDB04162010DDD0ZCZCAZCBZCCBRNZCDBLKZCEZCF"';
-    Barcode : ('@ANSI 636014040002DL00410288ZC03290034DLDCACDCBNONEDCDNONEDBA11092020DCSDESAIDACMRUNALDADHEMANTKUMARDBD11242015DBB11091982DBC1DAYBLKDAU067 INDAG2167 EL CAPITAN AVEDAISANTA CLARADAJCADAK950500000  DAQD3634400DCF11/24/20156453A/AAFD/20DCGUSADDEUDDFUDDGUDAW180DAZBLKDCK15328D36344000401DDB04162010DDD0ZCZCAYZCBZCCBLKZCDBLKZCEZCF"')
-    // Barcode : ('u001eANSI 636015080001DL00310274DLDCACDDAFDDB10102016DCBNONEDCDNONEDBA07132026DCSDESAIDDENDACCHINTAKDDFNDADNONEDDGNDBD09092019DBB07131987DBC1DAYBRODAZBLKDAU070 INDAW170DCLADAG5418 ANITA STDAIDALLASDAJTXDAK752060000  DCK45110063  20190911DAQ45110063DCF42111940195029205598DCGUSA"')
+      // 'u001eANSI 636015080001DL00410285ZC03260033DLDCACDCBNONEDCDNONEDBA01312022DCSHODARDACRATANDADGOVINDDBD08112017DBB01311978DBC1DAYBRNDAU069 INDAG388 BEALE ST APT 805DAISAN FRANCISCODAJCADAK941050000  DAQY8199490DCF08/11/2017503C8/DDFD/22DCGUSADDEUDDFUDDGUDAW164DAZBLKDCK17223Y81994900401DDB04162010DDD0ZCZCAZCBZCCBRNZCDBLKZCEZCF"';
+      Barcode:
+        '@ANSI 636014040002DL00410288ZC03290034DLDCACDCBNONEDCDNONEDBA11092020DCSDESAIDACMRUNALDADHEMANTKUMARDBD11242015DBB11091982DBC1DAYBLKDAU067 INDAG2167 EL CAPITAN AVEDAISANTA CLARADAJCADAK950500000  DAQD3634400DCF11/24/20156453A/AAFD/20DCGUSADDEUDDFUDDGUDAW180DAZBLKDCK15328D36344000401DDB04162010DDD0ZCZCAYZCBZCCBLKZCDBLKZCEZCF"',
+      // Barcode : ('u001eANSI 636015080001DL00310274DLDCACDDAFDDB10102016DCBNONEDCDNONEDBA07132026DCSDESAIDDENDACCHINTAKDDFNDADNONEDDGNDBD09092019DBB07131987DBC1DAYBRODAZBLKDAU070 INDAW170DCLADAG5418 ANITA STDAIDALLASDAJTXDAK752060000  DCK45110063  20190911DAQ45110063DCF42111940195029205598DCGUSA"')
     };
-    console.log("Static")
+    console.log("Static");
     // result = pdf417(result);
     validateDetail(result);
   };
@@ -164,14 +164,16 @@ const ScanbarCode = (props) => {
           setAlert(false);
         }}
         cancelText={"Back"}
-        successText={"Scan Again"}
+        successText={LANG[lang].Scan_Again}
         onSuccess={() => {
           startScan();
           setAlert(false);
         }}
       />
 
-      <h2 className="maintitle">Place your Barcode ID in scanning area</h2>
+      <h2 className="maintitle">
+        {LANG[lang].Place_your_Barcode_ID_in_scanning_area}
+      </h2>
       <form className="login100-form validate-form flex-sb flex-w mtop">
         <div className="formarea fixarea">
           <img src={ScanqrImg} alt="img" />
@@ -193,7 +195,7 @@ const ScanbarCode = (props) => {
           style={{ visibility: counter !== 0 ? "visible" : "hidden" }}
         >
           <p>
-            Scan will auto cancel in{" "}
+            {LANG[lang].Scan_will_auto_cancel_in}{" "}
             <span>{moment.utc(counter).format("mm:ss")}</span>
           </p>
         </div>

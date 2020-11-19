@@ -13,12 +13,12 @@ import AlertPopup from "../Widgets/AlertPopup";
 import { get } from "../../AppUtills";
 import Loader from "../Widgets/Loader";
 import * as Services from "./Services";
+import { LANG } from "../../assets/js/language";
 
 const CaptureFace = (props) => {
-
   const [captureImage, setCaptureImage] = useState(CaptureGif);
   const [retake, setRetake] = useState(true);
-  const { loading, setLoading } = useContext(GlobalContext);
+  const { loading, setLoading, lang } = useContext(GlobalContext);
 
   const [text, setText] = useState({ header: "", subHeader: "" });
   const [alert, setAlert] = useState(false);
@@ -26,7 +26,7 @@ const CaptureFace = (props) => {
   const hotel = GlobalConfig.Hotel;
   const SelectedBooking = GlobalConfig.SelectedBooking;
 
-  const captureClick = () =>{
+  const captureClick = () => {
     if (GlobalConfig.Connected === 0) {
       setTimeout(() => {
         captureClick();
@@ -39,21 +39,19 @@ const CaptureFace = (props) => {
     HubConnection.ACTION("ImagingDeviceCaptureImage", "PosiflexCamera").then(
       (data) => {
         console.log(data);
-        if(data.success){
-          setCaptureImage("data:image/png;base64,"+data.result.Data)
-          setRetake(true)
+        if (data.success) {
+          setCaptureImage("data:image/png;base64," + data.result.Data);
+          setRetake(true);
         }
-        
-      })
-  
+      }
+    );
+  };
 
-  }
-
-  const uploadIamge=()=>{
+  const uploadIamge = () => {
     let DATA = {
-      "booking_id":get(["avg_night_rate"], SelectedBooking),
-      "hotel_id":hotel.booking_id,
-      "image_urls":[captureImage]
+      booking_id: get(["avg_night_rate"], SelectedBooking),
+      hotel_id: hotel.booking_id,
+      image_urls: [captureImage],
     };
     setLoading(true);
 
@@ -64,18 +62,18 @@ const CaptureFace = (props) => {
           // SelectedBooking.doc_image = data.data.doc_image;
           // SelectedBooking.doc_thumb = data.data.doc_thumb;
           GlobalConfig.SelectedBooking = SelectedBooking;
-          console.log(GlobalConfig.SelectedBooking)
+          console.log(GlobalConfig.SelectedBooking);
           if (GlobalConfig.SEARCH_TYPE === "pickUp") {
             props.history.push(to.selectKeys);
-          }else{
-            props.history.push(to.terms)
+          } else {
+            props.history.push(to.terms);
           }
         } else {
           setAlert(true);
           setRetake(false);
           setText({
-            header: "Invalid Image",
-            subHeader: "Please Try Again",
+            header: LANG[lang].Invalid_Image,
+            subHeader: LANG[lang].Please_Try_Again,
           });
           // TOST : Booking not found
         }
@@ -84,11 +82,11 @@ const CaptureFace = (props) => {
         setLoading(false);
         setAlert(true);
         setText({
-          header: "Something Wrong",
-          subHeader: "Please Try Again",
+          header: LANG[lang].Something_went_wrong,
+          subHeader: LANG[lang].Please_Try_Again,
         });
       });
-  }
+  };
 
   return (
     <div className="container">
@@ -99,11 +97,12 @@ const CaptureFace = (props) => {
         onCancel={() => {
           setAlert(false);
         }}
-  
       />
       {loading && <Loader text={"Uploading..."} />}
       <div className="commontitle">
-      <h2 className="maintitle">Take <span>Your Picture</span> </h2>
+        <h2 className="maintitle">
+          Take <span>{LANG[lang].Your_Picture}</span>{" "}
+        </h2>
       </div>
       {/* <form className="login100-form validate-form flex-sb flex-w mtop">
         <div className="formarea fixarea">
@@ -118,32 +117,43 @@ const CaptureFace = (props) => {
       <form className="login100-form validate-form flex-sb flex-w">
         <div className="formarea fixarea">
           <img src={captureImage} alt="img" />
-          
         </div>
-        {retake?
+        {retake ? (
           <div className="col-md-12 text-center mtop">
-            <ContinueButton imgIcon={CameraIcon} text={"Retake"} onClick={() => {setRetake(false); setCaptureImage(CaptureGif)} }/>
+            <ContinueButton
+              imgIcon={CameraIcon}
+              text={"Retake"}
+              onClick={() => {
+                setRetake(false);
+                setCaptureImage(CaptureGif);
+              }}
+            />
           </div>
-          :null}
+        ) : null}
         <div className="col-md-12 text-center mtop">
-          <CancelButton onClick={() => {
+          <CancelButton
+            onClick={() => {
               if (GlobalConfig.SEARCH_TYPE === "pickUp") {
                 props.history.push(to.scanId);
-              }else{
-                props.history.push(to.confirmDetails)
-              }}
-            } />{" "}
-          {retake ?
+              } else {
+                props.history.push(to.confirmDetails);
+              }
+            }}
+          />{" "}
+          {retake ? (
             <ContinueButton
-            onClick={() => {
-              uploadIamge();
-              // props.history.push(to.confirmDetails)
-            }}  
-            
-               />:
-            <ContinueButton  imgIcon={CameraIcon} text={"Capture"} onClick={() => captureClick()} />
-          }
-
+              onClick={() => {
+                uploadIamge();
+                // props.history.push(to.confirmDetails)
+              }}
+            />
+          ) : (
+            <ContinueButton
+              imgIcon={CameraIcon}
+              text={"Capture"}
+              onClick={() => captureClick()}
+            />
+          )}
         </div>
       </form>
       {/* <Footer /> */}
