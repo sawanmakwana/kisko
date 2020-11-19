@@ -16,7 +16,7 @@ import ScanId from "./components/ScanId";
 import ScanbarCode from "./components/ScanbarCode";
 import ConfirmDetails from "./components/ConfirmDetails";
 import Multibooking from "./components/MultiBooking";
-import Terms from "./components/Terms";
+import Terms from "./components/Capture/Terms";
 import SwipeCreditCard from "./components/SwipeCreditCard";
 import CaptureFrontImage from "./components/Capture/CaptureFrontImage";
 import CaptureFace from "./components/Capture/CaptureFace";

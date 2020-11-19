@@ -8,10 +8,18 @@ import { GlobalConfig } from "../assets/js/globleConfig";
 import Loader from "./Widgets/Loader";
 import AlertPopup from "./Widgets/AlertPopup";
 import { GlobalContext } from "../assets/js/context";
+import Connection from '../Connection';
+import { USER_CONTROLLER, API } from "../assets/js/endpoint";
+
+import moment from "moment";
 const SwipeCreditCard = (props) => {
   const { loading, setLoading } = useContext(GlobalContext);
   const [text, setText] = useState({ header: "", subHeader: "" });
   const [alert, setAlert] = useState(false);
+  const hotel = GlobalConfig.Hotel;
+  const SelectedBooking = GlobalConfig.SelectedBooking;
+  const UserScanDetail = GlobalConfig.UserScanDetail;
+  
   useEffect(() => {
     HubConnection.ACTION("CancelCardRead", "IUC285");
     HubConnection.ACTION("DisableNfc", "IUC285");
@@ -141,8 +149,55 @@ const SwipeCreditCard = (props) => {
     setLoading(false);
   };
 
-  const processNextScreen = () => {
-    props.history.push(to.selectKeys);
+  const processNextScreen = async () => {
+    setLoading(true);
+    let DATA = {
+     "hotel_id": hotel.hotel_id,
+    "person_id": SelectedBooking.person_id,
+    "booking_id": SelectedBooking.booking_ref_no,
+    "phone_no": SelectedBooking.user.phone,
+    "email": SelectedBooking.user.email,
+    "arrival_time": moment().format("HH:MM A"),
+    "country_selection": "US",
+    "street": UserScanDetail.address,
+    "city": UserScanDetail.city,
+    "state": UserScanDetail.state,
+    "zip_code":UserScanDetail.postalCode,
+    "image_urls": [
+      SelectedBooking.doc_image
+    ],
+    "thumb_urls": [
+      SelectedBooking.doc_image
+    ],
+    "digitalImg_urls": [
+      SelectedBooking.digitalImg_urls
+    ],
+    "digitalThumb_urls": [
+      SelectedBooking.digitalImg_urls
+    ],
+    "is_digital": true,
+    "car_license_plate_for_parking": [],
+    "payment_info_type": 2,
+    "is_guest_user": true,
+    "browser": true,
+    "param_guest_id": SelectedBooking.person_id,
+    "lang": "en",
+    payment_detail : {
+      "cardholder_name": "Ashish Maradiya",
+      "card_number": "4242424242424242",
+      "month": "12",
+      "year": "2020",
+      "cvc": "123",
+      "zipcode": "232350",
+      "booking_id": SelectedBooking.booking_ref_no,
+      "hotel_id": hotel.hotel_id,
+    }
+  }
+    let result = await Connection.POST(USER_CONTROLLER,API.savePersonDetail, DATA);
+    setLoading(false);
+    
+    console.log(result)
+    // props.history.push(to.selectKeys);
   };
   return (
     <div className="container">
@@ -186,7 +241,9 @@ const SwipeCreditCard = (props) => {
           >
             Back{" "}
           </button>
-          <ContinueButton onClick={() => props.history.push(to.selectKeys)} />
+          <ContinueButton onClick={() => processNextScreen()
+            /* props.history.push(to.selectKeys)*/
+             } />
           {/* <ContinueButton onClick={() =>startNFC} /> */}
         </div>
       </form>
