@@ -151,13 +151,15 @@ const SwipeCreditCard = (props) => {
 
   const processNextScreen = async () => {
     setLoading(true);
+    
     let DATA = {
+      token:SelectedBooking.token,
      "hotel_id": hotel.hotel_id,
     "person_id": SelectedBooking.person_id,
-    "booking_id": SelectedBooking.booking_ref_no,
+    "booking_id": SelectedBooking.id,
     "phone_no": SelectedBooking.user.phone,
     "email": SelectedBooking.user.email,
-    "arrival_time": moment().format("HH:MM A"),
+    "arrival_time": moment().format("hh:MM A"),
     "country_selection": "US",
     "street": UserScanDetail.address,
     "city": UserScanDetail.city,
@@ -197,7 +199,7 @@ const SwipeCreditCard = (props) => {
     setLoading(false);
     
     console.log(result)
-    // props.history.push(to.selectKeys);
+    props.history.push(to.selectKeys);
   };
   return (
     <div className="container">

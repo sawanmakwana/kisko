@@ -62,14 +62,14 @@ const CaptureFace = (props) => {
     // };
     let DATA = {
       "person_id":SelectedBooking.user.id,
-      "booking_id":SelectedBooking.id,
-      "hotel_id":hotel.booking_id,
+      // "booking_id":SelectedBooking.id,
+      "hotel_id":hotel.hotel_id,
       "image_urls": [captureImage],
       "filename":Date.now()+"_digital",
       "is_guest_user":true,
       "browser":true,
       "param_guest_id":get(["guest_id"], SelectedBooking),
-      "lang":"en",
+      // "lang":"en",
       "token" : SelectedBooking.token
     };
     setLoading(true);
@@ -78,8 +78,8 @@ const CaptureFace = (props) => {
       .then((data) => {
         setLoading(false);
         if (data.success) {
-          // SelectedBooking.doc_image = data.data.doc_image;
-          // SelectedBooking.doc_thumb = data.data.doc_thumb;
+          SelectedBooking.doc_image = data.data.doc_image;
+          SelectedBooking.doc_thumb = data.data.doc_thumb;
           GlobalConfig.SelectedBooking = SelectedBooking;
           console.log(GlobalConfig.SelectedBooking);
           if (GlobalConfig.SEARCH_TYPE === "pickUp") {

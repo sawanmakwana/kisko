@@ -7,6 +7,7 @@ import CryptoJS from "crypto-js";
 // import NotificationSystem from './notificationSystem';
 import AppServiceClass from "../assets/js/environmentConfig";
 import { GlobalContext } from "../assets/js/context";
+import { GlobalConfig } from "../assets/js/globleConfig";
 const { key, iv, isEncrypt } = new AppServiceClass().getEnvironmentVariables();
 
 class Connection extends React.Component {
@@ -15,7 +16,12 @@ class Connection extends React.Component {
   static createHeaders = (token) => {
     const HEADERS = new Headers();
     HEADERS.append("Content-Type", "application/json");
-    HEADERS.append("Authorization", `Bearer ${token || Settings.token}`);
+    // Settings && HEADERS.append("Authorization", `Bearer ${Settings.token}`);
+    HEADERS.append("x-aavgo-from-new", true);
+    GlobalConfig.Hotel && HEADERS.append("x-aavgo-hotelid", GlobalConfig.Hotel.hotel_id);
+    GlobalConfig.SelectedBooking && HEADERS.append("x-aavgo-guestappid", GlobalConfig.SelectedBooking.user.id);
+    HEADERS.append("x-access-token", `${token}`);
+    
     !isEncrypt && HEADERS.append("x-aavgo-crypto-disable", `true`);
     return HEADERS;
   };

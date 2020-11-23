@@ -22,16 +22,16 @@ const Terms = (props) => {
   const SelectedBooking = GlobalConfig.SelectedBooking;
   const uploadSign=()=>{
     let DATA = {
-      "booking_id":get(["booking_ref_no"], SelectedBooking),
-      "hotel_id":hotel.booking_id,
-      "image_urls":[sign],
-      "is_digital":true,
+      "person_id":SelectedBooking.user.id,
+      // "booking_id":SelectedBooking.id,
+      "hotel_id":hotel.hotel_id,
+      "image_urls": [sign],
       "filename":Date.now()+"_digital",
       "is_guest_user":true,
       "browser":true,
       "param_guest_id":get(["guest_id"], SelectedBooking),
-      "lang":"en",
-      "token" : SelectedBooking.user.tokens.pop()
+      // "lang":"en",
+      "token" : SelectedBooking.token
     };
     setLoading(true);
 
@@ -40,7 +40,7 @@ const Terms = (props) => {
         setLoading(false);
         if (data.success) {
           // SelectedBooking.doc_image = data.data.doc_image;
-          SelectedBooking.digitalImg_urls = data.data.digitalImg_urls;
+          SelectedBooking.digitalImg_urls = data.data.image_urls;
           GlobalConfig.SelectedBooking = SelectedBooking;
           console.log(GlobalConfig.SelectedBooking)
           
