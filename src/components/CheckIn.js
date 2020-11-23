@@ -23,7 +23,6 @@ const CheckIn = (props) => {
             <div className=" col-md-1"></div>
             <div className="col-md-5">
               <Link className="bluebutton" to={to.bookingId}>
-                {LANG[lang].PIN_No}
                 <img src={BookingId} alt="img" />{" "}
                 <span> {LANG[lang].PIN_No}</span>
                 <div className="noverlay"></div>

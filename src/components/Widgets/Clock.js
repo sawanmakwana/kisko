@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from "react";
-import moment from "moment"
-    // interval = setInterval(async ()=>{
-      
-    //   const Counter = Number(counter)-1000;
-    //   // Counter = (Counter-1000);
-    //   await setCounter(Counter);
-    //   console.log(Counter)
-    //   if(Counter <= 1000){
-    //     setDisableRescan(false);
-    //     setCounter(180000);
-    //     interval && clearInterval(interval)
-    //   }
-    // },1000)
-    // return;
-const Clock = () => {
+import moment from "moment";
+
+const Clock = (props) => {
   const [date, setDate] = useState(moment());
+  const [clickCounter, setClickCounter] = useState(0);
+
+  const logoutFunc = () => {
+    console.log({ clickCounter });
+    setClickCounter((clickCounter) => clickCounter + 1);
+    if (clickCounter > 4) {
+      window.localStorage.clear();
+      props.history.push(`/`);
+      setClickCounter(0)
+    }
+  };
 
   useEffect(() => {
     let timerID = setInterval(() => tick(), 1000);
@@ -27,6 +26,10 @@ const Clock = () => {
   function tick() {
     setDate(moment());
   }
-  return <div id="clock">{date.format("hh:mm")}</div>;
+  return (
+    <div id="clock" onClick={logoutFunc}>
+      {date.format("hh:mm")}
+    </div>
+  );
 };
 export default Clock;

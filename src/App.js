@@ -40,7 +40,7 @@ function App(props) {
   return (
     <div className="limiter">
       <div className="container-login100">
-        <Clock />
+        <Clock {...props} />
         {/* {GlobalConfig.Hotel && (
           <span
             onClick={() => {

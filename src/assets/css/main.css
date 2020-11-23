@@ -950,7 +950,7 @@ img.thankyouimg {
   margin-top: -30px;
 }
 .formarea {
-  text-align: center; 
+  text-align: center;
   width: 100%;
   background: #fff;
   border-radius: 10px;
@@ -1629,6 +1629,20 @@ img.alertimg {
 .mr-10 {
   margin-right: 40px;
   min-width: 300px;
+}
+
+.loader-bg {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 999;
+  filter: blur(1px);
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
 }
 .cd-popup-container .cd-buttons a {
   display: block;
