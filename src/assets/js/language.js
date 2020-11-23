@@ -54,6 +54,7 @@ export const LANG = {
     Your_Picture: "Your Picture",
     Invalid_Image: "Invalid Image",
     Please_Try_Again: "Please Try Again",
+    Cancel:"Cancel"
   },
   es: {
     Welcome_To: "Bienvenida a",

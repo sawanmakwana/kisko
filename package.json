@@ -77,7 +77,8 @@
 		"serve": "^11.3.2",
 		"signalr-no-jquery": "^0.1.10",
 		"wait-on": "^5.2.0",
-		"web-vitals": "^0.2.4"
+		"web-vitals": "^0.2.4",
+		"xml2js": "^0.4.23"
 	},
 	"scripts": {
 		"start-react": "PORT=4000 react-scripts start",

@@ -10,20 +10,70 @@ import Footer from "./Widgets/Footer";
 import { get } from "../AppUtills";
 import moment from "moment";
 import { to } from "../RoutesPath";
+import AlertPopup from "./Widgets/AlertPopup";
 import { LANG } from "../assets/js/language";
 import { GlobalContext } from "../assets/js/context";
-
+import Connection from '../Connection';
+import { USER_CONTROLLER, API } from "../assets/js/endpoint";
 const Multibooking = (props) => {
   const Bookings = GlobalConfig.Bookings || [];
 
-  const {lang} = useContext(GlobalContext)
-
+  
   const [selected, setSelected] = useState(Bookings[0].id);
+  const { loading, setLoading, lang } = useContext(GlobalContext);
+  const [text, setText] = useState({ header: "", subHeader: "" });
+  const [alert, setAlert] = useState(false);
+  const hotel = GlobalConfig.Hotel;
+  let SelectedBooking = GlobalConfig.SelectedBooking;
+  const UserScanDetail = GlobalConfig.UserScanDetail;
 
+  const processNextScreen = async () => {
+    setLoading(true);
+    if (selected) {
+       GlobalConfig.SelectedBooking = await Bookings.find(
+        (book) => book.id === selected
+      );
+    }
+    SelectedBooking = GlobalConfig.SelectedBooking 
+    let DATA = {
+     "hotel_id": hotel.hotel_id,
+    "booking_id": SelectedBooking.id
+    }
+    let result = await Connection.POST(USER_CONTROLLER,API.selectReservationKiosk, DATA);
+    setLoading(false);
+    if(result.success){
+      SelectedBooking.token = result.token;
+      GlobalConfig.SelectedBooking = SelectedBooking;
+      props.history.push(to.scanId);
+    }else{
+      setAlert(true);
+          setText({
+            header: LANG[lang].Not_Found,
+            subHeader: LANG[lang].Your_Booking_not_Found,
+          });
+    }
+    console.log(result)
+    
+    // props.history.push(to.scanId);
+  }
   return (
     <div className="container">
+      <AlertPopup
+        isVisible={alert}
+        header={text.header}
+        subHeader={text.subHeader}
+        onCancel={() => {
+          setAlert(false);
+        }}
+        cancelText={LANG[lang].Cancel}
+        
+        onSuccess={() => {
+          setAlert(false);
+          props.history.push(to.home);
+        }}
+      />
       <div className="commontitle">
-  <h2>{LANG[LANG].Reservation_Information}</h2>
+  <h2>{LANG[lang].Reservation_Information}</h2>
         {/* <p>Lorem ipsum is a dummy text.</p> */}
       </div>
       <form className="login100-form validate-form flex-sb flex-w mtop">
@@ -122,12 +172,7 @@ const Multibooking = (props) => {
           <CancelButton onClick={() => props.history.push(to.checkIn)} />
           <ContinueButton
             onClick={() => {
-              if (selected) {
-                GlobalConfig.SelectedBooking = Bookings.find(
-                  (book) => book.id === selected
-                );
-              }
-              props.history.push(to.scanId);
+              processNextScreen()
             }}
           />
         </div>

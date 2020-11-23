@@ -18,7 +18,7 @@ const BookingId = (props) => {
   const hotel = GlobalConfig.Hotel;
   const { lang } = useContext(GlobalContext);
 
-  const [pin, setPin] = useState("33970");
+  const [pin, setPin] = useState("34113");
   const [lastName, setLastName] = useState("desai");
   const [loading, setLoading] = useState(false);
   const [text, setText] = useState({ header: "", subHeader: "" });
