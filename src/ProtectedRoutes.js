@@ -4,16 +4,16 @@ import { to } from "./RoutesPath";
 import { GlobalConfig } from "./assets/js/globleConfig";
 export default function ProtectedRoutes(rest) {
   const renderAppropriateRoute = (props) => {
-    console.log({ hash: window.location.hash, to: to.hotelSetup });
+    // console.log({ hash: window.location.hash, to: to.hotelSetup });
     if (window.location.hash.substring(1) !== to.hotelSetup) {
-    console.log({ hash: window.location });
+    // console.log({ hash: window.location });
 
       if (!GlobalConfig.Hotel) {
-        console.log({ hash: window.location });
+        // console.log({ hash: window.location });
 
         return <Redirect to={to.hotelSetup} />;
       } else {
-        console.log({ hash: window.location });
+        // console.log({ hash: window.location });
 
         return <Route {...rest} />;
       }
