@@ -1,7 +1,6 @@
 import { hubConnection } from "signalr-no-jquery";
-import { KIOSK } from "../assets/js/endpoint";
 import { GlobalConfig } from "../assets/js/globleConfig";
-export const connection = hubConnection(KIOSK);
+export const connection = hubConnection(GlobalConfig.KIOSK);
 export const proxy = connection.createHubProxy("kioskHardwareHub");
 
 class HubConnection {

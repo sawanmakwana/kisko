@@ -1,5 +1,8 @@
 let _token,_hotel,_language,_booking,_connected = 0, _userDetail, _scanLicense = false, _scanQR = false,_searchType = "checkIn";
-
+let _KABA_DEFAULT = "http://10.1.10.94:1619/MessengerPMSWS.asmx"
+let _KIOSK_DEFAULT = "http://localhost:7000";
+let _KABA_USERNAME = "DummyUser";
+let _KABA_PASSWORD = "DummyPwd";
 export class GlobalConfig {
   static get Token() {
     _token = window.localStorage.getItem("token");
@@ -104,6 +107,42 @@ export class GlobalConfig {
   }
   static set SEARCH_TYPE(value) {
     return _searchType = value;
+  }
+
+  static get KABA() {
+    return window.localStorage.getItem("KABA") || _KABA_DEFAULT;
+  }
+  static set KABA(value) {
+    window.localStorage.setItem("KABA", value);
+    _KABA_DEFAULT = window.localStorage.getItem("KABA");
+    return value;
+  }
+
+  static get KABA_USERNAME() {
+    return window.localStorage.getItem("KABA_USERNAME") || _KABA_USERNAME;
+  }
+  static set KABA_USERNAME(value) {
+    window.localStorage.setItem("KABA_USERNAME", value);
+    _KIOSK_DEFAULT = window.localStorage.getItem("KABA_USERNAME");
+    return value;
+  }
+
+  static get KABA_PASSWORD() {
+    return window.localStorage.getItem("KABA_PASSWORD") || _KABA_PASSWORD;
+  }
+  static set KABA_PASSWORD(value) {
+    window.localStorage.setItem("KABA_PASSWORD", value);
+    _KIOSK_DEFAULT = window.localStorage.getItem("KABA_PASSWORD");
+    return value;
+  }
+
+  static get KIOSK() {
+    return window.localStorage.getItem("KIOSK") || _KIOSK_DEFAULT;
+  }
+  static set KIOSK(value) {
+    window.localStorage.setItem("KIOSK", value);
+    _KIOSK_DEFAULT = window.localStorage.getItem("KIOSK");
+    return value;
   }
 }
 
