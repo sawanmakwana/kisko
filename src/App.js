@@ -18,6 +18,7 @@ function App(props) {
   const [scanData, setScanData] = useState("");
 
   useEffect(() => {
+
     connection
       .start()
       .done(function () {

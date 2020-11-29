@@ -8,7 +8,8 @@ function createWindow() {
     mainWindow = new BrowserWindow({ 
         width: 1200, 
         height: 800,
-        icon: ""
+        fullscreen: true,
+        frame: false
     });
      
     mainWindow.loadURL(isDev ? `http://localhost:4000`: `file://${__dirname}/../build/index.html`);
