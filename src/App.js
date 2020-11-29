@@ -19,6 +19,7 @@ function App(props) {
 
   useEffect(() => {
 
+    
     connection
       .start()
       .done(function () {
