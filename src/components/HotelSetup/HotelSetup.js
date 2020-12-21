@@ -9,7 +9,9 @@ import { to } from "../../RoutesPath";
 import Loader from "../Widgets/Loader";
 import AlertPopup from "../Widgets/AlertPopup";
 import { LANG } from "../../assets/js/language";
-
+import CancelButton from "../Widgets/CancelButton";
+import SearchButton from "../Widgets/SearchButton";
+const ipcRenderer = window.require("electron").ipcRenderer;
 const HotelSetup = (props) => {
   const [uuid, setUuid] = useState("4734181389");
   const [kioskUrl, setKioskUrl] = useState(GlobalConfig.KIOSK);
@@ -143,6 +145,12 @@ const HotelSetup = (props) => {
           <div className="col-md-12 text-center mtop">
             <ContinueButton onClick={findHotelByUuid} />
           </div>
+          {/* ipcRenderer.send('exitFullScreen', 'ping') */}
+          <div className="col-md-12 text-center mtop">
+          <ContinueButton text="Exit App" onClick={() => {ipcRenderer.send('exitApp')}} />
+          {/* <ContinueButton text="Install App" onClick={() => {ipcRenderer.send('installApp')}} /> */}
+          
+        </div>
         </form>
       </div>
       <Footer />
