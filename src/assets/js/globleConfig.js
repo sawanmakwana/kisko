@@ -1,5 +1,5 @@
 let _token,_hotel,_language,_booking,_connected = 0, _userDetail, _scanLicense = false, _scanQR = false,_searchType = "checkIn";
-let _KABA_DEFAULT = "http://10.1.10.94:1619/MessengerPMSWS.asmx"
+let _KABA_DEFAULT = "http://10.1.10.223:1619/MessengerPMSWS.asmx"
 let _KIOSK_DEFAULT = "http://localhost:7000";
 let _KABA_USERNAME = "DummyUser";
 let _KABA_PASSWORD = "DummyPwd";
