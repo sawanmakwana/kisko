@@ -8,13 +8,13 @@
 	"build": {
 		"extraResources": [
 			{
-			  "from": "./src/extraResources/",
-			  "to": "extraResources",
-			  "filter": [
-				"**/*"
-			  ]
+				"from": "./src/extraResources/",
+				"to": "extraResources",
+				"filter": [
+					"**/*"
+				]
 			}
-		  ],
+		],
 		"appId": "react.kisko",
 		"compression": "normal",
 		"productName": "Kiosk",
