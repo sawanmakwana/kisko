@@ -205,7 +205,22 @@ const ConfirmDetails = (props) => {
               });
             }}
           />
-          <ContinueButton onClick={() => props.history.push(to.captureFace)} />
+          <ContinueButton onClick={() => {
+            let hotel = GlobalConfig.Hotel;
+            if (GlobalConfig.SEARCH_TYPE === "pickUp") {
+              if(hotel.pickup_key_flow_setting.guest_image){
+                props.history.push(to.captureFace);
+              }else{
+                props.history.push(to.terms); 
+              }
+            } else if (GlobalConfig.SEARCH_TYPE === "checkIn") {
+              if(hotel.checkin_flow_setting.guest_image){
+                props.history.push(to.captureFace);
+              }else{
+                props.history.push(to.terms); 
+              }
+            }
+          }} />
         </div>
       </form>
       {/* <Footer /> */}

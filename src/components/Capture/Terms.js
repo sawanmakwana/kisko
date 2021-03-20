@@ -88,7 +88,7 @@ const Terms = (props) => {
           <p
           style={{textAlign:"justify"}}
             dangerouslySetInnerHTML={{
-              __html: hotel.pre_checkin,
+              __html: hotel.terms_and_condition,
             }}
           ></p>
         </div>
@@ -108,7 +108,7 @@ const Terms = (props) => {
           />
         </div>
         <div className="col-md-12 text-center mtop">
-          <CancelButton onClick={() => props.history.push(to.captureFace)} />
+          <CancelButton onClick={() => window.history.back()} />
           <ContinueButton
             onClick={() => uploadSign()}
             disable={signatureEnd}

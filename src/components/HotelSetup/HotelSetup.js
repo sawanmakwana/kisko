@@ -11,9 +11,9 @@ import AlertPopup from "../Widgets/AlertPopup";
 import { LANG } from "../../assets/js/language";
 import CancelButton from "../Widgets/CancelButton";
 import SearchButton from "../Widgets/SearchButton";
-const ipcRenderer = window.require("electron").ipcRenderer;
+const ipcRenderer =  window.require && window.require("electron") ? window.require("electron").ipcRenderer : {};
 const HotelSetup = (props) => {
-  const [uuid, setUuid] = useState("4734181389");
+  const [uuid, setUuid] = useState("ACEvNIoEzB"); // ACEvNIoEzB
   const [kioskUrl, setKioskUrl] = useState(GlobalConfig.KIOSK);
   const [kabaUrl, setKabaUrl] = useState(GlobalConfig.KABA);
   const [kabaUserName, setKabaUserName] = useState(GlobalConfig.KABA_USERNAME);
@@ -22,11 +22,12 @@ const HotelSetup = (props) => {
   const [hotelText, setHotelText] = useState({ header: "", subHeader: "" });
   const [alert, setAlert] = useState(false);
 
-  const findHotelByUuid = () => {
+  const findKioskById = () => {
     setLoading(true);
 
-    Services.FindHotelByUuid({ uuid }).then((data) => {
+    Services.FindKioskById({ kiosk_id:uuid }).then((data) => {
       if (data.success) {
+        GlobalConfig.KIOSK_ID = uuid;
         GlobalConfig.Hotel = data.hotel;
         setLoading(false);
         props.history.push(to.home);
@@ -143,7 +144,7 @@ const HotelSetup = (props) => {
           </div>
 
           <div className="col-md-12 text-center mtop">
-            <ContinueButton onClick={findHotelByUuid} />
+            <ContinueButton onClick={findKioskById} />
           </div>
           {/* ipcRenderer.send('exitFullScreen', 'ping') */}
           <div className="col-md-12 text-center mtop">

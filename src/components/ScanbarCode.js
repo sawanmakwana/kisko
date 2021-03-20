@@ -13,6 +13,7 @@ import { GlobalContext } from "../assets/js/context";
 import { LANG } from "../assets/js/language";
 
 const ScanbarCode = (props) => {
+  const hotel = GlobalConfig.Hotel;
   const [disableRescan, setDisableRescan] = useState(true);
   const [counter, setCounter] = useState(180000);
   const { scanData, setScanData, lang } = useContext(GlobalContext);
@@ -87,26 +88,44 @@ const ScanbarCode = (props) => {
         //ADD TOST : AGE UNDER 18
         props.history.push(to.home);
       }
-
-      if (
-        String(GlobalConfig.Bookings[0].guest_fname).toLowerCase() !=
-          String(GlobalConfig.UserScanDetail.firstName).toLowerCase() ||
-        String(GlobalConfig.Bookings[0].guest_lname).toLowerCase() !=
-          String(GlobalConfig.UserScanDetail.lastName).toLowerCase()
-      ) {
-        setAlert(true);
-        setText({
-          header: LANG[lang].Details_not_match,
-          subHeader: LANG[lang].License_details_not_matching_with_booking,
-        });
-
-        //ADD TOST : LICENCE DETAIL NOT MATCH
-        // props.history.push(to.scanId);
-        return;
+      if((GlobalConfig.SEARCH_TYPE === "checkIn" && hotel.checkin_flow_setting.auto_validation) ||
+         (GlobalConfig.SEARCH_TYPE === "pickUp" && hotel.pickup_key_flow_setting.auto_validation)  
+      ){
+        if (
+          String(GlobalConfig.Bookings[0].guest_fname).toLowerCase() !=
+            String(GlobalConfig.UserScanDetail.firstName).toLowerCase() ||
+          String(GlobalConfig.Bookings[0].guest_lname).toLowerCase() !=
+            String(GlobalConfig.UserScanDetail.lastName).toLowerCase()
+        ) {
+          setAlert(true);
+          setText({
+            header: LANG[lang].Details_not_match,
+            subHeader: LANG[lang].License_details_not_matching_with_booking,
+          });
+  
+          //ADD TOST : LICENCE DETAIL NOT MATCH
+          // props.history.push(to.scanId);
+          return;
+        }
       }
+      
       if (GlobalConfig.SEARCH_TYPE === "pickUp") {
-        props.history.push(to.captureFace);
-      } else {
+        if(hotel.pickup_key_flow_setting.front_picture_of_id){
+          props.history.push(to.captureFront);
+        }else if(hotel.pickup_key_flow_setting.guest_image){
+          props.history.push(to.captureFace);
+        }else{
+          props.history.push(to.selectKeys); 
+        }
+      } else if (GlobalConfig.SEARCH_TYPE === "checkIn") {
+        if(hotel.checkin_flow_setting.front_picture_of_id){
+          props.history.push(to.captureFront);
+        }else if(hotel.checkin_flow_setting.guest_image){
+          props.history.push(to.captureFace);
+        }else{
+          props.history.push(to.terms); 
+        }
+      } else{
         if (GlobalConfig.Hotel.allowed_doc_scan || true) {
           props.history.push(to.captureFront);
         } else {

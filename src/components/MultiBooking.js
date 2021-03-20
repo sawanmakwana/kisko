@@ -41,15 +41,38 @@ const Multibooking = (props) => {
     }
     let result = await Connection.POST(USER_CONTROLLER,API.selectReservationKiosk, DATA);
     setLoading(false);
+    // console.log("[result]",result)
     if(result.success){
       SelectedBooking.token = result.token;
       GlobalConfig.SelectedBooking = SelectedBooking;
-      props.history.push(to.scanId);
+      if(GlobalConfig.SEARCH_TYPE === "checkIn"){
+        if(hotel.checkin_flow_setting.id_scan){
+          props.history.push(to.scanbarCode);
+        }else if(hotel.checkin_flow_setting.front_picture_of_id){
+          props.history.push(to.captureFront);
+        }else if(hotel.checkin_flow_setting.guest_image){
+          props.history.push(to.captureFace);
+        }else{
+          props.history.push(to.terms); 
+        }
+      }else if(GlobalConfig.SEARCH_TYPE === "pickUp"){
+        if(hotel.pickup_key_flow_setting.id_scan){
+          props.history.push(to.scanbarCode);
+        }else if(hotel.pickup_key_flow_setting.front_picture_of_id){
+          props.history.push(to.captureFront);
+        }else if(hotel.pickup_key_flow_setting.guest_image){
+          props.history.push(to.captureFace);
+        }else{
+          props.history.push(to.selectKeys); 
+        }
+      }
+      
+      
     }else{
       setAlert(true);
           setText({
-            header: LANG[lang].Not_Found,
-            subHeader: LANG[lang].Your_Booking_not_Found,
+            header: " ",
+            subHeader: result.message,
           });
     }
     console.log(result)

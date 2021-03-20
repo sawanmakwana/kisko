@@ -1,8 +1,14 @@
-let _token,_hotel,_language,_booking,_connected = 0, _userDetail, _scanLicense = false, _scanQR = false,_searchType = "checkIn";
+let _token,_hotel,_language,_booking,_connected = 0, _userDetail, _scanLicense = false, _scanQR = false,_SEARCH_TYPE_DEFAULT = "checkIn",_kioskId="";
 let _KABA_DEFAULT = "http://10.1.10.223:1619/MessengerPMSWS.asmx"
 let _KIOSK_DEFAULT = "http://localhost:7000";
 let _KABA_USERNAME = "DummyUser";
 let _KABA_PASSWORD = "DummyPwd";
+
+// let _KABA_DEFAULT = ""
+// let _KIOSK_DEFAULT = "";
+// let _KABA_USERNAME = "";
+// let _KABA_PASSWORD = "";
+
 export class GlobalConfig {
   static get Token() {
     _token = window.localStorage.getItem("token");
@@ -11,6 +17,19 @@ export class GlobalConfig {
   static set Token(value) {
     window.localStorage.setItem("token", value);
     _token = window.localStorage.getItem("token");
+  }
+
+  static get KIOSK_ID() {
+    _kioskId = window.localStorage.getItem("kioskId");
+    if(_kioskId){
+      _kioskId = _kioskId;
+    }
+    return _kioskId;
+  }
+
+  static set KIOSK_ID(value) {
+    window.localStorage.setItem("kioskId", value);
+    _kioskId = window.localStorage.getItem("kioskId");
   }
 
   static get Hotel() {
@@ -103,10 +122,12 @@ export class GlobalConfig {
   }
 
   static get SEARCH_TYPE() {
-    return _searchType;
+    return window.localStorage.getItem("_searchType") || _SEARCH_TYPE_DEFAULT;
   }
   static set SEARCH_TYPE(value) {
-    return _searchType = value;
+    window.localStorage.setItem("_searchType", value);
+    _SEARCH_TYPE_DEFAULT = window.localStorage.getItem("_searchType");
+    return value;
   }
 
   static get KABA() {

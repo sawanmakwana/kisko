@@ -146,11 +146,11 @@ const ScanQr = (props) => {
             onClick={startScan}
           />
         </div>
-        <div className="col-md-12 text-center mtop">
+        {/* <div className="col-md-12 text-center mtop">
           <ContinueButton
             onClick={() => props.history.push(to.confirmDetails)}
           />
-        </div>
+        </div> */}
         {counter !== 0 && (
           <div className="col-md-12 text-center timer">
             <p>

@@ -29,7 +29,7 @@ const CreditCard = (props) => {
       is_guest_user: true,
       cc_number: last5Digit,
     };
-    setLoading(true);
+    setLoading(false);
     Services.FindReservationKiosk(DATA)
       .then((data) => {
         setLoading(false);
