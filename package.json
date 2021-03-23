@@ -4,7 +4,7 @@
 	"name": "kisko",
 	"description": "Kisko",
 	"author": "Kisko",
-	"version": "0.2.6",
+	"version": "0.2.7",
 	"build": {
 		"extraResources": [
 			{

@@ -125,7 +125,11 @@ const SelectKeys = (props) => {
 
                 let haxCode = "";
                 result.result.Data.map((ele)=>{
-                  haxCode+=Number(ele).toString(16)
+                  let numberHax = Number(ele).toString(16);
+                  if(numberHax.length === 1){
+                    numberHax=("0"+numberHax);
+                  }
+                  haxCode+=numberHax;
                 })
 
                 // let kLogs = [...keyLogs];
@@ -256,7 +260,7 @@ const ascii_to_hexa = async(str) =>{
         console.log("[processKey]")
         // HubConnection.ACTION("CardSet", "SCT3Q8").then((result) => {
           // console.log("[CardSet]",result)
-          HubConnection.ACTION("WriteMifareRawData", "SCT3Q8",data).then(
+          HubConnection.ACTION("WriteMifareMemoryMap", "SCT3Q8",data).then(
             (result) => {
               setWriteMifareRawData(JSON.stringify(result))
               setKeyLogs( arr => [...arr, "[WriteMifareRawData=>] "+JSON.stringify(result)])
