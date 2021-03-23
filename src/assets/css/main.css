@@ -1636,7 +1636,7 @@ img.alertimg {
   background-color: rgba(0, 0, 0, 0.2);
   z-index: 999;
   filter: blur(1px);
-  top: 0;
+  top: 80px;
   left: 0;
   display: flex;
   width: 100%;

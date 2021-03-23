@@ -14,7 +14,7 @@ import SearchButton from "../Widgets/SearchButton";
 const ipcRenderer =  window.require && window.require("electron") ? window.require("electron").ipcRenderer : {};
 const HotelSetup = (props) => {
   const [uuid, setUuid] = useState("ACEvNIoEzB"); // ACEvNIoEzB
-  const [kioskUrl, setKioskUrl] = useState(GlobalConfig.KIOSK);
+  const [kioskUrl, setKioskUrl] = useState("https://95f04e061121.ngrok.io");//GlobalConfig.KIOSK
   const [kabaUrl, setKabaUrl] = useState(GlobalConfig.KABA);
   const [kabaUserName, setKabaUserName] = useState(GlobalConfig.KABA_USERNAME);
   const [kabaPassword, setKabaPassword] = useState(GlobalConfig.KABA_PASSWORD);

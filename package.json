@@ -91,13 +91,13 @@
 		"xml2js": "^0.4.23"
 	},
 	"scripts": {
-		"start-react": "PORT=3000 react-scripts start",
+		"start-react": "PORT=4000 react-scripts start",
 		"build-react": "react-scripts build",
 		"test-react": "react-scripts test --env=jsdom",
 		"eject-react": "react-scripts eject",
 		"build-electron": "electron-builder --win ",
 		"build": "npm run build-react && npm run build-electron",
-		"start": "concurrently \"cross-env BROWSER=none npm run start-react\" \"wait-on http://localhost:3000 && electron .\"",
+		"start": "concurrently \"cross-env BROWSER=none npm run start-react\" \"wait-on http://localhost:4000 && electron .\"",
 		"dist": "electron-builder --win"
 	},
 	"eslintConfig": {

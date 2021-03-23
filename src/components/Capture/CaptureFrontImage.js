@@ -15,15 +15,41 @@ import { LANG } from "../../assets/js/language";
 import {data} from "../../assets/images/frontImgData";
 
 const CaptureFrontImage = (props) => {
-  const [captureImage, setCaptureImage] = useState(data);
-  const [retake, setRetake] = useState(true);
+  const [captureImage, setCaptureImage] = useState(CaptureGif);
+  const [retake, setRetake] = useState(false);
   const { loading, setLoading, lang } = useContext(GlobalContext);
+  const { streamData, setStreamData } = useContext(GlobalContext);
   const hotel = GlobalConfig.Hotel;
   const SelectedBooking = GlobalConfig.SelectedBooking;
 
   const [text, setText] = useState({ header: "", subHeader: "",cancelText: "Cancel" });
   const [alert, setAlert] = useState(false);
 
+  useEffect(() => {
+    startStreamVideo();
+    return () => {
+      HubConnection.ACTION("ImagingDeviceCaptureImage", "PosiflexCamera").then(
+        (data) => {
+          
+        }
+      );
+    }
+  }, [])
+
+  useEffect(() => {   
+   if(streamData) setCaptureImage("data:image/png;base64," +streamData);
+  }, [streamData])
+
+  
+  const startStreamVideo = () =>{
+    HubConnection.ACTION("StreamVideo", "PosiflexCamera").then(
+      (data) => {
+        console.log(data);
+        if (data.success) {
+        }
+      }
+    );
+  }
   const captureClick = () => {
     setLoading(true);
     if (GlobalConfig.Connected === 0) {
@@ -34,7 +60,7 @@ const CaptureFrontImage = (props) => {
     } else if (GlobalConfig.Connected === 2) {
       return;
     }
-
+    console.log("ImagingDeviceCaptureImage");
     HubConnection.ACTION("ImagingDeviceCaptureImage", "PosiflexCamera").then(
       (data) => {
         console.log(data);
@@ -123,7 +149,7 @@ const CaptureFrontImage = (props) => {
             <ContinueButton
               imgIcon={CameraIcon}
               text={"Retake"}
-              onClick={() => {setRetake(false); setCaptureImage(CaptureGif)} }
+              onClick={() => {setRetake(false); setCaptureImage(CaptureGif) ; startStreamVideo()} }
             />
           </div>
         ) : null}

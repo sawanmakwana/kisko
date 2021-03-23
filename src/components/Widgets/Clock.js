@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
 import moment from "moment";
 
+
+
 const Clock = (props) => {
   const [date, setDate] = useState(moment());
   const [clickCounter, setClickCounter] = useState(0);
 
   const logoutFunc = () => {
+    // setLoading(false)
+
+    props.setLoading(false)
     console.log({ clickCounter });
     setClickCounter((clickCounter) => clickCounter + 1);
     if (clickCounter > 4) {
