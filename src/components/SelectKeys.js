@@ -82,7 +82,11 @@ const generateCardKey = async (keyCount = 1) => {
             result.Data = [137, 157, 207, 239]
             let haxCode = "";
             result.Data.map((ele) => {
-              haxCode += Number(ele).toString(16);
+              let numberHax = Number(ele).toString(16);
+                  if(numberHax.length === 1){
+                    numberHax=("0"+numberHax);
+                  }
+                  haxCode+=numberHax;
             })
             console.log(haxCode)
             // let kLogs = [...keyLogs];
