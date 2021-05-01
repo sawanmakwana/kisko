@@ -13,7 +13,7 @@ import AlertPopup from "../Widgets/AlertPopup";
 import * as Services from "./Services";
 import { LANG } from "../../assets/js/language";
 import {data} from "../../assets/images/frontImgData";
-
+const ipcRenderer =  window.require && window.require("electron") ? window.require("electron").ipcRenderer : {send:()=>{}};
 const CaptureFrontImage = (props) => {
   const [captureImage, setCaptureImage] = useState(CaptureGif);
   const [retake, setRetake] = useState(false);
@@ -26,6 +26,7 @@ const CaptureFrontImage = (props) => {
   const [alert, setAlert] = useState(false);
 
   useEffect(() => {
+    ipcRenderer.send('logs',{type:'info',msg:"Front card image screen"});
     startStreamVideo();
     return () => {
       HubConnection.ACTION("ImagingDeviceCaptureImage", "PosiflexCamera").then(
@@ -66,6 +67,7 @@ const CaptureFrontImage = (props) => {
         console.log(data);
         if (data.success) {
           setCaptureImage("data:image/png;base64," + data.result.Data);
+          ipcRenderer.send('logs',{type:'info',msg:"Image capture"});
           setRetake(true);
           setLoading(false);
         }
@@ -84,11 +86,14 @@ const CaptureFrontImage = (props) => {
     Services.ScanDocumentUpload(DATA)
       .then((data) => {
         setLoading(false);
+
         if (data.success) {
           SelectedBooking.doc_image = data.data.doc_image;
           SelectedBooking.doc_thumb = data.data.doc_thumb;
           GlobalConfig.SelectedBooking = SelectedBooking;
           console.log(GlobalConfig.SelectedBooking)
+          ipcRenderer.send('logs',{type:'info',msg:"Image uploaded"});
+          ipcRenderer.send('logs',{type:'info',msg:"Confirm User detail screen"});
           props.history.push(to.confirmDetails);
         } else {
           setAlert(true);
@@ -98,10 +103,12 @@ const CaptureFrontImage = (props) => {
             subHeader: "Please Try Again",
             cancelText: LANG[lang].Cancel
           });
+          ipcRenderer.send('logs',{type:'error',msg:"Invalid Image"});
           // TOST : Booking not found
         }
       })
       .catch((err) => {
+        ipcRenderer.send('logs',{type:'error',msg:"Invalid Image"+err});
         setLoading(false);
         setAlert(true);
         setText({
@@ -141,7 +148,7 @@ const CaptureFrontImage = (props) => {
         </div>
       </form> */}
       <form className="login100-form validate-form flex-sb flex-w">
-        <div className="formarea fixarea">
+        <div className="formarea fixMinarea flipImg">
           <img src={captureImage} alt="img" />
         </div>
         {retake ? (
@@ -149,7 +156,10 @@ const CaptureFrontImage = (props) => {
             <ContinueButton
               imgIcon={CameraIcon}
               text={"Retake"}
-              onClick={() => {setRetake(false); setCaptureImage(CaptureGif) ; startStreamVideo()} }
+              onClick={() => {
+                ipcRenderer.send('logs',{type:'info',msg:"Image recapture click"});
+                setRetake(false); setCaptureImage(CaptureGif) ; startStreamVideo()} 
+              }
             />
           </div>
         ) : null}
@@ -158,8 +168,8 @@ const CaptureFrontImage = (props) => {
           {retake ? (
             <ContinueButton
               onClick={() => {
-                // uploadIamge();
-                props.history.push(to.confirmDetails)
+                uploadIamge();
+                // props.history.push(to.confirmDetails)
               }}
             />
           ) : (
@@ -169,6 +179,14 @@ const CaptureFrontImage = (props) => {
               onClick={() => captureClick()}
             />
           )}
+        </div>
+        <div className="col-md-12 text-center mtop">
+        <ContinueButton
+            text={"Continue (Testing)"}
+              onClick={() => {
+                props.history.push(to.confirmDetails)
+              }}
+            />
         </div>
       </form>
       {/* <Footer /> */}

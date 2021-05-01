@@ -4,7 +4,7 @@
 	"name": "kisko",
 	"description": "Kisko",
 	"author": "Kisko",
-	"version": "0.2.5",
+	"version": "0.2.14",
 	"build": {
 		"extraResources": [
 			{
@@ -76,6 +76,7 @@
 		"cross-env": "^7.0.2",
 		"crypto-js": "^4.0.0",
 		"electron-is-dev": "^1.2.0",
+		"electron-log": "^4.3.2",
 		"history": "^5.0.0",
 		"moment": "^2.29.1",
 		"react": "^17.0.1",

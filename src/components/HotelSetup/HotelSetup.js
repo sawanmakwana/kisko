@@ -11,16 +11,17 @@ import AlertPopup from "../Widgets/AlertPopup";
 import { LANG } from "../../assets/js/language";
 import CancelButton from "../Widgets/CancelButton";
 import SearchButton from "../Widgets/SearchButton";
-const ipcRenderer =  window.require && window.require("electron") ? window.require("electron").ipcRenderer : {};
+const ipcRenderer =  window.require && window.require("electron") ? window.require("electron").ipcRenderer : {send:()=>{}};
 const HotelSetup = (props) => {
   const [uuid, setUuid] = useState("ACEvNIoEzB"); // ACEvNIoEzB
-  const [kioskUrl, setKioskUrl] = useState("https://95f04e061121.ngrok.io");//GlobalConfig.KIOSK
+  const [kioskUrl, setKioskUrl] = useState(GlobalConfig.KIOSK);//GlobalConfig.KIOSK
   const [kabaUrl, setKabaUrl] = useState(GlobalConfig.KABA);
   const [kabaUserName, setKabaUserName] = useState(GlobalConfig.KABA_USERNAME);
   const [kabaPassword, setKabaPassword] = useState(GlobalConfig.KABA_PASSWORD);
   const { loading, setLoading, lang } = useContext(GlobalContext);
   const [hotelText, setHotelText] = useState({ header: "", subHeader: "" });
   const [alert, setAlert] = useState(false);
+  
 
   const findKioskById = () => {
     setLoading(true);
@@ -30,6 +31,7 @@ const HotelSetup = (props) => {
         GlobalConfig.KIOSK_ID = uuid;
         GlobalConfig.Hotel = data.hotel;
         setLoading(false);
+        ipcRenderer.send('logs',{type:'info',msg:"Kiosk Login Valid"});
         props.history.push(to.home);
       }
       if (data.success === 0) {
@@ -37,8 +39,9 @@ const HotelSetup = (props) => {
         setAlert(true);
         setHotelText({
           header: "Not Found",
-          subHeader: "Your id did not match any hotel",
+          subHeader: "Kiosk id did not match",
         });
+        ipcRenderer.send('logs',{type:'info',msg:"Kiosk invalid login"+JSON.stringify(data)});
       }
     });
   };
@@ -148,7 +151,10 @@ const HotelSetup = (props) => {
           </div>
           {/* ipcRenderer.send('exitFullScreen', 'ping') */}
           <div className="col-md-12 text-center mtop">
-          <ContinueButton text="Exit App" onClick={() => {ipcRenderer.send('exitApp')}} />
+          <ContinueButton text="Exit App" onClick={() => {
+            ipcRenderer.send('logs',{type:'info',msg:"Kiosk Exit"});
+            ipcRenderer.send('exitApp')
+            }} />
           {/* <ContinueButton text="Install App" onClick={() => {ipcRenderer.send('installApp')}} /> */}
           
         </div>

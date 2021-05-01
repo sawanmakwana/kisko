@@ -17,4 +17,5 @@ export const to = {
   swipeCard: "/swipe-card",
   captureFront:"/capture-front",
   captureFace:"/capture-face",
+  videoScreen:"/video-screen",
 };

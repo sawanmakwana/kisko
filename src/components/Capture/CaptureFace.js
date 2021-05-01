@@ -15,11 +15,12 @@ import Loader from "../Widgets/Loader";
 import * as Services from "./Services";
 import { LANG } from "../../assets/js/language";
 import {data} from "../../assets/images/faceImage";
+const ipcRenderer =  window.require && window.require("electron") ? window.require("electron").ipcRenderer : {send:()=>{}};
 const CaptureFace = (props) => {
   const [captureImage, setCaptureImage] = useState(CaptureGif);
 
   const [retake, setRetake] = useState(true);
-  const { loading, setLoading, lang } = useContext(GlobalContext);
+  const { loading, setLoading, lang,  streamData, setStreamData } = useContext(GlobalContext);
 
   const [text, setText] = useState({
     header: "",
@@ -31,6 +32,30 @@ const CaptureFace = (props) => {
   const hotel = GlobalConfig.Hotel;
   const SelectedBooking = GlobalConfig.SelectedBooking;
 
+  useEffect(() => {
+    ipcRenderer.send('logs',{type:'info',msg:"Face Capture Screen"});
+    startStreamVideo();
+    return () => {
+      HubConnection.ACTION("ImagingDeviceCaptureImage", "PosiflexCamera").then(
+        (data) => {
+          
+        }
+      );
+    }
+  }, []);
+  useEffect(() => {   
+    if(streamData) setCaptureImage("data:image/png;base64," +streamData);
+   }, [streamData])
+ 
+  const startStreamVideo = () =>{
+    HubConnection.ACTION("StreamVideo", "PosiflexCamera").then(
+      (data) => {
+        console.log(data);
+        if (data.success) {
+        }
+      }
+    );
+  }
   const captureClick = () => {
     if (GlobalConfig.Connected === 0) {
       setTimeout(() => {
@@ -46,11 +71,13 @@ const CaptureFace = (props) => {
         console.log(data);
         if (data.success) {
           setCaptureImage("data:image/png;base64," + data.result.Data);
+          ipcRenderer.send('logs',{type:'info',msg:"Capture Face Image Success"});
           setRetake(true);
         }
       }
     ).catch((err)=>{
       console.log("err",err);
+      ipcRenderer.send('logs',{type:'error',msg:"Capture Face Image Error "+err});
     });
   };
 
@@ -78,6 +105,7 @@ const CaptureFace = (props) => {
       .then((data) => {
         setLoading(false);
         if (data.success) {
+          ipcRenderer.send('logs',{type:'info',msg:"Upload Face Image Success"});
           SelectedBooking.doc_image = data.data.doc_image;
           SelectedBooking.doc_thumb = data.data.doc_thumb;
           GlobalConfig.SelectedBooking = SelectedBooking;
@@ -95,10 +123,12 @@ const CaptureFace = (props) => {
             subHeader: LANG[lang].Please_Try_Again,
             cancelText: LANG[lang].Cancel,
           });
+          ipcRenderer.send('logs',{type:'error',msg:"Upload Face Image error "+JSON.stringify(data)});
           // TOST : Booking not found
         }
       })
       .catch((err) => {
+        ipcRenderer.send('logs',{type:'error',msg:"Upload Face Image error "+err});
         setLoading(false);
         setAlert(true);
         setText({
@@ -137,7 +167,7 @@ const CaptureFace = (props) => {
         </div>
       </form> */}
       <form className="login100-form validate-form flex-sb flex-w">
-        <div className="formarea fixarea">
+        <div className="formarea fixMinarea flipImg">
           <img src={captureImage} alt="img" />
         </div>
         {retake ? (
@@ -177,6 +207,18 @@ const CaptureFace = (props) => {
               onClick={() => captureClick()}
             />
           )}
+        </div>
+        <div className="col-md-12 text-center mtop">
+        <ContinueButton
+            text={"Continue (Testing)"}
+              onClick={() => {
+                if (GlobalConfig.SEARCH_TYPE === "pickUp") {
+                  props.history.push(to.selectKeys);
+                } else {
+                  props.history.push(to.terms);
+                }
+              }}
+            />
         </div>
       </form>
       {/* <Footer /> */}

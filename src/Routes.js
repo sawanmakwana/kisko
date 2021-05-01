@@ -20,6 +20,7 @@ import Terms from "./components/Capture/Terms";
 import SwipeCreditCard from "./components/SwipeCreditCard";
 import CaptureFrontImage from "./components/Capture/CaptureFrontImage";
 import CaptureFace from "./components/Capture/CaptureFace";
+import VideoScreen from "./components/videoScreen/VideoScreen";
 
 const Routes = () => {
   return (
@@ -44,6 +45,7 @@ const Routes = () => {
       <ProtectedRoutes path={to.selectKeys} render={(props) => <SelectKeys  {...props}/>} />
       <ProtectedRoutes path={to.scanId} render={(props) => <ScanId  {...props}/>} />
       <ProtectedRoutes path={to.scanbarCode} render={(props) => <ScanbarCode {...props} />} />
+      <ProtectedRoutes path={to.videoScreen} render={(props) => <VideoScreen {...props} />} />
       <ProtectedRoutes
         path={to.confirmDetails}
         render={(props) => <ConfirmDetails {...props} />}

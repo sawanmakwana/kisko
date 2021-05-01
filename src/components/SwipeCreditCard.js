@@ -13,6 +13,9 @@ import Connection from '../Connection';
 import { USER_CONTROLLER, API } from "../assets/js/endpoint";
 
 import moment from "moment";
+
+const ipcRenderer =  window.require && window.require("electron") ? window.require("electron").ipcRenderer : {send:()=>{}};
+
 const SwipeCreditCard = (props) => {
   const { loading, setLoading, lang } = useContext(GlobalContext);
   const [text, setText] = useState({ header: "", subHeader: "" });
@@ -22,6 +25,7 @@ const SwipeCreditCard = (props) => {
   const UserScanDetail = GlobalConfig.UserScanDetail;
   
   useEffect(() => {
+    ipcRenderer.send('logs',{type:'info',msg:"Card Payment screen"});
     HubConnection.ACTION("CancelCardRead", "IUC285");
     HubConnection.ACTION("DisableNfc", "IUC285");
     HubConnection.ACTION("DisableSmartCard", "IUC285");
@@ -101,7 +105,9 @@ const SwipeCreditCard = (props) => {
     HubConnection.ACTION("EnableSmartCard", "IUC285").then((data) => {
       console.log("EnableSmartCard : START =======");
       console.log("EnableSmartCard : ", data);
+      ipcRenderer.send('logs',{type:'warn',msg:"EnableSmartCard "+JSON.stringify(data)});
       HubConnection.ACTION("ReadSmartCard", "IUC285", 1, -1).then((data) => {
+        ipcRenderer.send('logs',{type:'warn',msg:"ReadSmartCard "+JSON.stringify(data)});
         processNextScreen();
         console.log("ReadSmartCard : START =======");
         console.log("ReadSmartCard : ", data);

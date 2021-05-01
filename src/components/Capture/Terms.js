@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import ContinueButton from "../Widgets/ContinueButton";
 import CancelButton from "../Widgets/CancelButton";
 import Footer from "../Widgets/Footer";
@@ -10,6 +10,8 @@ import AlertPopup from "../Widgets/AlertPopup";
 import { get } from "../../AppUtills";
 import Loader from "../Widgets/Loader";
 import * as Services from "./Services";
+const ipcRenderer =  window.require && window.require("electron") ? window.require("electron").ipcRenderer : {send:()=>{}};
+
 const Terms = (props) => {
   const [signatureEnd, setSignatureEnd] = useState(true);
   const [sigPad, setSigPad] = useState({});
@@ -20,6 +22,9 @@ const Terms = (props) => {
   const [alert, setAlert] = useState(false);
   const hotel = GlobalConfig.Hotel;
   const SelectedBooking = GlobalConfig.SelectedBooking;
+  useEffect(() => {
+    ipcRenderer.send('logs',{type:'info',msg:"Term screen"});
+  }, [])
   const uploadSign=()=>{
     let DATA = {
       "person_id":SelectedBooking.user.id,
@@ -43,11 +48,11 @@ const Terms = (props) => {
           SelectedBooking.digitalImg_urls = data.data.image_urls;
           GlobalConfig.SelectedBooking = SelectedBooking;
           console.log(GlobalConfig.SelectedBooking)
-          
+          ipcRenderer.send('logs',{type:'info',msg:"Sign upload success"});
           props.history.push(to.swipeCard)
         } else {
           setAlert(true);
-          
+          ipcRenderer.send('logs',{type:'error',msg:"Sign upload error "+JSON.stringify(data)});
           setText({
             header: "Invalid Sign",
             subHeader: "Please Try Again",
@@ -57,6 +62,7 @@ const Terms = (props) => {
         }
       })
       .catch((err) => {
+        ipcRenderer.send('logs',{type:'error',msg:"Sign upload error "+err});
         setLoading(false);
         setAlert(true);
         setText({

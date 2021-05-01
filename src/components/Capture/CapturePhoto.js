@@ -3,7 +3,7 @@ import Footer from "../Widgets/Footer";
 import CaptureImg from "../../assets/images/capture-photo.gif";
 import Capture from "../../assets/images/capture.png";
 
-const CapturePhoto = () => {
+const VideoScreen = () => {
   return (
     <div className="container">
       <h2 className="maintitle">
@@ -24,4 +24,4 @@ const CapturePhoto = () => {
     </div>
   );
 };
-export default CapturePhoto;
+export default VideoScreen;

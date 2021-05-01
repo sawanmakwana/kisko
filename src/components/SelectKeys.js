@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import HubConnection from "../Connection/hubConnection";
 import { to } from "../RoutesPath";
 import ContinueButton from "./Widgets/ContinueButton";
@@ -11,7 +11,7 @@ import { parseString } from "xml2js";
 import moment from "moment";
 import axios from "axios";
 import { GlobalConfig } from "../assets/js/globleConfig";
-
+const ipcRenderer =  window.require && window.require("electron") ? window.require("electron").ipcRenderer : {send:()=>{}};
 
 const SelectKeys = (props) => {
   const [text, setText] = useState({ header: "", subHeader: "" });
@@ -27,6 +27,10 @@ const SelectKeys = (props) => {
 
   const { loading, setLoading, lang } = useContext(GlobalContext);
   const SelectedBooking = GlobalConfig.SelectedBooking;
+
+  useEffect(() => {
+    ipcRenderer.send('logs',{type:'info',msg:"Select keys screen"});
+  }, [])
   // const dispatchKeysO = async (keyCount = 1) => {
   //   setLoading(true);
   //   try {
@@ -71,6 +75,8 @@ const generateCardKey = async (keyCount = 1) => {
 
             setKeyLogs(arr => [...arr, "[ActivateMifare  UUID =>] " + result.result.Data.toString()])
             setKeyLogs(arr => [...arr, "[ActivateMifare  UUID Hex=>] " + haxCode])
+            ipcRenderer.send('logs',{type:'info',msg:"[ActivateMifare  UUID =>] " + result.result.Data.toString()});
+            ipcRenderer.send('logs',{type:'info',msg:"[ActivateMifare  UUID Hex=>] " + haxCode});
 
 
             setUid(haxCode)
@@ -97,6 +103,9 @@ const generateCardKey = async (keyCount = 1) => {
 
             setKeyLogs(arr => [...arr, "[ActivateMifare Error UUID =>] " + result.Data.toString()])
             setKeyLogs(arr => [...arr, "[ActivateMifare Error UUID Hex=>] " + haxCode])
+
+            ipcRenderer.send('logs',{type:'info',msg: "[ActivateMifare Error UUID =>] " + result.Data.toString()});
+            ipcRenderer.send('logs',{type:'info',msg:"[ActivateMifare Error UUID Hex=>] " + haxCode});
             dispatchKeys(keyCount, haxCode)
           }
 
@@ -124,6 +133,8 @@ const generateCardKey = async (keyCount = 1) => {
       // kLogs.push("[ActivateMifare Error=>] "+haxCode);
       setKeyLogs(arr => [...arr, "[ActivateMifare_ Error UUID =>] " + Data.toString()])
       setKeyLogs(arr => [...arr, "[ActivateMifare_ Error UUID Hex=>] " + haxCode])
+      ipcRenderer.send('logs',{type:'info',msg:"[ActivateMifare_ Error UUID =>] " + Data.toString()});
+      ipcRenderer.send('logs',{type:'info',msg:"[ActivateMifare_ Error UUID Hex=>] " + haxCode});
       dispatchKeys(keyCount, haxCode)
       resolve("error");
     }
@@ -148,7 +159,7 @@ const dispatchKeys = async (keyCount = 1, haxCode = "AAAAAAAA") => {
   let checkOutDate = moment(SelectedBooking.checkout_time).utc().format(); //"2020-11-21T04:27:53.6115233-08:00";
   let roomNumber = SelectedBooking.room_number;
   var raw = `<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\n  <s:Header>\n    <h:AuthHeader xmlns=\"http://tempuri.org\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:h=\"http://tempuri.org\">\n      <Action xmlns=\"http://schemas.xmlsoap.org/ws/2004/08/addressing\">http://localhost:1619/MessengerPMSWS.asmx/CreateNewBooking</Action>\n      <From xmlns=\"http://schemas.xmlsoap.org/ws/2004/08/addressing\">urn:KABA</From>\n      <MessageID xmlns=\"http://schemas.xmlsoap.org/ws/2004/08/addressing\">a9327d70-6037-40df-bb87-0467a996d25b</MessageID>\n      <ReplyTo xmlns=\"http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous\" />\n      <To xmlns=\"http://schemas.xmlsoap.org/ws/2004/08/addressing\">http://localhost:1619/MessengerPMSWS.asmx</To>\n      <h:Security>\n        <Timestamp xmlns=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd\">\n          <Id>a50730b6-4571-48da-a9bd-b92c923932d6</Id>\n          <Created>${created}</Created>\n          <Expires>${expires}</Expires>\n        </Timestamp>\n        <UsernameToken xmlns=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd\">\n          <Id>e64bd314-b488-4384-9c8e-24fb1d022797</Id>\n          <Username>${GlobalConfig.KABA_USERNAME}</Username>\n          <Password>${GlobalConfig.KABA_PASSWORD}</Password>\n          <Nonce />\n          <Created>${created}</Created>\n        </UsernameToken>\n      </h:Security>\n    </h:AuthHeader>\n  </s:Header>\n  <s:Body xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\n    <CreateNewBooking xmlns=\"http://tempuri.org\">\n      <ReservationID>${reservationId}</ReservationID>\n      <SiteName>Main</SiteName>\n      <PMSTerminalID>WS1</PMSTerminalID>\n      <EncoderID>0</EncoderID>\n      <CheckIn>${checkInDate}</CheckIn>\n      <CheckOut>${checkOutDate}</CheckOut>\n      <GuestName xmlns=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd\">GuestTest</GuestName>\n      <MainRoomNo>${roomNumber}</MainRoomNo>\n      <bGrantAccessPredefinedSuiteDoors>false</bGrantAccessPredefinedSuiteDoors>\n      <VariableRoomList />\n      <CommonAreaList>\n        <CCommonAreas>\n          <PassLevelNo>1</PassLevelNo>\n          <eMode>DefaultConfiguredAccess</eMode>\n        </CCommonAreas>\n        <CCommonAreas>\n          <PassLevelNo>2</PassLevelNo>\n          <eMode>DefaultConfiguredAccess</eMode>\n        </CCommonAreas>\n        <CCommonAreas>\n          <PassLevelNo>3</PassLevelNo>\n          <eMode>DefaultConfiguredAccess</eMode>\n        </CCommonAreas>\n        <CCommonAreas>\n          <PassLevelNo>4</PassLevelNo>\n          <eMode>DefaultConfiguredAccess</eMode>\n        </CCommonAreas>\n        <CCommonAreas>\n          <PassLevelNo>5</PassLevelNo>\n          <eMode>DefaultConfiguredAccess</eMode>\n        </CCommonAreas>\n        <CCommonAreas>\n          <PassLevelNo>6</PassLevelNo>\n          <eMode>DefaultConfiguredAccess</eMode>\n        </CCommonAreas>\n        <CCommonAreas>\n          <PassLevelNo>7</PassLevelNo>\n          <eMode>DefaultConfiguredAccess</eMode>\n        </CCommonAreas>\n        <CCommonAreas>\n          <PassLevelNo>8</PassLevelNo>\n          <eMode>DefaultConfiguredAccess</eMode>\n        </CCommonAreas>\n        <CCommonAreas>\n          <PassLevelNo>9</PassLevelNo>\n          <eMode>DefaultConfiguredAccess</eMode>\n        </CCommonAreas>\n        <CCommonAreas>\n          <PassLevelNo>10</PassLevelNo>\n          <eMode>DefaultConfiguredAccess</eMode>\n        </CCommonAreas>\n        <CCommonAreas>\n          <PassLevelNo>11</PassLevelNo>\n          <eMode>DefaultConfiguredAccess</eMode>\n        </CCommonAreas>\n        <CCommonAreas>\n          <PassLevelNo>12</PassLevelNo>\n          <eMode>DefaultConfiguredAccess</eMode>\n        </CCommonAreas>\n      </CommonAreaList>\n      <TrackIIFolioNo />\n      <TrackIGuestNo />\n      <KeyCount>1</KeyCount>\n      <KeySize>1</KeySize>\n      <UID>${haxCode}</UID>\n    </CreateNewBooking>\n  </s:Body>\n</s:Envelope>`;
-
+  ipcRenderer.send('logs',{type:'info',msg:"[SOAP Request =>] " + raw});
   var requestOptions = {
     method: "POST",
     headers: myHeaders,
@@ -170,7 +181,7 @@ const dispatchKeys = async (keyCount = 1, haxCode = "AAAAAAAA") => {
       setKey(result.toString());
       // let kLogs = [...keyLogs];
       // kLogs.push("[CreateNewBooking SOAP=>] "+result.toString());
-
+      ipcRenderer.send('logs',{type:'info',msg:"[SOAP Response =>] " + result.toString()});
       parseString(result, { trim: true }, async function (err, result) {
         try {
           let key =
@@ -180,9 +191,16 @@ const dispatchKeys = async (keyCount = 1, haxCode = "AAAAAAAA") => {
           console.log(key)
           setKey(key);
           setKeyLogs(arr => [...arr, "[BASE64 Key=>] " + key])
+          ipcRenderer.send('logs',{type:'info',msg:"[BASE64 Key=>] " + key});
           await processKey(key);
           if (keyCount === 2){
-            processDuplicateKey();
+            // Temporary 
+            setAlert(true);
+            setText({
+              header: "Collect your room key card.",
+              subHeader: "Press Ok for 2nd room key card",
+            });
+            // processDuplicateKey();
           }  
           else{
             setLoading(false);
@@ -239,7 +257,8 @@ const generateDuplicateCardKey = async (keyCount = 1) => {
 
             setKeyLogs(arr => [...arr, "[ActivateMifare  UUID =>] " + result.result.Data.toString()])
             setKeyLogs(arr => [...arr, "[ActivateMifare  UUID Hex=>] " + haxCode])
-
+            ipcRenderer.send('logs',{type:'info',msg:"[ActivateMifare  UUID =>] " + result.result.Data.toString()});
+            ipcRenderer.send('logs',{type:'info',msg:"[ActivateMifare  UUID Hex=>] " + haxCode});
 
             setUid(haxCode)
 
@@ -257,6 +276,8 @@ const generateDuplicateCardKey = async (keyCount = 1) => {
 
             setKeyLogs(arr => [...arr, "[ActivateMifare Error UUID =>] " + result.Data.toString()])
             setKeyLogs(arr => [...arr, "[ActivateMifare Error UUID Hex=>] " + haxCode])
+            ipcRenderer.send('logs',{type:'info',msg:"[ActivateMifare Error UUID =>] " + result.Data.toString()});
+            ipcRenderer.send('logs',{type:'info',msg:"[ActivateMifare Error UUID Hex=>] " + haxCode});
             dispatchDuplicateKeys(keyCount, haxCode)
           }
 
@@ -276,6 +297,9 @@ const generateDuplicateCardKey = async (keyCount = 1) => {
       // kLogs.push("[ActivateMifare Error=>] "+haxCode);
       setKeyLogs(arr => [...arr, "[ActivateMifare_ Error UUID =>] " + Data.toString()])
       setKeyLogs(arr => [...arr, "[ActivateMifare_ Error UUID Hex=>] " + haxCode])
+
+      ipcRenderer.send('logs',{type:'info',msg:"[ActivateMifare_ Error UUID =>] " + Data.toString()});
+      ipcRenderer.send('logs',{type:'info',msg:"[ActivateMifare_ Error UUID Hex=>] " + haxCode});
       dispatchKeys(keyCount, haxCode)
       resolve("error");
     }
@@ -336,7 +360,7 @@ const dispatchDuplicateKeys = async (keyCount = 1, haxCode = "AAAAAAAA") => {
       </MakeDuplicateKey>
     </s:Body>
   </s:Envelope>`;
-
+  ipcRenderer.send('logs',{type:'info',msg:"[SOAP Request =>] " + raw});
   var requestOptions = {
     method: "POST",
     headers: myHeaders,
@@ -356,6 +380,7 @@ const dispatchDuplicateKeys = async (keyCount = 1, haxCode = "AAAAAAAA") => {
     .then((result) => {
       // console.log(result);
       setKey(result.toString());
+      ipcRenderer.send('logs',{type:'info',msg:"[SOAP Response =>] " + result.toString()});
       // let kLogs = [...keyLogs];
       // kLogs.push("[CreateNewBooking SOAP=>] "+result.toString());
 
@@ -368,6 +393,7 @@ const dispatchDuplicateKeys = async (keyCount = 1, haxCode = "AAAAAAAA") => {
           console.log(key)
           setKey(key);
           setKeyLogs(arr => [...arr, "[BASE64 Key=>] " + key])
+          ipcRenderer.send('logs',{type:'info',msg:"[BASE64 Key=>] " + key});
           await processKey(key);
           setLoading(false);
           props.history.push(to.thankYou);
@@ -438,12 +464,14 @@ const processKey = async (data) => {
 
   data = await base64ToDecimalArr(data);
   setKeyLogs(arr => [...arr, "[base64ToDecimal=>] " + data.toString()])
+  ipcRenderer.send('logs',{type:'info',msg:"[base64ToDecimal=>] " + data.toString()});
 
   data.splice(0, Number(startRemove));
   setKeyLogs(arr => [...arr, `[remove first ${startRemove}=>] ` + data.toString()])
-
+  ipcRenderer.send('logs',{type:'info',msg:`[remove first ${startRemove}=>] ` + data.toString()});
   data.splice(data.length - Number(endRemove))
   setKeyLogs(arr => [...arr, `[remove last ${endRemove}=>] ` + data.toString()])
+  ipcRenderer.send('logs',{type:'info',msg:`[remove last ${endRemove}=>] ` + data.toString()});
 
   return new Promise((resolve) => {
     try {
@@ -454,10 +482,12 @@ const processKey = async (data) => {
         (result) => {
           setWriteMifareRawData(JSON.stringify(result))
           setKeyLogs(arr => [...arr, "[WriteMifareRawData=>] " + JSON.stringify(result)])
+          ipcRenderer.send('logs',{type:'info',msg:"[WriteMifareRawData=>] " + JSON.stringify(result)});
           console.log("[WriteMifareRawData WriteTrack1]", result)
           HubConnection.ACTION("EjectCard", "SCT3Q8").then((result) => {
             setEjectCard(JSON.stringify(result))
             setKeyLogs(arr => [...arr, "[EjectCard=>] " + JSON.stringify(result)])
+            ipcRenderer.send('logs',{type:'info',msg:"[EjectCard=>] " + JSON.stringify(result)});
             console.log("[EjectCard]", result)
             //alert(result)
             resolve("done");
@@ -481,6 +511,11 @@ return (
       subHeader={text.subHeader}
       onCancel={() => {
         setAlert(false);
+        props.history.push(to.thankYou);
+      }}
+      onSuccess={() => {
+        setAlert(false);
+        generateDuplicateCardKey()
       }}
       cancelText={LANG[lang].Back}
     />

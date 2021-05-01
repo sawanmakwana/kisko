@@ -16,6 +16,7 @@ import Loader from "../Widgets/Loader";
 import { GlobalContext } from "../../assets/js/context";
 import { LANG } from "../../assets/js/language";
 const { bookingType } = new AppServiceClass().getEnvironmentVariables();
+const ipcRenderer =  window.require && window.require("electron") ? window.require("electron").ipcRenderer : {send:()=>{}};
 
 const ScanQr = (props) => {
   const { lang } = useContext(GlobalContext);
@@ -28,6 +29,7 @@ const ScanQr = (props) => {
   const { loading, setLoading } = useContext(GlobalContext);
   const { scanData, setScanData } = useContext(GlobalContext);
   useEffect(() => {
+    ipcRenderer.send('logs',{type:'info',msg:"Scan Id QR Screen"});
     startScan();
     return () => {
       // interval && clearInterval(interval);

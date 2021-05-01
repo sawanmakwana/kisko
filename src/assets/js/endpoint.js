@@ -4,6 +4,18 @@ export const USER_CONTROLLER = "users/v3";
 export const STAFF_CONTROLLER = "users/v3";
 export const BASE = 'https://hotel-sandbox.aavgo.com/backend/'; // DEV
 export const SOCKET_BASE = 'https://hotel-sandbox.aavgo.com'; // DEV
+
+
+//  ========= LIVE =======
+
+// export const kisko_staff_endpoint = "https://hotel.aavgo.com/backend/staff/v3";
+// export const kisko_user_endpoint = "https://hotel.aavgo.com/backend/users/v3";
+// export const USER_CONTROLLER = "users/v3";
+// export const STAFF_CONTROLLER = "users/v3";
+// export const BASE = 'https://hotel.aavgo.com/backend/'; // DEV
+// export const SOCKET_BASE = 'https://hotel.aavgo.com'; // DEV
+
+//  =========== END LIVE ==========
 // export const KIOSK = "http://7e79d9d3604a.ngrok.io";
 // export const KABA = "http://8ea0a5c988f2.ngrok.io/proxy/MessengerPMSWS.asmx"
 

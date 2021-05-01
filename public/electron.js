@@ -4,10 +4,16 @@ const BrowserWindow = electron.BrowserWindow;
 const path = require("path");
 const isDev = require("electron-is-dev");
 const { exec } = require("child_process");
+const log = require('electron-log');
 let mainWindow;
 const globalShortcut = electron.globalShortcut;
 const ipcMain = electron.ipcMain;
+let todayDate =  new Date().toISOString().slice(0, 10);
 
+setInterval(()=>{
+  log.transports.file.fileName = `${ new Date().toISOString().slice(0, 10)}.log`
+},60000)
+log.transports.file.fileName = `${todayDate}.log`
     
 function createWindow() {
     mainWindow = new BrowserWindow({ 
@@ -33,6 +39,13 @@ function createWindow() {
      
     
 }
+
+ipcMain.on("logs", (event, args) => {
+  if(args.type == 'info') log.info(args.msg);
+  else if(args.type == 'error') log.error(args.msg);
+  else if(args.type == 'warn') log.warn(args.msg);
+  else log.info(args.msg);
+});
 ipcMain.on("exitFullScreen", (event, args) => {
     mainWindow.setFullScreen(false)
   });

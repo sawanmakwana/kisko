@@ -11,6 +11,7 @@ import moment from "moment";
 import AlertPopup from "./Widgets/AlertPopup";
 import { GlobalContext } from "../assets/js/context";
 import { LANG } from "../assets/js/language";
+const ipcRenderer =  window.require && window.require("electron") ? window.require("electron").ipcRenderer : {send:()=>{}};
 
 const ScanbarCode = (props) => {
   const hotel = GlobalConfig.Hotel;
@@ -22,6 +23,7 @@ const ScanbarCode = (props) => {
   const [alert, setAlert] = useState(false);
 
   useEffect(() => {
+    ipcRenderer.send('logs',{type:'info',msg:"Barcod Scan Screen"});
     HubConnection.ACTION("CancelScanWait", "Honeywell3330G");
     startScan();
 
@@ -34,6 +36,7 @@ const ScanbarCode = (props) => {
         console.log("Scan OFF successful!: " + result);
       });
     };
+    
   }, []);
 
   const startScan = async () => {
@@ -53,6 +56,7 @@ const ScanbarCode = (props) => {
   };
 
   const validateDetail = (result) => {
+    ipcRenderer.send('logs',{type:'info',msg:"Barcod Scan Compete"});
     GlobalConfig.License = false;
     setScanData(null);
     console.log("[validate=]", result);
@@ -84,7 +88,7 @@ const ScanbarCode = (props) => {
           header: LANG[lang].Under_Age,
           subHeader: LANG[lang].Your_Age_is_under_18,
         });
-
+        ipcRenderer.send('logs',{type:'info',msg:"Barcod Scan Age under 18"});
         //ADD TOST : AGE UNDER 18
         props.history.push(to.home);
       }
@@ -102,7 +106,7 @@ const ScanbarCode = (props) => {
             header: LANG[lang].Details_not_match,
             subHeader: LANG[lang].License_details_not_matching_with_booking,
           });
-  
+          ipcRenderer.send('logs',{type:'info',msg:"Barcod Scan Booking not match"});
           //ADD TOST : LICENCE DETAIL NOT MATCH
           // props.history.push(to.scanId);
           return;

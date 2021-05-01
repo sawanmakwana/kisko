@@ -12,16 +12,20 @@ import { GlobalConfig } from "./assets/js/globleConfig";
 import { withRouter } from "react-router-dom";
 import { connection, proxy } from "./Connection/hubConnection";
 import socketIOClient from "socket.io-client";
+// import {log} from "electron-log";
 import { SOCKET_BASE } from "./assets/js/endpoint";
+
 function App(props) {
   const [lang, setLang] = useState(GlobalConfig.Language || "en");
   const [loading, setLoading] = useState(false);
   const [scanData, setScanData] = useState("");
   const [streamData, setStreamData] = useState("");
+  const ipcRenderer =  window.require && window.require("electron") ? window.require("electron").ipcRenderer : {send:()=>{}};
+  
 
   useEffect(() => {
-
-    
+    // log.info('init');
+    ipcRenderer.send('logs',{msg:'Kiosk Start',type:'info'});
     connection
       .start()
       .done(function () {
@@ -34,7 +38,7 @@ function App(props) {
         console.log("Could not connect");
       });
     proxy.on("barcodeScanned", function (result) {
-      console.log({ result });
+      ipcRenderer.send('logs',{type:'info',msg:"Barcode Scan Result"+result});
       setScanData(result);
 
       proxy.invoke("CancelScanWait", "Honeywell3330G");
@@ -46,21 +50,22 @@ function App(props) {
     });
     console.log(GlobalConfig.Hotel,GlobalConfig.KIOSK_ID)
     
-    // const socket = socketIOClient(SOCKET_BASE+"?x-aavgo-hotelid="+ (GlobalConfig.Hotel?Number(GlobalConfig.Hotel.id):"")+"&x-aavgo-kioskid="+GlobalConfig.KIOSK_ID, {
-    //   extraHeaders: {
-    //     "x-aavgo-hotelid": GlobalConfig.Hotel?Number(GlobalConfig.Hotel.id):"",
-    //     "x-aavgo-kioskid": GlobalConfig.KIOSK_ID
-    //   }
-    // });
+    const socket = socketIOClient(SOCKET_BASE, {
+      extraHeaders: {
+        "x-aavgo-hotelid": GlobalConfig.Hotel?Number(GlobalConfig.Hotel.id):"",
+        "x-aavgo-kioskid": GlobalConfig.KIOSK_ID,
+        "Access-Control-Allow-Origin": "*"
+      }
+    });
 
 
-    // socket.on("topic_kiosk_id_"+GlobalConfig.KIOSK_ID, data => {
-    //   console.log(data)
-    // });
-    // setInterval(()=>{
+    socket.on("topic_kiosk_id_"+GlobalConfig.KIOSK_ID, data => {
+      console.log(data)
+    });
+    setInterval(()=>{
      
-    //   console.log(socket.connected)
-    // },10000)
+      console.log(socket.connected)
+    },10000)
   }, []);
 
   return (

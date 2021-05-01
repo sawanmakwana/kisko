@@ -6,6 +6,7 @@ import { GlobalContext } from "../assets/js/context";
 import { GlobalConfig } from "../assets/js/globleConfig";
 import ContinueButton from "./Widgets/ContinueButton";
 import { LANG } from "../assets/js/language";
+const ipcRenderer =  window.require && window.require("electron") ? window.require("electron").ipcRenderer : {send:()=>{}};
 
 const ThankYou = (props) => {
   const RoomId = GlobalConfig.SelectedBooking;
@@ -14,6 +15,8 @@ const ThankYou = (props) => {
 
   let timer = null;
   useEffect(() => {
+    ipcRenderer.send('logs',{type:'info',msg:"Thank you screen"});
+
     timer = setTimeout(() => {
       props.history.push(to.home);
     }, 600000);

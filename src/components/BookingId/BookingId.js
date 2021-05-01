@@ -11,7 +11,7 @@ import Loader from "../Widgets/Loader";
 import AlertPopup from "../Widgets/AlertPopup";
 import { LANG } from "../../assets/js/language";
 import { GlobalContext } from "../../assets/js/context";
-
+const ipcRenderer =  window.require && window.require("electron") ? window.require("electron").ipcRenderer : {send:()=>{}};
 const { bookingType } = new AppServiceClass().getEnvironmentVariables();
 
 const BookingId = (props) => {
@@ -23,6 +23,10 @@ const BookingId = (props) => {
   const [loading, setLoading] = useState(false);
   const [text, setText] = useState({ header: "", subHeader: "" });
   const [alert, setAlert] = useState(false);
+
+  useEffect(() => {
+    ipcRenderer.send('logs',{type:'info',msg:"Kiosk Search By Booking Id Screen"});
+  }, [])
 
   const findReservationKiosk = () => {
     let DATA = {
@@ -38,7 +42,7 @@ const BookingId = (props) => {
       .then((data) => {
         if (data.success) {
           GlobalConfig.Bookings = data.bookings;
-
+          ipcRenderer.send('logs',{type:'info',msg:"Kiosk Booking Confirm Scren"});
           props.history.push(to.multiBooking);
           setLoading(false);
         } else {
@@ -48,6 +52,7 @@ const BookingId = (props) => {
             header: LANG[lang].Not_Found,
             subHeader: LANG[lang].Your_Booking_not_Found,
           });
+          ipcRenderer.send('logs',{type:'error',msg:"Kiosk Booking Search"+JSON.stringify(data)});
           // TOST : Booking not found
         }
       })
