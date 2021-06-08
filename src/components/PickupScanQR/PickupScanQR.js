@@ -58,52 +58,63 @@ const PickupScanQR = (props) => {
     GlobalConfig.QR = false;
     setScanData(null);
     console.log("[validate QR=]", resultScan);
-    HubConnection.ACTION("Scan", "Honeywell3330G")
-      .then((result) => {
-        console.log(`Scan  execution done  `, result);
-        let DATA = {
-          booking_id: resultScan.reservationId,
-          hotel_id: hotel.hotel_id,
-          search_type: bookingType.QR,
-          browser: true,
-          is_guest_user: true,
-        };
-        setLoading(true);
-        Services.FindReservationKiosk(DATA)
-          .then((data) => {
-            if (data.success) {
-              GlobalConfig.Bookings = data.bookings;
-              ipcRenderer.send('logs',{type:'info',msg:"Kiosk Booking Confirm Scren"});
-              props.history.push(to.multiBooking);
-              setLoading(false);
-            } else {
-              setLoading(false);
-              setAlert(true);
-              setText({
-                header: LANG[lang].Not_Found,
-                subHeader: LANG[lang].Your_Booking_not_Found,
-              });
-              ipcRenderer.send('logs',{type:'error',msg:"Kiosk Booking Search"+JSON.stringify(data)});
-              // TOST : Booking not found
-            }
-          })
-          .catch((err) => {
-            setLoading(false);
-            setAlert(true);
-            setText({
-              header: LANG[lang].Not_Found,
-              subHeader: LANG[lang].Your_Booking_not_Found,
-            });
+    resultScan = JSON.parse(resultScan.Barcode);
+    console.log("[validate QR Barcode=]", resultScan);
+    let DATA = {
+      booking_id: resultScan.pinNumber,
+      last_name: resultScan.lastName,
+      hotel_id: hotel.hotel_id,
+      search_type: bookingType.Booking,
+      browser: true,
+      is_guest_user: true,
+    };
+    setLoading(true);
+    Services.FindReservationKiosk(DATA)
+      .then((data) => {
+        if (data.success) {
+          GlobalConfig.Bookings = data.bookings;
+          ipcRenderer.send('logs',{type:'info',msg:"Kiosk Booking Confirm Scren"});
+          props.history.push(to.multiBooking);
+          setLoading(false);
+        } else {
+          setLoading(false);
+          setAlert(true);
+          setText({
+            header: LANG[lang].Not_Found,
+            subHeader: LANG[lang].Your_Booking_not_Found,
           });
+          ipcRenderer.send('logs',{type:'error',msg:"Kiosk Booking Search"+JSON.stringify(data)});
+          // TOST : Booking not found
+        }
       })
       .catch((err) => {
-        setLoading();
+        setLoading(false);
         setAlert(true);
         setText({
           header: LANG[lang].Not_Found,
           subHeader: LANG[lang].Your_Booking_not_Found,
         });
       });
+    // HubConnection.ACTION("Scan", "Honeywell3330G")
+    //   .then((result) => {
+    //     console.log(`Scan  execution done  `, result);
+    //     // let DATA = {
+    //     //   booking_id: resultScan.reservationId,
+    //     //   hotel_id: hotel.hotel_id,
+    //     //   search_type: bookingType.QR,
+    //     //   browser: true,
+    //     //   is_guest_user: true,
+    //     // };
+        
+    //   })
+    //   .catch((err) => {
+    //     setLoading();
+    //     setAlert(true);
+    //     setText({
+    //       header: LANG[lang].Not_Found,
+    //       subHeader: LANG[lang].Your_Booking_not_Found,
+    //     });
+    //   });
   };
   if (GlobalConfig.QR && scanData) validateDetail(scanData);
   return (

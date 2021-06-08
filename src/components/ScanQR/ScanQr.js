@@ -60,43 +60,46 @@ const ScanQr = (props) => {
     GlobalConfig.QR = false;
     setScanData(null);
     console.log("[validate QR=]", resultScan);
-    HubConnection.ACTION("Scan", "Honeywell3330G")
-      .then((result) => {
-        console.log(`Scan  execution done  `, result);
-        let DATA = {
-          booking_id: resultScan.Barcode,
-          hotel_id: hotel.hotel_id,
-          search_type: bookingType.QR,
-          browser: true,
-          is_guest_user: true,
-        };
-        Services.FindReservationKiosk(DATA).then((data) => {
-          console.log("[data]", data);
-          if (data.success) {
-            GlobalConfig.Bookings = data.bookings;
-            setLoading(setLoading);
+    resultScan = JSON.parse(resultScan.Barcode);
+    console.log("[validate QR resultScan=]", resultScan);
+    let DATA = {
+      booking_id: resultScan.pinNumber,
+      hotel_id: hotel.hotel_id,
+      search_type: bookingType.QR,
+      browser: true,
+      is_guest_user: true,
+    };
+    Services.FindReservationKiosk(DATA).then((data) => {
+      console.log("[data]", data);
+      if (data.success) {
+        GlobalConfig.Bookings = data.bookings;
+        setLoading(setLoading);
 
-            props.history.push(to.multiBooking);
-          } else {
-            setLoading();
-            setAlert(true);
-            setText({
-              header: LANG[lang].Not_Found,
-              subHeader: LANG[lang].Your_Booking_not_Found,
-            });
-            // TOST : Booking not found
-            // props.history.push(to.checkIn);
-          }
-        });
-      })
-      .catch((err) => {
+        props.history.push(to.multiBooking);
+      } else {
         setLoading();
         setAlert(true);
         setText({
           header: LANG[lang].Not_Found,
           subHeader: LANG[lang].Your_Booking_not_Found,
         });
-      });
+        // TOST : Booking not found
+        // props.history.push(to.checkIn);
+      }
+    });
+    // HubConnection.ACTION("Scan", "Honeywell3330G")
+    //   .then((result) => {
+    //     console.log(`Scan  execution done  `, result);
+        
+    //   })
+    //   .catch((err) => {
+    //     setLoading();
+    //     setAlert(true);
+    //     setText({
+    //       header: LANG[lang].Not_Found,
+    //       subHeader: LANG[lang].Your_Booking_not_Found,
+    //     });
+    //   });
   };
   if (GlobalConfig.QR && scanData) validateDetail(scanData);
 

@@ -7,7 +7,7 @@ import "./assets/vendor/bootstrap/css/bootstrap.min.css";
 import Routes from "./Routes";
 import Clock from "./components/Widgets/Clock";
 import { GlobalContext } from "./assets/js/context";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { GlobalConfig } from "./assets/js/globleConfig";
 import { withRouter } from "react-router-dom";
 import { connection, proxy } from "./Connection/hubConnection";
@@ -15,17 +15,31 @@ import socketIOClient from "socket.io-client";
 // import {log} from "electron-log";
 import { SOCKET_BASE } from "./assets/js/endpoint";
 
+
+const STATE_IDLE = "STATE_IDLE";
+const STATE_CREATING = "STATE_CREATING";
+const STATE_JOINING = "STATE_JOINING";
+const STATE_JOINED = "STATE_JOINED";
+const STATE_LEAVING = "STATE_LEAVING";
+const STATE_ERROR = "STATE_ERROR";
+
 function App(props) {
   const [lang, setLang] = useState(GlobalConfig.Language || "en");
   const [loading, setLoading] = useState(false);
   const [scanData, setScanData] = useState("");
   const [streamData, setStreamData] = useState("");
-  const ipcRenderer =  window.require && window.require("electron") ? window.require("electron").ipcRenderer : {send:()=>{}};
+  const ipcRenderer =
+    window.require && window.require("electron")
+      ? window.require("electron").ipcRenderer
+      : { send: () => {} };
+  const [callObject, setCallObject] = useState(null);
+
   
 
   useEffect(() => {
     // log.info('init');
-    ipcRenderer.send('logs',{msg:'Kiosk Start',type:'info'});
+
+    ipcRenderer.send("logs", { msg: "Kiosk Start", type: "info" });
     connection
       .start()
       .done(function () {
@@ -38,7 +52,10 @@ function App(props) {
         console.log("Could not connect");
       });
     proxy.on("barcodeScanned", function (result) {
-      ipcRenderer.send('logs',{type:'info',msg:"Barcode Scan Result"+result});
+      ipcRenderer.send("logs", {
+        type: "info",
+        msg: "Barcode Scan Result" + JSON.stringify(result),
+      });
       setScanData(result);
 
       proxy.invoke("CancelScanWait", "Honeywell3330G");
@@ -46,35 +63,45 @@ function App(props) {
 
     proxy.on("VideoProgress", function (result) {
       console.log({ result });
-      setStreamData(result)
+      setStreamData(result);
     });
-    console.log(GlobalConfig.Hotel,GlobalConfig.KIOSK_ID)
-    
+    console.log(GlobalConfig.Hotel, GlobalConfig.KIOSK_ID);
+
     const socket = socketIOClient(SOCKET_BASE, {
       extraHeaders: {
-        "x-aavgo-hotelid": GlobalConfig.Hotel?Number(GlobalConfig.Hotel.id):"",
+        "x-aavgo-hotelid": GlobalConfig.Hotel
+          ? Number(GlobalConfig.Hotel.id)
+          : "",
         "x-aavgo-kioskid": GlobalConfig.KIOSK_ID,
-        "Access-Control-Allow-Origin": "*"
-      }
+        "x-access-token": GlobalConfig.KIOSK_ID,
+        "Access-Control-Allow-Origin": "*",
+      },
     });
 
-
-    socket.on("topic_kiosk_id_"+GlobalConfig.KIOSK_ID, data => {
-      console.log(data)
+    socket.on("topic_kiosk_id_" + GlobalConfig.KIOSK_ID, (data) => {
+      console.log(data);
     });
-    setInterval(()=>{
-     
-      console.log(socket.connected)
-    },10000)
+    setInterval(() => {
+      console.log(socket.connected);
+    }, 10000);
   }, []);
 
   return (
     <div className="limiter">
-      <div className="container-login100" style={{backgroundImage:`linear-gradient(
+      <div
+        className="container-login100"
+        style={{
+          backgroundImage: `linear-gradient(
       rgba(255, 255, 255, 0.9),
       rgba(255, 255, 255, 0.9)
     ),
-    url(${GlobalConfig.Hotel && GlobalConfig.Hotel.background_image?GlobalConfig.Hotel.background_image:'/static/media/bg-01.a9cab101.jpg'})`}}>
+    url(${
+      GlobalConfig.Hotel && GlobalConfig.Hotel.background_image
+        ? GlobalConfig.Hotel.background_image
+        : "/static/media/bg-01.a9cab101.jpg"
+    })`,
+        }}
+      >
         <Clock {...props} setLoading={setLoading} />
         {/* {GlobalConfig.Hotel && (
           <span
@@ -87,7 +114,17 @@ function App(props) {
           </span>
         )} */}
         <GlobalContext.Provider
-          value={{ setLang, lang, loading, setLoading, scanData, setScanData,streamData,setStreamData }}
+          value={{
+            setLang,
+            lang,
+            loading,
+            setLoading,
+            scanData,
+            setScanData,
+            streamData,
+            setStreamData,
+            callObject
+          }}
         >
           <Routes />
         </GlobalContext.Provider>

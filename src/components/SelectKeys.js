@@ -29,6 +29,8 @@ const SelectKeys = (props) => {
   const SelectedBooking = GlobalConfig.SelectedBooking;
 
   useEffect(() => {
+    // console.log("SelectedBooking.user",SelectedBooking.user.first_name)
+
     ipcRenderer.send('logs',{type:'info',msg:"Select keys screen"});
   }, [])
   // const dispatchKeysO = async (keyCount = 1) => {
@@ -66,9 +68,13 @@ const generateCardKey = async (keyCount = 1) => {
             setKey("success generateCardKey", result.result.Data)
 
             let haxCode = "";
-            result.result.Data.map((ele) => {
-              haxCode += Number(ele).toString(16)
-            })
+                result.result.Data.map((ele)=>{
+                  let numberHax = Number(ele).toString(16);
+                  if(numberHax.length === 1){
+                    numberHax=("0"+numberHax);
+                  }
+                  haxCode+=numberHax;
+                })
 
             // let kLogs = [...keyLogs];
             // kLogs.push("[ActivateMifare=>] "+haxCode);
@@ -195,6 +201,7 @@ const dispatchKeys = async (keyCount = 1, haxCode = "AAAAAAAA") => {
           await processKey(key);
           if (keyCount === 2){
             // Temporary 
+            setLoading(false);
             setAlert(true);
             setText({
               header: "Collect your room key card.",
@@ -248,9 +255,13 @@ const generateDuplicateCardKey = async (keyCount = 1) => {
             setKey("success generateCardKey", result.result.Data)
 
             let haxCode = "";
-            result.result.Data.map((ele) => {
-              haxCode += Number(ele).toString(16)
-            })
+                result.result.Data.map((ele)=>{
+                  let numberHax = Number(ele).toString(16);
+                  if(numberHax.length === 1){
+                    numberHax=("0"+numberHax);
+                  }
+                  haxCode+=numberHax;
+                })
 
             // let kLogs = [...keyLogs];
             // kLogs.push("[ActivateMifare=>] "+haxCode);
@@ -319,7 +330,7 @@ const dispatchDuplicateKeys = async (keyCount = 1, haxCode = "AAAAAAAA") => {
   let created = moment().utc().format();
   let expires = moment(SelectedBooking.checkout_time).utc().format();
   let reservationId = SelectedBooking.id;
-  let guestName = SelectedBooking.user ? SelectedBooking.user.guest_fname : "";
+  let guestName = SelectedBooking.user ? SelectedBooking.user.first_name : "";
   let checkInDate = moment(SelectedBooking.checkin_time).utc().format(); //"2020-11-21T04:27:13.6115233-08:00";
   let checkOutDate = moment(SelectedBooking.checkout_time).utc().format(); //"2020-11-21T04:27:53.6115233-08:00";
   let roomNumber = SelectedBooking.room_number;
@@ -509,6 +520,8 @@ return (
       isVisible={alert}
       header={text.header}
       subHeader={text.subHeader}
+      successText={'Ok'}
+      hideIcon={true}
       onCancel={() => {
         setAlert(false);
         props.history.push(to.thankYou);
@@ -517,7 +530,7 @@ return (
         setAlert(false);
         generateDuplicateCardKey()
       }}
-      cancelText={LANG[lang].Back}
+      cancelText={LANG[lang].Cancel}
     />
     <div className="container transparent">
       {/* {keyLogs.map((ele)=>{

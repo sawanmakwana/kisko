@@ -1731,5 +1731,37 @@ img.alertimg {
 .videoScreenIframe{
   display: flex;
   width: 100%;
-  height: calc(100vh - 30vh);
+  height: 30vh;
+}
+.videoScreenContent{
+  display: flex;
+  width: 100%;
+  height: 50vh;
+  overflow: auto;
+}
+.call {
+  position: relative; /* To make it a "positioned" container so children layout works */
+  height: calc(100% - 60px); /* Space for the tray */
+}
+
+.large-tiles {
+  height: calc(100% - 132.5px);
+  width: 80%;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 0);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
+  align-items: center;
+  overflow-y: scroll;
+}
+
+.small-tiles {
+  height: 132.5px; /* Video height + 10px padding either side */
+  display: flex;
+  align-items: center;
+}
+
+.tile video{
+  width:100%;
 }
